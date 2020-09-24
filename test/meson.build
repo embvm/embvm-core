@@ -1,56 +1,39 @@
-# Test Build Definition
+# Test Meson Build File
 
-PROJECT_test_files = files(
-	'main.c',
-	'test_suite.c',
-)
+test_app_files = [
+	'catch/catch_main.cpp'
+]
 
-clangtidy_files += PROJECT_test_files
+test_settings = [
+	'-DCATCH_CONFIG_FAST_COMPILE',
+	'-DCATCH_CONFIG_NO_WCHAR',
+	'-DCATCH_CONFIG_NO_POSIX_SIGNALS',
+	'-DCATCH_CONFIG_DISABLE_MATCHERS',
+	'-DMSE_DISABLE_IOSTREAM',
+	'-DMSE_SCOPEPOINTER_DEBUG_RUNTIME_CHECKS_DISABLED',
+	'-fexceptions',
+	'-funwind-tables',
+]
 
-catch2_tests_dep += declare_dependency(
-	sources: 'catch2_test_case.cpp',
-)
-
-#######################
-# Test Compiler Flags #
-#######################
-
-test_suite_compiler_flags = native_c_compiler.get_supported_arguments(
-	'-Wno-unused-parameter',
-)
-
-###############
-# Test Target #
-###############
-
-PROJECT_tests = executable('PROJECT_tests',
-	PROJECT_test_files,
-	dependencies: [
-		cmocka_native_dep,
-	],
-	link_args: native_map_file.format(meson.current_build_dir() + '/PROJECT_tests'),
-	c_args: test_suite_compiler_flags,
+framework_tests = executable('framework_tests',
+	[test_app_files, framework_test_files],
+	link_with: [libcore_hosted_native, libutil_native],
+	include_directories: [inc_framework, libcxx_extensions_include_dir],
+	cpp_args: test_settings,
+	dependencies: [unit_test_platform_dep, printf_dep, libmemory_hosted_native_dep],
 	native: true
 )
 
-#############################
-# Register Tests with Meson #
-#############################
+test('framework_tests',
+	framework_tests,
+	args: ['-s', '-r', 'junit', '-o', meson.build_root() + '/framework_tests.xml'],
+	is_parallel : false)
 
-# CMocka Test Suite #
+run_target('framework-tests',
+	command: [framework_tests])
 
-test('PROJECT_tests',
-	PROJECT_tests,
-	env: [cmocka_test_output_dir])
+run_target('framework-tests-xml',
+	command: [framework_tests, '-s', '-r', 'junit', '-o', meson.build_root() + '/framework_tests.xml'])
 
-run_target('PROJECT-tests',
-	command: [PROJECT_tests]
-)
-
-run_target('PROJECT-tests-xml',
-	command: [
-		cmocka_with_env_script,
-		PROJECT_tests,
-		cmocka_test_output_dir
-	],
-)
+run_target('framework-tests-catch-xml',
+	command: [framework_tests, '-s', '-r', 'xml', '-o', meson.build_root() + '/framework_tests_catch.xml'])

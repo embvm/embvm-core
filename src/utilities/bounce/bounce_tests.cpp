@@ -1,0 +1,39 @@
+#include "bounce.hpp"
+#include <test.hpp>
+
+using namespace embutil;
+
+namespace
+{
+using func_t = void (*)(void*);
+
+void call_bounce(func_t b, void* priv)
+{
+	b(priv);
+}
+
+class test
+{
+  public:
+	void callback()
+	{
+		callback_called_ = true;
+	}
+
+	bool called()
+	{
+		return callback_called_;
+	}
+
+  private:
+	bool callback_called_ = false;
+};
+
+} // namespace
+
+TEST_CASE("Bounce", "[utilities/bounce]")
+{
+	test inst;
+	call_bounce(BOUNCE(test, callback), &inst);
+	CHECK(inst.called());
+}

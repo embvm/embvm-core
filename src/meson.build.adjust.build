@@ -1,0 +1,88 @@
+# src/ Meson Build File
+
+inc_framework += include_directories('utilities', 'test', 'subsystems', 'etl')
+
+framework_cpp_args = ['-DCATCH_CONFIG_DISABLE', '-DDEBUG_ASSERT_NO_STDIO']
+
+framework_lint_files = []
+
+##########################
+# Build Framework Pieces #
+##########################
+
+# Build Utilities, which use stdlibs
+subdir('utilities')
+
+# Build the framework core
+subdir('core')
+
+inc_framework += incs_core
+
+subdir('subsystems')
+
+subdir('drivers')
+
+subdir ('os')
+
+# Pick up processor definitions (used by hw platforms)
+subdir('processors')
+
+# Pick up HW platform defintions (used by platforms)
+subdir('hw_platforms')
+
+# Pick up platform definitions
+subdir('platforms')
+
+framework_dep = declare_dependency(
+	include_directories: [inc_framework, incs_core],
+	compile_args: framework_cpp_args,
+	link_with: [libutil],
+	dependencies: [libcore_dep],
+)
+
+framework_threadless_dep = declare_dependency(
+	include_directories: [inc_framework, incs_core],
+	compile_args: framework_cpp_args,
+	link_with: [libutil],
+	dependencies: [libcore_threadless_dep],
+)
+
+# This dependency leaves out the boot files, allowing you to sllowly migrate
+# from a vendor SDK to the framework
+framework_migratory_dep = declare_dependency(
+	include_directories: [inc_framework, incs_core],
+	compile_args: framework_cpp_args,
+	link_with: [libutil, libcore],
+	sources: [driver_platform_files],
+)
+
+framework_native_dep = declare_dependency(
+	include_directories: [inc_framework, incs_core],
+	compile_args: framework_cpp_args,
+	link_with: [libutil_native],
+	dependencies: [libcore_native_dep],
+)
+
+framework_threadless_native_dep = declare_dependency(
+	include_directories: [inc_framework, incs_core],
+	compile_args: framework_cpp_args,
+	link_with: [libutil_native],
+	dependencies: [libcore_threadless_native_dep],
+)
+
+# Build the demo applications
+subdir('applications')
+
+###########################
+# Build the Unit Test App #
+###########################
+
+framework_test_files = [
+	utilities_test_files,
+	core_test_files,
+	os_test_files,
+	simulator_driver_test_files,
+	subsystem_test_files,
+]
+
+subdir('test')

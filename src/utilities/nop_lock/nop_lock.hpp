@@ -1,0 +1,16 @@
+#ifndef NOOP_LOCK_HPP_
+#define NOOP_LOCK_HPP_
+
+namespace embutil
+{
+/// Use this lock class to disable locking behavior at compile-time
+class nop_lock
+{
+  public:
+	void lock() noexcept;
+	void unlock() noexcept;
+};
+
+} // namespace embutil
+
+#endif
