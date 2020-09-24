@@ -1,0 +1,1 @@
+Finished initial refactor of the framework to use subprojects instead of submodules. The biggest problem that I've identified so far is controlling the link and include order for libc/libcpp/libmemory. We need some way to simplify that for users (including me!).
