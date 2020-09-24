@@ -1,4 +1,4 @@
 [wrap-git]
-url = git@github.com:embeddedartistry/etl.git
-revision = pj/meson
+url = git@github.com:ETLCPP/etl.git
+revision = master
 clone-recursive = true
