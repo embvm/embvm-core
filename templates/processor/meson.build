@@ -22,7 +22,7 @@ template_processor = static_library('template_processor',
     	# include vendor headers here.
     	#nordic_include_dirs,
 		#cmsis_corem_include,
-		inc_framework,
+		framework_includes,
     ],
     c_args: [
     	# You might need processor specific definitions?

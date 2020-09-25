@@ -1,19 +1,30 @@
-project('PROJECT_NAME',
-	['c', 'cpp'],
+project('Embedded Virtual Machine',
+	['cpp', 'c'],
 	default_options : [
 		'warning_level=3',
 		'werror=false',
 		# This project defaults to a release build
 		'debug=false',
 		'optimization=2',
+		'default_library=static',
+		'b_staticpic=true',
+		'b_lto=false',
 		# `build.*` options affect `native: true targets`
 		# plain options affect `native: false` targets.
 		'c_std=c11', 'build.c_std=c11',
 		'cpp_std=c++17', 'build.cpp_std=c++17',
 	],
+	license: 'Proprietary',
 	meson_version: '>=0.54.0',
-	version: '0.1'
+	version: '0.9'
 )
+
+if meson.is_cross_build()
+	target_compiler = meson.get_compiler('cpp', native: false)
+	if target_compiler.get_id() == 'gcc' and target_compiler.version().version_compare('<9.0') and target_architecture == 'arm'
+		error('This project requires gcc-arm-none-eabi v9.0 or later. See README.md for more information.')
+	endif
+endif
 
 ################################
 # Project Options and Settings #
@@ -23,6 +34,8 @@ project('PROJECT_NAME',
 subdir('build/compiler')
 subdir('build/compiler/c')
 subdir('build/compiler/cpp')
+
+enable_threading = get_option('enable-threading')
 
 if get_option('debug')
 	add_project_arguments('-DDEBUG',
@@ -40,11 +53,17 @@ if get_option('disable-stack-protection')
 endif
 
 if get_option('disable-rtti')
+	message('Building embvm with RTTI disabled.')
 	desired_cpp_compile_flags += '-fno-rtti'
+else
+	message('Building embvm with RTTI enabled.')
 endif
 
 if get_option('disable-exceptions')
+	message('Building embvm with exceptions disabled.')
 	desired_cpp_compile_flags += ['-fno-exceptions', '-fno-unwind-tables']
+else
+	message('Building embvm with exceptions enabled.')
 endif
 
 if get_option('enable-pedantic')
@@ -55,6 +74,11 @@ endif
 
 if get_option('enable-pedantic-error')
 	desired_common_compile_flags += '-pedantic-error'
+endif
+
+if enable_threading == false
+	# This will stop the compiler from emiting __cxa_guard_acquire and __cxa_guard_release
+	desired_cpp_compile_flags += ['-fno-threadsafe-statics']
 endif
 
 compile_settings_list = [
@@ -88,13 +112,97 @@ subdir('build/objcopy')
 # Subprojects #
 ###############
 
-libmemory_subproject = subproject('libmemory')
-etl_subproject = subproject('etl')
+etl = subproject('etl')
+libmemory = subproject('libmemory')
+libc = subproject('libc')
+libcpp = subproject('libcpp')
+compiler_rt = subproject('compiler-rt')
+microsoft_gsl = subproject('microsoft-gsl')
+microsoft_gsl_dep = microsoft_gsl.get_variable('microsoft_gsl_dep')
 
-libmemory_freelist_dep = libmemory_subproject.get_variable('libmemory_freelist_dep')
-etl_dep = etl_subproject.get_variable('etl_dep')
+libmemory_dep = libmemory.get_variable('libmemory_dep')
+libmemory_native_dep = libmemory.get_variable('libmemory_native_dep')
+libmemory_hosted_dep = libmemory.get_variable('libmemory_hosted_dep')
+libmemory_hosted_native_dep = libmemory.get_variable('libmemory_hosted_native_dep')
+libmemory_freelist_dep = libmemory.get_variable('libmemory_freelist_dep')
+libmemory_threadx_dep = libmemory.get_variable('libmemory_threadx_dep')
+libmemory_freertos_dep = libmemory.get_variable('libmemory_freertos_dep')
+libmemory_header_include =  libmemory.get_variable('libmemory_system_includes')
+libmemory_framework_rtos_dep = libmemory.get_variable('libmemory_framework_rtos_dep')
+
+libc_dep = libc.get_variable('libc_dep')
+printf_dep = libc.get_variable('printf_dep')
+libc_native_dep = libc.get_variable('libc_native_dep')
+libc_hosted_dep = libc.get_variable('libc_hosted_dep')
+libc_hosted_native_dep = libc.get_variable('libc_hosted_native_dep')
+libc_header_include = libc.get_variable('libc_header_include')
+libc_native_header_include = libc.get_variable('libc_native_header_include')
+
+libcxx_full_dep = libcpp.get_variable('libcxx_full_dep')
+libcxx_full_native_dep = libcpp.get_variable('libcxx_full_native_dep')
+libcxx_header_include_dep = libcpp.get_variable('libcxx_header_include_dep')
+libcxx_native_header_include_dep = libcpp.get_variable('libcxx_native_header_include_dep')
+libcxx_extensions_include_dir = libcpp.get_variable('libcxx_extensions_include_dir')
+
+libcxxabi_dep = libcpp.get_variable('libcxxabi_dep')
+libcxxabi_native_dep = libcpp.get_variable('libcxxabi_native_dep')
+
+compiler_rt_builtins_dep = compiler_rt.get_variable('compiler_rt_builtins_dep')
+compiler_rt_builtins_native_dep = compiler_rt.get_variable('compiler_rt_builtins_native_dep')
+
+libc_hosted_native_partial_lib_dep = libc_hosted_native_dep.partial_dependency(links: true)
+libc_hosted_native_partial_rest_dep = libc_hosted_native_dep.partial_dependency(compile_args : true, link_args : true, includes : true, sources : true)
+libcxx_full_native_partial_lib_dep = libcxx_full_native_dep.partial_dependency(links: true)
+libcxx_full_native_partial_rest_dep = libcxx_full_native_dep.partial_dependency(compile_args : true, link_args : true, includes : true, sources : true)
+libcxxabi_native_partial_lib_dep = libcxxabi_native_dep.partial_dependency(links: true)
+libcxxabi_native_partial_rest_dep = libcxxabi_native_dep.partial_dependency(compile_args : true, link_args : true, includes : true, sources : true)
+
+if host_machine.cpu_family() == 'x86_64'
+	chosen_libc_host_dep = libc_hosted_dep
+else
+	chosen_libc_host_dep = libc_dep
+endif
+
+libc_partial_lib_dep = chosen_libc_host_dep.partial_dependency(links: true)
+libc_partial_rest_dep = chosen_libc_host_dep.partial_dependency(compile_args : true, link_args : true, includes : true, sources : true)
+libcxx_full_partial_lib_dep = libcxx_full_dep.partial_dependency(links: true)
+libcxx_full_partial_rest_dep = libcxx_full_dep.partial_dependency(compile_args : true, link_args : true, includes : true, sources : true)
+libcxxabi_partial_lib_dep = libcxxabi_dep.partial_dependency(links: true)
+libcxxabi_partial_rest_dep = libcxxabi_dep.partial_dependency(compile_args : true, link_args : true, includes : true, sources : true)
+
+stdlib_native_dep = declare_dependency(
+	dependencies: [
+		libc_hosted_native_partial_rest_dep,
+		libcxx_full_native_partial_rest_dep,
+		libcxx_full_native_partial_lib_dep,
+		libcxxabi_native_dep,
+		libmemory_hosted_native_dep,
+		libc_hosted_native_partial_lib_dep
+	],
+)
+
+stdlib_host_dep = declare_dependency(
+	dependencies: [
+		libc_partial_rest_dep,
+		libcxx_full_partial_rest_dep,
+		libcxx_full_partial_lib_dep,
+		libcxxabi_dep,
+		libmemory_hosted_dep,
+		libc_partial_lib_dep
+	],
+)
+
+# Silence the warning when -nostdinc and -nostdinc++ are specified together
+add_project_arguments(
+	meson.get_compiler('cpp', native : true).get_supported_arguments('-Wno-unused-command-line-argument'),
+	language: ['c', 'cpp'],
+	native: true)
+add_project_arguments(
+	meson.get_compiler('cpp', native : false).get_supported_arguments('-Wno-unused-command-line-argument'),
+	language: ['c', 'cpp'])
 
 # Configure the project to include `libc` headers by default
+
 #######################
 # Process Source Tree #
 #######################
@@ -110,6 +218,47 @@ subdir('test')
 # Defined after src and test so catch2_dep is fully populated
 # when creating the built-in targets
 subdir('build/test/catch2')
+
+############################
+# Embedded VM Dependencies #
+############################
+
+framework_dep = declare_dependency(
+	include_directories: [framework_includes, core_includes],
+	compile_args: framework_cpp_args,
+	link_with: [libutil],
+	dependencies: [libcore_dep],
+)
+
+framework_threadless_dep = declare_dependency(
+	include_directories: [framework_includes, core_includes],
+	compile_args: framework_cpp_args,
+	link_with: [libutil],
+	dependencies: [libcore_threadless_dep],
+)
+
+# This dependency leaves out the boot files, allowing you to sllowly migrate
+# from a vendor SDK to the framework
+framework_migratory_dep = declare_dependency(
+	include_directories: [framework_includes, core_includes],
+	compile_args: framework_cpp_args,
+	link_with: [libutil, libcore],
+	sources: [driver_platform_files],
+)
+
+framework_native_dep = declare_dependency(
+	include_directories: [framework_includes, core_includes],
+	compile_args: framework_cpp_args,
+	link_with: [libutil_native],
+	dependencies: [libcore_native_dep],
+)
+
+framework_threadless_native_dep = declare_dependency(
+	include_directories: [framework_includes, core_includes],
+	compile_args: framework_cpp_args,
+	link_with: [libutil_native],
+	dependencies: [libcore_threadless_native_dep],
+)
 
 ###################
 # Tooling Modules #
@@ -131,19 +280,19 @@ subdir('build/docs/doxygen')
 # include paths. Examples:
 #	build_root_include.format('doc'),
 #	app_include.format('APP')
-build_root_include = meson.build_root() + ':@0@'
-app_include = meson.build_root() / 'src/app:@0@'
-lib_include = meson.build_root() / 'src/lib:@0@'
+#build_root_include = meson.build_root() + ':@0@'
+#app_include = meson.build_root() / 'src/app:@0@'
+#lib_include = meson.build_root() / 'src/lib:@0@'
 
-host_pkg_files = [
-	build_root_include.format('docs'),
-	app_include.format('APP')
-]
+#host_pkg_files = [
+#	build_root_include.format('docs'),
+#	app_include.format('APP')
+#]
 
-native_pkg_files = [
-	build_root_include.format('docs'),
-	app_include.format('APP_native')
-]
+#native_pkg_files = [
+#	build_root_include.format('docs'),
+#	app_include.format('APP_native')
+#]
 
 # Invoke the package module
-subdir('build/package')
+#subdir('build/package')

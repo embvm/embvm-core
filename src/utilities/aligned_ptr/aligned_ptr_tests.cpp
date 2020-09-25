@@ -1,6 +1,6 @@
 #include "aligned_ptr.hpp"
 #include <bits/bits.hpp>
-#include <test.hpp>
+#include <catch2/catch.hpp>
 
 using namespace embutil;
 

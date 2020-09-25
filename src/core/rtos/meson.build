@@ -5,5 +5,8 @@ rtos_files = files(
 	'rtos.cpp'
 )
 
-rtos_test_files = files(
-)
+######################
+# Supporting Tooling #
+######################
+clangtidy_files += rtos_files
+#catch2_tests_dep +=

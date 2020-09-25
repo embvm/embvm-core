@@ -9,7 +9,7 @@
 #include <cstdint>
 #include <interrupt_lock/interrupt_lock.hpp>
 #include <posix_event_flags.hpp>
-#include <test.hpp>
+#include <catch2/catch.hpp>
 #include <thread>
 
 #pragma mark - Helpers -

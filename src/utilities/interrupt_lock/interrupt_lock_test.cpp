@@ -5,7 +5,7 @@
 #include "interrupt_lock.hpp"
 #include <chrono>
 #include <cstdint>
-#include <test.hpp>
+#include <catch2/catch.hpp>
 #include <thread>
 #include <volatile/volatile.hpp>
 

@@ -66,7 +66,7 @@ nrf52840 = static_library('nrf52840',
     include_directories: [
         nordic_include_dirs,
         cmsis_corem_include,
-        inc_framework,
+        framework_includes,
         libc_header_include, # <----- libc header include
     ],
     c_args: [

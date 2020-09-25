@@ -5,7 +5,7 @@
 #include "dispatch.hpp"
 #include <atomic>
 #include <chrono>
-#include <test.hpp>
+#include <catch2/catch.hpp>
 #include <thread>
 
 #pragma mark - Helpers -

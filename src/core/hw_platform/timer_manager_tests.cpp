@@ -2,7 +2,7 @@
 #include <atomic>
 #include <nop_lock/nop_lock.hpp>
 #include <simulator/timer.hpp>
-#include <test.hpp>
+#include <catch2/catch.hpp>
 
 #pragma mark - Helpers -
 

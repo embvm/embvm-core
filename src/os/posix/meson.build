@@ -23,3 +23,10 @@ posix_os_dep = declare_dependency(
 	dependencies: posix_dep
 )
 
+######################
+# Supporting Tooling #
+######################
+
+catch2_tests_dep += declare_dependency(
+	sources: posix_test_files
+)

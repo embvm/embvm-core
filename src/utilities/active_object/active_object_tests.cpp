@@ -1,6 +1,6 @@
 #include "active_object.hpp"
 #include <chrono>
-#include <test.hpp>
+#include <catch2/catch.hpp>
 
 class TestActiveObject final : public embutil::activeObject<TestActiveObject, uint32_t>
 {

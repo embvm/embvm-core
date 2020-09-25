@@ -1,6 +1,6 @@
 # utilities/ Master Meson Build File
 
-inc_framework += [
+framework_includes += [
 	include_directories('type_safe/include', is_system: true),
 
 	# Unfortunately, type_safe directly includes debug_assert.hpp - let's make that work
@@ -22,22 +22,6 @@ subdir('sbrm')
 subdir('time')
 subdir('volatile')
 
-utilities_test_files = [
-	active_object_test_files,
-	aligned_ptr_test_files,
-	bits_test_files,
-	bounce_test_files,
-	dispatch_test_files,
-	endian_test_files,
-	function_queue_test_files,
-	instance_list_test_files,
-	interrupt_condition_test_files,
-	interrupt_lock_test_files,
-	sbrm_test_files,
-	time_test_files,
-	volatile_test_files
-]
-
 utilities_sources = [
 	function_queue_files,
 	nop_lock_files
@@ -50,7 +34,7 @@ libutil_native = static_library(
 	sources: [utilities_sources],
 	cpp_args: framework_cpp_args,
 	dependencies: [libcxx_native_header_include_dep],
-	include_directories: [inc_framework, libmemory_header_include, libc_native_header_include],
+	include_directories: [framework_includes, libmemory_header_include, libc_native_header_include],
 	native: true
 )
 
@@ -59,7 +43,28 @@ libutil = static_library(
 	sources: [utilities_sources],
 	cpp_args: framework_cpp_args,
 	dependencies: [libcxx_header_include_dep],
-	include_directories: [inc_framework, libmemory_header_include, libc_header_include],
+	include_directories: [framework_includes, libmemory_header_include, libc_header_include],
 )
 
-framework_lint_files += utilities_sources
+######################
+# Supporting Tooling #
+######################
+
+clangtidy_files += utilities_sources
+catch2_tests_dep += declare_dependency(
+	sources: [
+		active_object_test_files,
+		aligned_ptr_test_files,
+		bits_test_files,
+		bounce_test_files,
+		dispatch_test_files,
+		endian_test_files,
+		function_queue_test_files,
+		instance_list_test_files,
+		interrupt_condition_test_files,
+		interrupt_lock_test_files,
+		sbrm_test_files,
+		time_test_files,
+		volatile_test_files
+	]
+)

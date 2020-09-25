@@ -1,7 +1,7 @@
 #include <atomic>
 #include <simulator/system_clock.hpp>
 #include <simulator/timer.hpp>
-#include <test.hpp>
+#include <catch2/catch.hpp>
 
 using namespace embdrv;
 

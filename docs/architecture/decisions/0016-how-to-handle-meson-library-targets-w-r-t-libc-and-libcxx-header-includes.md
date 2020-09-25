@@ -16,7 +16,7 @@ This is an error-prone process and we need to figure out how to handle it.
 
 Because of the way the build system is structured, we can't easily use include_directories() and separate native/target header include alternatives. It will be easier to handle this instruction through documentation instead.
 
-One option we considered was to add libc and libc++ include directories to the inc_framework, so all framework classes pick them up. However, this also impacts the test code (which could be worked around), which does not include our internal stdlib headers. However, we would need multiple variables - to differentiate between native and target headers.
+One option we considered was to add libc and libc++ include directories to the framework_includes, so all framework classes pick them up. However, this also impacts the test code (which could be worked around), which does not include our internal stdlib headers. However, we would need multiple variables - to differentiate between native and target headers.
 
 Another option that was considered was to use add_project_options to foist includes on every target in the project. This would allow us to differentiate between native and target. However, the tests would have been affected by this without ability to work around it.
 

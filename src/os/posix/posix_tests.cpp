@@ -2,7 +2,7 @@
 #include <aligned_malloc.h>
 #include <atomic>
 #include <chrono>
-#include <test.hpp>
+#include <catch2/catch.hpp>
 #include <thread>
 
 using namespace os;

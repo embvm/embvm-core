@@ -1,5 +1,5 @@
 #include "template_hw_platform.hpp"
-#include <test.hpp>
+#include <catch2/catch.hpp>
 
 #pragma mark - Helper Functions -
 

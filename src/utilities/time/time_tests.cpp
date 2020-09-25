@@ -1,5 +1,5 @@
 #include "time.hpp"
-#include <test.hpp>
+#include <catch2/catch.hpp>
 #include <time.h>
 
 using namespace embutil;

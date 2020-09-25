@@ -13,4 +13,10 @@ simulator_driver_test_files = files(
 	'timer_tests.cpp',
 )
 
-# framework_lint_files += files('system_clock.cpp', 'timer.cpp')
+######################
+# Supporting Tooling #
+######################
+clangtidy_files += files('system_clock.cpp', 'timer.cpp')
+catch2_tests_dep += declare_dependency(
+	sources: simulator_driver_test_files
+)

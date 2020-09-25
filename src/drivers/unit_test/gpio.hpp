@@ -2,7 +2,7 @@
 #define UNIT_TEST_GPIO_HPP_
 
 #include <driver/gpio.hpp>
-#include <test.hpp>
+#include <catch2/catch.hpp>
 
 // TODO: Add functions that can set the GPIO input values, so we can use this as a "fake" in
 // our unit test framework
