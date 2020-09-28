@@ -113,13 +113,12 @@ subdir('build/objcopy')
 ###############
 
 etl = subproject('etl')
-libmemory = subproject('libmemory')
-libc = subproject('libc')
-libcpp = subproject('libcpp')
-compiler_rt = subproject('compiler-rt')
+etl_dep = etl.get_variable('etl_dep')
+
 microsoft_gsl = subproject('microsoft-gsl')
 microsoft_gsl_dep = microsoft_gsl.get_variable('microsoft_gsl_dep')
 
+libmemory = subproject('libmemory')
 libmemory_dep = libmemory.get_variable('libmemory_dep')
 libmemory_native_dep = libmemory.get_variable('libmemory_native_dep')
 libmemory_hosted_dep = libmemory.get_variable('libmemory_hosted_dep')
@@ -130,6 +129,7 @@ libmemory_freertos_dep = libmemory.get_variable('libmemory_freertos_dep')
 libmemory_header_include =  libmemory.get_variable('libmemory_system_includes')
 libmemory_framework_rtos_dep = libmemory.get_variable('libmemory_framework_rtos_dep')
 
+libc = subproject('libc')
 libc_dep = libc.get_variable('libc_dep')
 printf_dep = libc.get_variable('printf_dep')
 libc_native_dep = libc.get_variable('libc_native_dep')
@@ -138,18 +138,22 @@ libc_hosted_native_dep = libc.get_variable('libc_hosted_native_dep')
 libc_header_include = libc.get_variable('libc_header_include')
 libc_native_header_include = libc.get_variable('libc_native_header_include')
 
+libcpp = subproject('libcpp')
 libcxx_full_dep = libcpp.get_variable('libcxx_full_dep')
 libcxx_full_native_dep = libcpp.get_variable('libcxx_full_native_dep')
 libcxx_header_include_dep = libcpp.get_variable('libcxx_header_include_dep')
 libcxx_native_header_include_dep = libcpp.get_variable('libcxx_native_header_include_dep')
 libcxx_extensions_include_dir = libcpp.get_variable('libcxx_extensions_include_dir')
-
 libcxxabi_dep = libcpp.get_variable('libcxxabi_dep')
 libcxxabi_native_dep = libcpp.get_variable('libcxxabi_native_dep')
 
+compiler_rt = subproject('compiler-rt')
 compiler_rt_builtins_dep = compiler_rt.get_variable('compiler_rt_builtins_dep')
 compiler_rt_builtins_native_dep = compiler_rt.get_variable('compiler_rt_builtins_native_dep')
 
+#######################################
+# Construct Standard Lib Dependencies #
+#######################################
 libc_hosted_native_partial_lib_dep = libc_hosted_native_dep.partial_dependency(links: true)
 libc_hosted_native_partial_rest_dep = libc_hosted_native_dep.partial_dependency(compile_args : true, link_args : true, includes : true, sources : true)
 libcxx_full_native_partial_lib_dep = libcxx_full_native_dep.partial_dependency(links: true)
@@ -224,40 +228,54 @@ subdir('build/test/catch2')
 ############################
 
 framework_dep = declare_dependency(
-	include_directories: [framework_includes, core_includes],
-	compile_args: framework_cpp_args,
 	link_with: [libutil],
-	dependencies: [libcore_dep],
+	dependencies: [
+		framework_host_include_dep,
+		libcore_dep,
+	],
 )
 
 framework_threadless_dep = declare_dependency(
-	include_directories: [framework_includes, core_includes],
-	compile_args: framework_cpp_args,
 	link_with: [libutil],
-	dependencies: [libcore_threadless_dep],
+	dependencies: [
+		framework_host_include_dep,
+		libcore_threadless_dep,
+	],
 )
 
 # This dependency leaves out the boot files, allowing you to sllowly migrate
 # from a vendor SDK to the framework
+# TODO: is this config still valid?
 framework_migratory_dep = declare_dependency(
-	include_directories: [framework_includes, core_includes],
-	compile_args: framework_cpp_args,
-	link_with: [libutil, libcore],
+	link_with: [
+		libutil,
+		libcore
+	],
 	sources: [driver_platform_files],
+	dependencies: [
+		framework_include_dep,
+		framework_host_include_dep
+	]
 )
 
 framework_native_dep = declare_dependency(
-	include_directories: [framework_includes, core_includes],
-	compile_args: framework_cpp_args,
-	link_with: [libutil_native],
-	dependencies: [libcore_native_dep],
+	link_with: [
+		libutil_native
+	],
+	dependencies: [
+		framework_native_include_dep,
+		libcore_native_dep
+	],
 )
 
 framework_threadless_native_dep = declare_dependency(
-	include_directories: [framework_includes, core_includes],
-	compile_args: framework_cpp_args,
-	link_with: [libutil_native],
-	dependencies: [libcore_threadless_native_dep],
+	link_with: [
+		libutil_native
+	],
+	dependencies: [
+		framework_native_include_dep,
+		libcore_threadless_native_dep
+	],
 )
 
 ###################

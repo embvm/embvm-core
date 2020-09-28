@@ -7,12 +7,16 @@ subdir('platform')
 subdir('register')
 subdir('rtos')
 
-core_includes = include_directories('.')
-
 core_sources = [
 	driver_files,
 	platform_files,
 ]
+
+# This is added after `utilities` processing because the utils are not
+# allowed to use `core` constructs.
+framework_include_dep += declare_dependency(
+	include_directories: include_directories('.')
+)
 
 ###########################
 # Libcore Library Targets #
@@ -21,36 +25,27 @@ core_sources = [
 libcore = static_library(
 	'core',
 	sources: [core_sources, rtos_files],
-	cpp_args: framework_cpp_args,
-	dependencies: [libcxx_header_include_dep],
-	include_directories: [
-		libc_header_include,
-		core_includes,
-		framework_includes
-	],
+	dependencies: [
+		framework_include_dep,
+		framework_host_include_dep
+	]
 )
 
 libcore_threadless = static_library(
 	'core_threadless',
 	sources: [core_sources],
-	cpp_args: framework_cpp_args,
-	dependencies: [libcxx_header_include_dep],
-	include_directories: [
-		libc_header_include,
-		core_includes,
-		framework_includes
+	dependencies: [
+		framework_include_dep,
+		framework_host_include_dep
 	],
 )
 
 libcore_native = static_library(
 	'core_native',
 	sources: [core_sources, rtos_files],
-	cpp_args: framework_cpp_args,
-	dependencies: [libcxx_native_header_include_dep],
-	include_directories: [
-		libc_header_include,
-		core_includes,
-		framework_includes
+	dependencies: [
+		framework_include_dep,
+		framework_native_include_dep
 	],
 	native: true
 )
@@ -58,12 +53,9 @@ libcore_native = static_library(
 libcore_threadless_native = static_library(
 	'core_threadless_native',
 	sources: [core_sources],
-	cpp_args: framework_cpp_args,
-	dependencies: [libcxx_native_header_include_dep],
-	include_directories: [
-		libc_header_include,
-		core_includes,
-		framework_includes
+	dependencies: [
+		framework_include_dep,
+		framework_native_include_dep
 	],
 	native: true
 )
@@ -72,8 +64,9 @@ libcore_threadless_native = static_library(
 libcore_hosted_native = static_library(
 	'core_hosted_native',
 	sources: [core_sources, rtos_files],
-	cpp_args: framework_cpp_args,
-	include_directories: [core_includes, framework_includes],
+	dependencies: [
+		framework_include_dep,
+	],
 	native: true
 )
 
@@ -81,8 +74,9 @@ libcore_hosted_native = static_library(
 libcore_threadless_hosted_native = static_library(
 	'core_threadless_hosted_native',
 	sources: [core_sources,],
-	cpp_args: framework_cpp_args,
-	include_directories: [core_includes, framework_includes],
+	dependencies: [
+		framework_include_dep,
+	],
 	native: true
 )
 
@@ -96,7 +90,7 @@ libcore_dep = declare_dependency(
 		driver_platform_files,
 		boot_platform_files
 	],
-	include_directories: [core_includes, framework_includes]
+	dependencies: framework_include_dep,
 )
 
 libcore_native_dep = declare_dependency(
@@ -105,11 +99,11 @@ libcore_native_dep = declare_dependency(
 		driver_platform_files,
 		boot_platform_files
 	],
-	include_directories: [core_includes, framework_includes]
+	dependencies: framework_include_dep,
 )
 
 ## TODO: hosted-native dependency - leave out boot_platform files perhaps?
-
+## TODO: -fno-threadsafe-statics: check for compiler support first!
 libcore_threadless_dep = declare_dependency(
 	link_with: libcore_threadless,
 	sources: [
@@ -117,7 +111,7 @@ libcore_threadless_dep = declare_dependency(
 		boot_platform_files,
 	],
 	compile_args: ['-fno-threadsafe-statics'],
-	include_directories: [core_includes, framework_includes]
+	dependencies: framework_include_dep,
 )
 
 libcore_threadless_native_dep = declare_dependency(
@@ -127,7 +121,7 @@ libcore_threadless_native_dep = declare_dependency(
 		boot_platform_files
 	],
 	compile_args: ['-fno-threadsafe-statics'],
-	include_directories: [core_includes, framework_includes]
+	dependencies: framework_include_dep,
 )
 
 ######################

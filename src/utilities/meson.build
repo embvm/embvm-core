@@ -1,11 +1,13 @@
 # utilities/ Master Meson Build File
 
-framework_includes += [
-	include_directories('type_safe/include', is_system: true),
-
-	# Unfortunately, type_safe directly includes debug_assert.hpp - let's make that work
-	include_directories('debug_assert', is_system: true)
-]
+framework_include_dep += declare_dependency(
+	compile_args: '-DDEBUG_ASSERT_NO_STDIO',
+	include_directories: [
+		include_directories('type_safe/include', is_system: true),
+		# Unfortunately, type_safe directly includes debug_assert.hpp - let's make that work
+		include_directories('debug_assert', is_system: true)
+	]
+)
 
 subdir('active_object')
 subdir('aligned_ptr')
@@ -32,18 +34,20 @@ utilities_sources = [
 libutil_native = static_library(
 	'util_native',
 	sources: [utilities_sources],
-	cpp_args: framework_cpp_args,
-	dependencies: [libcxx_native_header_include_dep],
-	include_directories: [framework_includes, libmemory_header_include, libc_native_header_include],
+	dependencies: [
+		framework_include_dep,
+		framework_native_include_dep
+	],
 	native: true
 )
 
 libutil = static_library(
 	'util',
 	sources: [utilities_sources],
-	cpp_args: framework_cpp_args,
-	dependencies: [libcxx_header_include_dep],
-	include_directories: [framework_includes, libmemory_header_include, libc_header_include],
+	dependencies: [
+		framework_include_dep,
+		framework_host_include_dep
+	],
 )
 
 ######################

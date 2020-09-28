@@ -1,18 +1,42 @@
 # src/ Meson Build File
 
-framework_includes = [
-  ## TODO: use dependency
-  include_directories('../subprojects/etl/include', is_system: true),
-  ## TODO: use dependency
-  include_directories('../subprojects/GSL-3.1.0/include', is_system: true),
-  ## TODO: Use dependency
-  libcxx_extensions_include_dir,
-  include_directories('utilities'),
-  include_directories('subsystems'),
-  include_directories('etl')
-]
+###############################
+# Internal Include Dependency #
+###############################
+# Force into an array so we can concatenate
+framework_include_dep = []
+framework_include_dep += declare_dependency(
+	include_directories: [
+	  libcxx_extensions_include_dir,
+	  include_directories('utilities'),
+	  include_directories('subsystems'),
+	  include_directories('etl'),
+	],
+	dependencies: [
+		etl_dep,
+		microsoft_gsl_dep
+	]
+)
 
-framework_cpp_args = ['-DCATCH_CONFIG_DISABLE', '-DDEBUG_ASSERT_NO_STDIO']
+# This should be used for building host machine targets (native:false)
+framework_host_include_dep = declare_dependency(
+	include_directories: [
+		libc_header_include,
+	],
+	dependencies: [
+		libcxx_header_include_dep,
+	]
+)
+
+# This should be used for building native targets
+framework_native_include_dep =  declare_dependency(
+	include_directories: [
+	  libc_native_header_include,
+	],
+	dependencies: [
+		libcxx_native_header_include_dep,
+	]
+)
 
 ##########################
 # Build Framework Pieces #
@@ -23,9 +47,6 @@ subdir('utilities')
 
 # Build the framework core
 subdir('core')
-
-# TODO: is this actually needed, since we now have a libcore dependency?
-framework_includes += core_includes
 
 subdir('subsystems')
 
