@@ -4,13 +4,13 @@
 
 #include "dispatch.hpp"
 #include <atomic>
-#include <chrono>
 #include <catch2/catch.hpp>
+#include <chrono>
 #include <thread>
 
 #pragma mark - Helpers -
 
-static std::atomic<int> flag = 0;
+static std::atomic<size_t> flag = 0;
 
 static void test_flag(void)
 {
