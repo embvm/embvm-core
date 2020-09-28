@@ -6,5 +6,5 @@ int putchar(int);
 // TODO: move this to a better home
 void _putchar(char ch)
 {
-  putchar(ch);
+	putchar(ch);
 }

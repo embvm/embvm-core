@@ -1,6 +1,6 @@
 #include "boot_sequencer.hpp"
-#include <platform.hpp>
 #include <catch2/catch.hpp>
+#include <platform.hpp>
 
 /// Useful for things like Catch where we want to test things but we don't want
 /// to invoke the main() function twice

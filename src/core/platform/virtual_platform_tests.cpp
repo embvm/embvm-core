@@ -1,6 +1,6 @@
+#include <catch2/catch.hpp>
 #include <driver/driver_registry.hpp>
 #include <platform.hpp>
-#include <catch2/catch.hpp>
 #include <unit_test/driver.hpp> // unit test driver for abstract base class
 
 using namespace test;

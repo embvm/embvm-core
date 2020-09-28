@@ -4,8 +4,8 @@
 
 #include "dispatch.hpp"
 #include <atomic>
-#include <chrono>
 #include <catch2/catch.hpp>
+#include <chrono>
 #include <thread>
 
 using namespace embutil;

@@ -1,8 +1,8 @@
 #include "os.hpp"
 #include <aligned_malloc.h>
 #include <atomic>
-#include <chrono>
 #include <catch2/catch.hpp>
+#include <chrono>
 #include <thread>
 
 using namespace os;

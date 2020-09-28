@@ -1,8 +1,8 @@
 #include "timer_manager.hpp"
 #include <atomic>
+#include <catch2/catch.hpp>
 #include <nop_lock/nop_lock.hpp>
 #include <simulator/timer.hpp>
-#include <catch2/catch.hpp>
 
 #pragma mark - Helpers -
 

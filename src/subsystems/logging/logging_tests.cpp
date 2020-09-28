@@ -1,7 +1,7 @@
 #include "circular_buffer_logger.hpp"
+#include <catch2/catch.hpp>
 #include <cstring>
 #include <simulator/system_clock.hpp>
-#include <catch2/catch.hpp>
 
 using namespace embvm;
 

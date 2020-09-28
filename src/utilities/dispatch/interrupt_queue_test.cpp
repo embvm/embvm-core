@@ -5,11 +5,11 @@
 #include "dispatch.hpp"
 #include "interrupt_queue.hpp"
 #include <atomic>
+#include <catch2/catch.hpp>
 #include <chrono>
 #include <cstdint>
 #include <interrupt_lock/interrupt_lock.hpp>
 #include <posix_event_flags.hpp>
-#include <catch2/catch.hpp>
 #include <thread>
 
 #pragma mark - Helpers -

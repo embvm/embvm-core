@@ -1,8 +1,8 @@
 #include "event_center.hpp"
 #include "event_queue.hpp"
 #include <atomic>
-#include <dispatch/dispatch.hpp>
 #include <catch2/catch.hpp>
+#include <dispatch/dispatch.hpp>
 
 using namespace embvm;
 

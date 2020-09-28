@@ -1,10 +1,10 @@
 #include "driver_registry.hpp"
 #include <atomic>
+#include <catch2/catch.hpp>
 #include <cstring>
 #include <driver/active_i2c.hpp>
 #include <driver/active_spi.hpp>
 #include <platform.hpp>
-#include <catch2/catch.hpp>
 #include <unit_test/driver.hpp> // Unit test driver for abstract class
 
 using namespace embvm;
