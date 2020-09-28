@@ -1,4 +1,4 @@
 [wrap-git]
 url = git@github.com:embeddedartistry/libmemory.git
-revision = head
+revision = master
 clone-recursive = true
