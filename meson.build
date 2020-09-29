@@ -232,6 +232,7 @@ framework_dep = declare_dependency(
 	dependencies: [
 		framework_host_include_dep,
 		libcore_dep,
+		stdlib_host_dep
 	],
 )
 
@@ -240,6 +241,7 @@ framework_threadless_dep = declare_dependency(
 	dependencies: [
 		framework_host_include_dep,
 		libcore_threadless_dep,
+		stdlib_host_dep
 	],
 )
 
@@ -254,7 +256,8 @@ framework_migratory_dep = declare_dependency(
 	sources: [driver_platform_files],
 	dependencies: [
 		framework_include_dep,
-		framework_host_include_dep
+		framework_host_include_dep,
+		stdlib_host_dep
 	]
 )
 
@@ -264,7 +267,8 @@ framework_native_dep = declare_dependency(
 	],
 	dependencies: [
 		framework_native_include_dep,
-		libcore_native_dep
+		libcore_native_dep,
+		stdlib_native_dep
 	],
 )
 
@@ -274,7 +278,8 @@ framework_threadless_native_dep = declare_dependency(
 	],
 	dependencies: [
 		framework_native_include_dep,
-		libcore_threadless_native_dep
+		libcore_threadless_native_dep,
+		stdlib_native_dep
 	],
 )
 
