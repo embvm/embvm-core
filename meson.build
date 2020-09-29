@@ -1,4 +1,4 @@
-project('Embedded Virtual Machine',
+project('embvm-core',
 	['cpp', 'c'],
 	default_options : [
 		'warning_level=3',
