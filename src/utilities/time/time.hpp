@@ -63,7 +63,7 @@ constexpr timespec durationToTimespec(std::chrono::nanoseconds dur) noexcept
 	auto secs = std::chrono::duration_cast<std::chrono::seconds>(dur);
 	dur -= secs;
 
-	return timespec{secs.count(), dur.count()};
+	return timespec{static_cast<time_t>(secs.count()), static_cast<long>(dur.count())};
 }
 
 /** Convert from std::chrono::time_point to struct timespec
@@ -78,7 +78,8 @@ constexpr timespec timepointToTimespec(
 	auto ns = std::chrono::time_point_cast<std::chrono::nanoseconds>(tp) -
 			  std::chrono::time_point_cast<std::chrono::nanoseconds>(secs);
 
-	return timespec{secs.time_since_epoch().count(), ns.count()};
+	return timespec{static_cast<time_t>(secs.time_since_epoch().count()),
+					static_cast<long>(ns.count())};
 }
 
 #ifdef UTIL_TIME_INCLUDE_TIMEVAL
