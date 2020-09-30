@@ -7,6 +7,7 @@ simulator_driver_files = files(
 
 simulator_driver_dep = declare_dependency(
 	sources: simulator_driver_files,
+	include_directories: driver_include_root
 )
 
 simulator_driver_test_files = files(
