@@ -227,6 +227,8 @@ subdir('build/test/catch2')
 # Embedded VM Dependencies #
 ############################
 
+# TODO: need a unified framework include dependency! that lives here!
+
 framework_dep = declare_dependency(
 	link_with: [libutil],
 	dependencies: [
