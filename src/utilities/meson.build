@@ -38,7 +38,8 @@ libutil_native = static_library(
 		framework_include_dep,
 		framework_native_include_dep
 	],
-	native: true
+	native: true,
+	build_by_default: meson.is_subproject() == false
 )
 
 libutil = static_library(
@@ -48,6 +49,7 @@ libutil = static_library(
 		framework_include_dep,
 		framework_host_include_dep
 	],
+	build_by_default: meson.is_subproject() == false
 )
 
 ######################

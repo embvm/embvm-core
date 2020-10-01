@@ -28,7 +28,8 @@ libcore = static_library(
 	dependencies: [
 		framework_include_dep,
 		framework_host_include_dep
-	]
+	],
+	build_by_default: meson.is_subproject() == false
 )
 
 libcore_threadless = static_library(
@@ -38,6 +39,7 @@ libcore_threadless = static_library(
 		framework_include_dep,
 		framework_host_include_dep
 	],
+	build_by_default: meson.is_subproject() == false
 )
 
 libcore_native = static_library(
@@ -47,7 +49,8 @@ libcore_native = static_library(
 		framework_include_dep,
 		framework_native_include_dep
 	],
-	native: true
+	native: true,
+	build_by_default: meson.is_subproject() == false
 )
 
 libcore_threadless_native = static_library(
@@ -57,7 +60,8 @@ libcore_threadless_native = static_library(
 		framework_include_dep,
 		framework_native_include_dep
 	],
-	native: true
+	native: true,
+	build_by_default: meson.is_subproject() == false
 )
 
 # Use system libc/libcpp
@@ -67,7 +71,8 @@ libcore_hosted_native = static_library(
 	dependencies: [
 		framework_include_dep,
 	],
-	native: true
+	native: true,
+	build_by_default: meson.is_subproject() == false
 )
 
 # Use system libc/libcpp
@@ -77,7 +82,8 @@ libcore_threadless_hosted_native = static_library(
 	dependencies: [
 		framework_include_dep,
 	],
-	native: true
+	native: true,
+	build_by_default: meson.is_subproject() == false
 )
 
 ########################
