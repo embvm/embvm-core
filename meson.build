@@ -55,6 +55,7 @@ endif
 if get_option('disable-rtti')
 	message('Building embvm with RTTI disabled.')
 	desired_cpp_compile_flags += '-fno-rtti'
+	desired_native_cpp_compile_flags += '-fno-rtti'
 else
 	message('Building embvm with RTTI enabled.')
 endif
@@ -62,6 +63,7 @@ endif
 if get_option('disable-exceptions')
 	message('Building embvm with exceptions disabled.')
 	desired_cpp_compile_flags += ['-fno-exceptions', '-fno-unwind-tables']
+	desired_native_cpp_compile_flags += ['-fno-exceptions', '-fno-unwind-tables']
 else
 	message('Building embvm with exceptions enabled.')
 endif
