@@ -15,7 +15,7 @@ project('embvm-core',
 		'cpp_std=c++17', 'build.cpp_std=c++17',
 	],
 	license: 'Proprietary',
-	meson_version: '>=0.54.0',
+	meson_version: '>=0.56.0',
 	version: '0.9'
 )
 
