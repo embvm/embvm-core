@@ -81,6 +81,7 @@ endif
 if enable_threading == false
 	# This will stop the compiler from emiting __cxa_guard_acquire and __cxa_guard_release
 	desired_cpp_compile_flags += ['-fno-threadsafe-statics']
+	desired_native_cpp_compile_flags += ['-fno-threadsafe-statics']
 endif
 
 compile_settings_list = [
