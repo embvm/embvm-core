@@ -3,6 +3,9 @@
 
 #include <driver/driver_registry.hpp>
 #include <string>
+#if __has_include(<hw_platform_options.hpp>)
+#include <hw_platform_options.hpp>
+#endif
 
 namespace embvm
 {
@@ -35,9 +38,26 @@ namespace embvm
  * 	specified to enable consumers to specify the exact DriverRegistry type/strategy in the
  *	platform layer, since the HW platform doesn't need to know anything about the memory
  *	allocation scheme.
+ *	If your platform defines a hw_platform_options.hpp header, then the base class will
+ *	automatically pick up your configured registry type.
+ *	@code
+ *	class UnitTestHWPlatform
+ *	: public embvm::VirtualHwPlatformBase<UnitTestHWPlatform>
+ *	@endcode
+ *  If this header is missing, or you wish to override the platform default for whatever
+ *  reason, you can manually specify the type.
+ *	@code
+ *	class UnitTestHWPlatform
+ *	: public embvm::VirtualHwPlatformBase<UnitTestHWPlatform, embvm::DynamicDriverRegistry>
+ *	@endcode
+ *
  * @ingroup FrameworkHwPlatform
  */
+#if __has_include(<hw_platform_options.hpp>)
+template<typename THWPlatform, class TDriverRegistry = PlatformDriverRegistry>
+#else
 template<typename THWPlatform, class TDriverRegistry>
+#endif
 class VirtualHwPlatformBase
 {
   public:

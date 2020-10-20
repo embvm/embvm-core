@@ -2,7 +2,6 @@
 #define UNIT_TEST_HW_PLATFORM_HPP_
 
 #include <hw_platform/virtual_hw_platform.hpp>
-#include <hw_platform_options.hpp>
 #include <unit_test/driver.hpp>
 #include <unit_test/gpio.hpp> // Unit test driver for abstract class
 #include <unit_test/i2c.hpp> // Unit test driver for abstract class
@@ -16,9 +15,9 @@
  * process. This class should not be used directly for any other purpose.
  */
 class UnitTestHWPlatform
-	: public embvm::VirtualHwPlatformBase<UnitTestHWPlatform, PlatformDriverRegistry>
+	: public embvm::VirtualHwPlatformBase<UnitTestHWPlatform>
 {
-	using Base = embvm::VirtualHwPlatformBase<UnitTestHWPlatform, PlatformDriverRegistry>;
+	using Base = embvm::VirtualHwPlatformBase<UnitTestHWPlatform>;
 
   public:
 	/// @brief Default Constructor.
