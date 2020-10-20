@@ -184,7 +184,8 @@ stdlib_native_dep = declare_dependency(
 		libcxx_full_native_partial_lib_dep,
 		libcxxabi_native_dep,
 		libmemory_hosted_native_dep,
-		libc_hosted_native_partial_lib_dep
+		libc_hosted_native_partial_lib_dep,
+		compiler_rt_builtins_native_dep
 	],
 )
 
@@ -195,7 +196,8 @@ stdlib_host_dep = declare_dependency(
 		libcxx_full_partial_lib_dep,
 		libcxxabi_dep,
 		libmemory_hosted_dep,
-		libc_partial_lib_dep
+		libc_partial_lib_dep,
+		compiler_rt_builtins_dep,
 	],
 )
 
