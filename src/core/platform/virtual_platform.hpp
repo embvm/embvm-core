@@ -1,7 +1,7 @@
 #ifndef VIRTUAL_PLATFORM_HPP_
 #define VIRTUAL_PLATFORM_HPP_
 
-#include <driver/driver_registry.hpp>
+#include <driver/driver.hpp>
 #include <string>
 
 namespace embvm
@@ -12,16 +12,13 @@ namespace embvm
  * other platform base classes which provide optional functionality
  * (see embvm::PlatformEventManagement<>, embvm::PlatformDispatcher<>).
  *
- * The platform base is templated off of the driver registry type, in order to
- * Allow users to utilize their custom driver types with the platform.
- *
  * @tparam TPlatform The derived CRTP class which defines the consumer's platform.
- * @tparam TDriverRegistry The type of the platform's DriverRegistry. DriverRegistry type is
- * 	specified to enable consumers to use custom driver types.
- *
+ * @tparam THWPlatform The type of the hardware platform class to use with this platform.
+ *	A private local variable hw_platform_ is declared, and a protected function hw_platform()
+ *	can be used as well to access the hardware platform APIs.
  * @ingroup FrameworkPlatform
  */
-template<typename TPlatform, class TDriverRegistry>
+template<typename TPlatform, typename THWPlatform>
 class VirtualPlatformBase
 {
   public:
@@ -173,9 +170,9 @@ class VirtualPlatformBase
 	 *	there are any number of potential derived classes which will be tracked.
 	 *	To prevent slicing, a pointer to the base class is stored.
 	 */
-	static void registerDriver(const std::string_view& name, embvm::DriverBase* driver) noexcept
+	inline void registerDriver(const std::string_view& name, embvm::DriverBase* driver) noexcept
 	{
-		driverRegistry().add(name.data(), driver);
+		hw_platform_.registerDriver(name.data(), driver);
 	}
 
 	/** Platform-level API for unregistering a new device driver
@@ -187,9 +184,9 @@ class VirtualPlatformBase
 	 * @param name The name of the driver to remove.
 	 * @param driver Pointer to the embvm::DriverBase object being removed.
 	 */
-	static void unregisterDriver(const std::string_view& name, embvm::DriverBase* driver) noexcept
+	inline void unregisterDriver(const std::string_view& name, embvm::DriverBase* driver) noexcept
 	{
-		driverRegistry().remove(name.data(), driver);
+		hw_platform_.unregisterDriver(name.data(), driver);
 	}
 
 	/** Access a device driver in the registry by name
@@ -201,9 +198,9 @@ class VirtualPlatformBase
 	 * @returns An optional_ref to the embvm::DriverBase instance. If no instance is found,
 	 *	the optional reference will be invalid. The caller must cast to the appropriate type.
 	 */
-	auto findDriver(const std::string_view& name) noexcept
+	inline auto findDriver(const std::string_view& name) noexcept
 	{
-		return driverRegistry().find(name.data());
+		return hw_platform_.findDriver(name.data());
 	}
 
 	/** Access a device driver in the registry by type
@@ -216,9 +213,9 @@ class VirtualPlatformBase
 	 * @returns An optional_ref to the embvm::DriverBase instance. If no instance is found,
 	 *	the optional reference will be invalid. The caller must cast to the appropriate type.
 	 */
-	auto findDriver(embvm::DriverType_t type) noexcept
+	inline auto findDriver(embvm::DriverType_t type) noexcept
 	{
-		return driverRegistry().find(type);
+		return hw_platform_.findDriver(type);
 	}
 
 	/** Access a device driver in the registry by type, cast as the appropriate base class.
@@ -233,9 +230,9 @@ class VirtualPlatformBase
 	 *	was not found, the optional_ref will be empty.
 	 */
 	template<class TDriverClass>
-	auto findDriver() noexcept
+	inline auto findDriver() noexcept
 	{
-		return driverRegistry().template find<TDriverClass>();
+		return hw_platform_.template findDriver<TDriverClass>();
 	}
 
 	/** Access a device driver in the registry by name, cast as the appropriate base class
@@ -249,9 +246,9 @@ class VirtualPlatformBase
 	 *	was not found, the optional_ref will be empty.
 	 */
 	template<class TDriverClass>
-	auto findDriver(const std::string_view& name) noexcept
+	inline auto findDriver(const std::string_view& name) noexcept
 	{
-		return driverRegistry().template find<TDriverClass>(name.data());
+		return hw_platform_.template findDriver<TDriverClass>(name.data());
 	}
 
 	/** Get a list of all device drivers in the registry by type.
@@ -264,9 +261,9 @@ class VirtualPlatformBase
 	 * @returns A list of embvm::DriverBase instances. If no matching types are found,
 	 *	an empty list will be returned. The caller must cast to the appropriate type.
 	 */
-	auto findAllDrivers(embvm::DriverType_t type) noexcept
+	inline auto findAllDrivers(embvm::DriverType_t type) noexcept
 	{
-		return driverRegistry().find_all(type);
+		return hw_platform_.findAllDrivers(type);
 	}
 
 	/** Get a list of all device drivers in the registry by type, cast as the appropriate base
@@ -281,21 +278,26 @@ class VirtualPlatformBase
 	 *found, an empty list will be returned.
 	 */
 	template<class TDriverClass>
-	auto findAllDrivers() noexcept
+	inline auto findAllDrivers() noexcept
 	{
-		return driverRegistry().template find_all<TDriverClass>();
+		return hw_platform_.template findAllDrivers<TDriverClass>();
 	}
 
 	/** Get the count of drivers registered with the platform.
 	 *
 	 * returns Number of drivers currently registered with the platform DriverRegistry.
 	 */
-	size_t driverCount() const noexcept
+	inline size_t driverCount() const noexcept
 	{
-		return driverRegistry().count();
+		return hw_platform_.driverCount();
 	}
 
   protected:
+	THWPlatform& hw_platform()
+	{
+		return hw_platform_;
+	}
+
 	/** Create a virtual platform base using a C-string.
 	 *
 	 * * @param name The name of the platform.
@@ -322,19 +324,7 @@ class VirtualPlatformBase
 
   protected:
 	const std::string_view name_;
-
-  private:
-	/** Access the platform DriverRegistry instance.
-	 *
-	 * Static declaration of the DriverRegistry for the platform.
-	 * We use this function to avoid the static initializatio order 'fiasco'.
-	 * See more: https://isocpp.org/wiki/faq/ctors#static-init-order
-	 */
-	static TDriverRegistry& driverRegistry() noexcept
-	{
-		static TDriverRegistry driver_registry_;
-		return driver_registry_;
-	}
+	THWPlatform hw_platform_{};
 };
 
 } // namespace embvm

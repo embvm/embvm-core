@@ -104,6 +104,8 @@ class DriverRegistry
 		list_.add(name, driver);
 		lock_.unlock();
 	}
+	// Dev note: I'd prefer to call this function "register", but it's "add"
+	// because "register" is a C/C++ keyword...
 
 	/** Unregister a driver.
 	 *
@@ -118,6 +120,8 @@ class DriverRegistry
 		list_.remove(name, driver);
 		lock_.unlock();
 	}
+	// Dev note: I'd prefer to call this function "unregister", but it's "remove"
+	// for symmetry with "add"
 
 	/** Find a driver by name.
 	 *

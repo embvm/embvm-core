@@ -1,7 +1,7 @@
 #ifndef VIRTUAL_HW_PLATFORM_H_
 #define VIRTUAL_HW_PLATFORM_H_
 
-#include <cassert>
+#include <driver/driver_registry.hpp>
 #include <string>
 
 namespace embvm
@@ -31,9 +31,13 @@ namespace embvm
  *	@endcode
  *
  * @tparam THWPlatform the derived HW platform implementation (CRTP pattern)
+ * @tparam TDriverRegistry The type of the platform's DriverRegistry. DriverRegistry type is
+ * 	specified to enable consumers to specify the exact DriverRegistry type/strategy in the
+ *	platform layer, since the HW platform doesn't need to know anything about the memory
+ *	allocation scheme.
  * @ingroup FrameworkHwPlatform
  */
-template<typename THWPlatform>
+template<typename THWPlatform, class TDriverRegistry>
 class VirtualHwPlatformBase
 {
   public:
@@ -182,8 +186,144 @@ class VirtualHwPlatformBase
 		static_cast<THWPlatform*>(this)->shutdown_();
 	}
 
+#pragma mark - Driver Registry Functions -
+
+	/** Hardware Platform API for registering a new device driver
+	 *
+	 * Register a device driver with the platform's driver registry.
+	 *
+	 * This call forwards the information to the DriverRegistry instance.
+	 *
+	 * @param name The name (used as a key) the driver will be registered under.
+	 * @param driver Pointer to the embvm::DriverBase object. A pointer is used because
+	 *	there are any number of potential derived classes which will be tracked.
+	 *	To prevent slicing, a pointer to the base class is stored.
+	 */
+	inline void registerDriver(const std::string_view& name, embvm::DriverBase* driver) noexcept
+	{
+		driver_registry_.add(name.data(), driver);
+	}
+
+	/** Hardware Platform API for unregistering a new device driver
+	 *
+	 * Unregister a device driver with the platform's driver registry.
+	 *
+	 * This call forwards the information to the DriverRegistry instance.
+	 *
+	 * @param name The name of the driver to remove.
+	 * @param driver Pointer to the embvm::DriverBase object being removed.
+	 */
+	inline void unregisterDriver(const std::string_view& name, embvm::DriverBase* driver) noexcept
+	{
+		driver_registry_.remove(name.data(), driver);
+	}
+
+	/** Access a device driver in the registry by name
+	 *
+	 * Find a driver by name.
+	 *
+	 * This call forwards the information to the DriverRegistry instance.
+	 *
+	 * @returns An optional_ref to the embvm::DriverBase instance. If no instance is found,
+	 *	the optional reference will be invalid. The caller must cast to the appropriate type.
+	 */
+	inline auto findDriver(const std::string_view& name) noexcept
+	{
+		return driver_registry_.find(name.data());
+	}
+
+	/** Access a device driver in the registry by type
+	 *
+	 * Find a driver by type. If multiple drivers are found for a type, the first one found will be
+	 *returned.
+	 *
+	 * This call forwards the information to the DriverRegistry instance.
+	 *
+	 * @returns An optional_ref to the embvm::DriverBase instance. If no instance is found,
+	 *	the optional reference will be invalid. The caller must cast to the appropriate type.
+	 */
+	inline auto findDriver(embvm::DriverType_t type) noexcept
+	{
+		return driver_registry_.find(type);
+	}
+
+	/** Access a device driver in the registry by type, cast as the appropriate base class.
+	 *
+	 * If multiple drivers are found for a type, the first one found will be returned.
+	 * The type will be returned as the appropriate base class (instead of embvm::DriverBase).
+	 *
+	 * This call forwards the information to the DriverRegistry instance.
+	 *
+	 * @tparam TDriverClass The class of driver being requested (embvm::i2c::master, SystemClock).
+	 * @returns an type_safe::optional_ref cast to the TDriverClass type. If the driver
+	 *	was not found, the optional_ref will be empty.
+	 */
+	template<class TDriverClass>
+	inline auto findDriver() noexcept
+	{
+		return driver_registry_.template find<TDriverClass>();
+	}
+
+	/** Access a device driver in the registry by name, cast as the appropriate base class
+	 *
+	 * The type will be returned as the appropriate base class (instead of embvm::DriverBase).
+	 *
+	 * This call forwards the information to the DriverRegistry instance.
+	 *
+	 * @tparam TDriverClass The class of driver being requested (embvm::i2c::master, SystemClock).
+	 * @returns an type_safe::optional_ref cast to the TDriverClass type. If the driver
+	 *	was not found, the optional_ref will be empty.
+	 */
+	template<class TDriverClass>
+	inline auto findDriver(const std::string_view& name) noexcept
+	{
+		return driver_registry_.template find<TDriverClass>(name.data());
+	}
+
+	/** Get a list of all device drivers in the registry by type.
+	 *
+	 * The type will be returned as the appropriate base class (instead of embvm::DriverBase).
+	 *
+	 * This call forwards the information to the DriverRegistry instance.
+	 *
+	 * @param type The type of driver being requested (embvm::i2c::master, SystemClock).
+	 * @returns A list of embvm::DriverBase instances. If no matching types are found,
+	 *	an empty list will be returned. The caller must cast to the appropriate type.
+	 */
+	inline auto findAllDrivers(embvm::DriverType_t type) noexcept
+	{
+		return driver_registry_.find_all(type);
+	}
+
+	/** Get a list of all device drivers in the registry by type, cast as the appropriate base
+	 *class.
+	 *
+	 * The type will be returned as the appropriate base class (instead of embvm::DriverBase).
+	 *
+	 * This call forwards the information to the DriverRegistry instance.
+	 *
+	 * @tparam TDriverClass The class of driver being requested (embvm::i2c::master, SystemClock).
+	 * @returns A list of driver instances cast as TDriverClass types. If no matching types are
+	 *found, an empty list will be returned.
+	 */
+	template<class TDriverClass>
+	inline auto findAllDrivers() noexcept
+	{
+		return driver_registry_.template find_all<TDriverClass>();
+	}
+
+	/** Get the count of drivers registered with the platform.
+	 *
+	 * returns Number of drivers currently registered with the platform DriverRegistry.
+	 */
+	inline size_t driverCount() const noexcept
+	{
+		return driver_registry_.count();
+	}
+
   private:
 	const std::string_view name_;
+	TDriverRegistry driver_registry_{};
 };
 
 } // namespace embvm

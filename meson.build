@@ -258,7 +258,6 @@ framework_migratory_dep = declare_dependency(
 		libutil,
 		libcore
 	],
-	sources: [driver_platform_files],
 	dependencies: [
 		framework_include_dep,
 		framework_host_include_dep,

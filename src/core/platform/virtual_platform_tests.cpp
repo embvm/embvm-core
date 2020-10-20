@@ -49,22 +49,32 @@ TEST_CASE("Find a driver by name", "[core/platform/virtual_platform]")
 {
 	auto& p = UnitTestPlatform::inst();
 	TestDriverBase TestDriver("PlatformSPI", embvm::DriverType::SPI);
+	p.registerDriver(TestDriver.name(), &TestDriver);
 
 	auto driver = p.findDriver("PlatformSPI");
 
 	CHECK((EXPECTED_UNIT_TEST_STARTING_DRIVERS + 1) == p.driverCount());
 	CHECK(TestDriver == driver);
+
+	p.unregisterDriver(TestDriver.name(), &TestDriver);
+
+	CHECK((EXPECTED_UNIT_TEST_STARTING_DRIVERS) == p.driverCount());
 }
 
 TEST_CASE("Find a driver by type", "[core/platform/virtual_platform]")
 {
 	auto& p = UnitTestPlatform::inst();
 	TestDriverBase TestDriver("PlatformSPI", embvm::DriverType::SPI);
+	p.registerDriver(TestDriver.name(), &TestDriver);
 
 	auto driver = p.findDriver(embvm::DriverType::SPI);
 
 	CHECK((EXPECTED_UNIT_TEST_STARTING_DRIVERS + 1) == p.driverCount());
 	CHECK(TestDriver == driver);
+
+	p.unregisterDriver(TestDriver.name(), &TestDriver);
+
+	CHECK((EXPECTED_UNIT_TEST_STARTING_DRIVERS) == p.driverCount());
 }
 
 TEST_CASE("Find all drivers by type", "[core/platform/virtual_platform]")
@@ -75,6 +85,11 @@ TEST_CASE("Find all drivers by type", "[core/platform/virtual_platform]")
 	TestDriverBase TestDriver3("spi2", embvm::DriverType::SPI);
 	TestDriverBase TestDriver4("dummy0");
 
+	p.registerDriver(TestDriver.name(), &TestDriver);
+	p.registerDriver(TestDriver2.name(), &TestDriver2);
+	p.registerDriver(TestDriver3.name(), &TestDriver3);
+	p.registerDriver(TestDriver4.name(), &TestDriver4);
+
 	auto driver_list = p.findAllDrivers(embvm::DriverType::SPI);
 
 	CHECK((EXPECTED_UNIT_TEST_STARTING_DRIVERS + 4) == p.driverCount());
@@ -84,6 +99,13 @@ TEST_CASE("Find all drivers by type", "[core/platform/virtual_platform]")
 	{
 		CHECK(embvm::DriverType::SPI == d->DriverType());
 	}
+
+	p.unregisterDriver(TestDriver.name(), &TestDriver);
+	p.unregisterDriver(TestDriver2.name(), &TestDriver2);
+	p.unregisterDriver(TestDriver3.name(), &TestDriver3);
+	p.unregisterDriver(TestDriver4.name(), &TestDriver4);
+
+	CHECK((EXPECTED_UNIT_TEST_STARTING_DRIVERS) == p.driverCount());
 }
 
 TEST_CASE("Create unit test platform", "[core/platform/virtual_platform]")
@@ -103,6 +125,11 @@ TEST_CASE("Unit test platform can find drivers", "[core/platform/virtual_platfor
 	TestDriverBase TestDriver3("spi2", embvm::DriverType::SPI);
 	TestDriverBase TestDriver4("dummy0");
 
+	p.registerDriver(TestDriver.name(), &TestDriver);
+	p.registerDriver(TestDriver2.name(), &TestDriver2);
+	p.registerDriver(TestDriver3.name(), &TestDriver3);
+	p.registerDriver(TestDriver4.name(), &TestDriver4);
+
 	auto driver = p.findDriver("spi1");
 
 	auto driver_list = p.findAllDrivers(embvm::DriverType::SPI);
@@ -115,6 +142,13 @@ TEST_CASE("Unit test platform can find drivers", "[core/platform/virtual_platfor
 	{
 		CHECK(embvm::DriverType::SPI == d->DriverType());
 	}
+
+	p.unregisterDriver(TestDriver.name(), &TestDriver);
+	p.unregisterDriver(TestDriver2.name(), &TestDriver2);
+	p.unregisterDriver(TestDriver3.name(), &TestDriver3);
+	p.unregisterDriver(TestDriver4.name(), &TestDriver4);
+
+	CHECK((EXPECTED_UNIT_TEST_STARTING_DRIVERS) == p.driverCount());
 }
 
 TEST_CASE("Dispatch from platform interface", "[core/platform/virtual_platform]")

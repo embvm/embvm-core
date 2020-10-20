@@ -26,6 +26,7 @@ Basic hardware platform definition which provides common required interfaces tha
 
 ## Collaborators
 
+* Contains a [Driver Registry](driver_registry.md), which is used to register drivers for access in higher program layers.
 * Contains a [Virtual Processor](virtual_processor.md)
 * Contains any number of [Drivers](driver.md) which communicate with circuitry on the hardware platform
 * Is a component of a [Virtual Platform](virtual_platform.md)
@@ -51,13 +52,18 @@ Start order is controlled by the implementation of the `init()` function. Driver
 
 ## Related Documents
 
+* [ADR 0019: Virtual Platform Takes in THWPlatform Type](../../decisions/0019-virtual-platform-takes-in-thwplatform-type.md)
 * [Mediator Pattern](../../../patterns/mediator.md)
 
 ## Notes
 
+For compile-time configuration purposes, a `hw_platform_options.hpp` file is defined in the header
+
 ### Supporting Multiple Board Revisions
 
 * How can we support multiple board revisions?
+    - One consequence of [ADR 0019](../../decisions/0019-virtual-platform-takes-in-thwplatform-type.md): Only one hardware platform can be used with a platform, which would *potentially* break board ID and board revision selection for instantiating one of many hardware platforms. 
+    + However, this can be handled in the hardware platform logic itself, if multiple revisions need to be supported.
 * Configure: run-time vs static differentiation for board rev / ID
 * If board revision IDs don't exist in hardware, just use a software reported number
 * Kvasir - check into pin location, `register::bitlocation`

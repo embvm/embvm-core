@@ -37,16 +37,16 @@ The Virtual Platform serves as the abstraction between the Software Layer and th
 * The Virtual Platform contains:
 	* A [Virtual Hardware Platform](virtual_hardware_platform.md)
 	* If used, the [Virtual RTOS](virtual_rtos.md) is part of the Virtual Platform
-	* The [Driver Registry](driver_registry.md)
 	* The [Timer Manager](timer_manager.md)
 	* The [Boot Sequencer](boot_sequener.md)
     * The [Event Center](event_center.md)
+* APIs are provided to forward calls to the Virtual Hardware Platform's driver registry.
 
 ## Rationale
 
 The Virtual Platform serves as a [Mediator](../../../patterns/mediator.md) that encapsulates the underlying hardware/OS platform. All platform-specific interactions should be contained within the Virtual Platform and its child components. The Software Layer communicates with the underlying hardware and OS through the generic Virtual Platform interfaces.
 
-A single Virtual Platform Interface can be support multiple implementations, requiring use of the [Bridge Pattern](../../../patterns/bridge.md). This enables separation between the platform abstraction and the platform implementation. Additionally, the virtual platform serves as a Bridge by isolating the client software from direct knowledge of supporting structures such as the [Driver Registry](driver_registry.md)
+A single Virtual Platform Interface can be support multiple implementations, requiring use of the [Bridge Pattern](../../../patterns/bridge.md). This enables separation between the platform abstraction and the platform implementation. Additionally, the virtual platform serves as a Bridge by isolating the client software from direct knowledge of supporting structures such as the [Driver Registry](driver_registry.md).
 
 The Virtual RTOS is contained within the Virtual Platform layer because support is optional. If the Software Layer depends on RTOS concepts, then it requires underlying platforms which provide that support.
 
@@ -59,6 +59,8 @@ The Virtual RTOS is contained within the Virtual Platform layer because support 
 
 ## Related Documents
 
+* [ADR 0018: Driver Registration in HW Platform](../../decisions/0018-driver-registration-in-hw-platform.md)
+* [ADR 0019: Virtual Platform Takes in THWPlatform Type](../../decisions/0019-virtual-platform-takes-in-thwplatform-type.md)
 * [Mediator Pattern](../../../patterns/mediator.md)
 * [Bridge Pattern](../../../patterns/bridge.md)
 * [Simulator Hardware Platform](simulator_hardware_platform.md)

@@ -13,9 +13,7 @@ namespace embvm
 /** Virtual base class for framework drivers.
  *
  * All framework drivers should include this class in their inheritance tree.
- * The DriverBase provides common interfaces which apply to all drivers. Use of the
- * DriverBase class also handles automatic registration/unregistration with the
- * platform's DriverRegistry. Registration/unregistration occurs during construction/destruction.
+ * The DriverBase provides common interfaces which apply to all drivers.
  *
  * Derived classes must override the following functions:
  * 	- start_()
@@ -23,51 +21,7 @@ namespace embvm
  */
 class DriverBase
 {
-  protected:
-	/** Construct a DriverBase with a C-string name.
-	 *
-	 * The DriverBase constructor handles automatic registration with the DriverRegistry.
-	 *
-	 * @param name The name of the device driver instance
-	 * @param c The device type
-	 */
-	DriverBase(const char* name, embvm::DriverType_t c = embvm::DriverType::Undefined) noexcept;
-
-	/** Construct a DriverBase with a std::string name.
-	 *
-	 * The DriverBase constructor handles automatic registration with the DriverRegistry
-	 *
-	 * @param name The name of the device driver instance.
-	 *	Note: DriverBase() uses a std::string_view, so the std::string must remain valid
-	 * @param c The device type
-	 */
-	DriverBase(const std::string& name,
-			   embvm::DriverType_t c = embvm::DriverType::Undefined) noexcept;
-
-	/** Construct a DriverBase with a std::string_view name.
-	 *
-	 * The DriverBase constructor handles automatic registration with the DriverRegistry
-	 *
-	 * @param name The name of the device driver instance.
-	 *	Note: DriverBase() uses a std::string_view, so the std::string_view must remain valid
-	 * @param c The device type
-	 */
-	DriverBase(const std::string_view& name,
-			   embvm::DriverType_t c = embvm::DriverType::Undefined) noexcept;
-
   public:
-	/// Deleted copy constructor
-	DriverBase(const DriverBase&) = delete;
-
-	/// Deleted copy assignment operator
-	const DriverBase& operator=(const DriverBase&) = delete;
-
-	/// Deleted move constructor
-	DriverBase(DriverBase&&) = delete;
-
-	/// Deleted move assignment operator
-	DriverBase& operator=(DriverBase&&) = delete;
-
 	/** Start the driver.
 	 *
 	 * If the driver is not started, call the start_() function defined by the derived class.
@@ -156,10 +110,55 @@ class DriverBase
 		return *this;
 	}
 
+	/// Deleted copy constructor
+	DriverBase(const DriverBase&) = delete;
+
+	/// Deleted copy assignment operator
+	const DriverBase& operator=(const DriverBase&) = delete;
+
+	/// Deleted move constructor
+	DriverBase(DriverBase&&) = delete;
+
+	/// Deleted move assignment operator
+	DriverBase& operator=(DriverBase&&) = delete;
+
   protected:
+	/** Construct a DriverBase with a C-string name.
+	 *
+	 * @param name The name of the device driver instance
+	 * @param c The device type
+	 */
+	DriverBase(const char* name, embvm::DriverType_t c = embvm::DriverType::Undefined) noexcept
+		: name_(name), type_(c)
+	{
+	}
+
+	/** Construct a DriverBase with a std::string name.
+	 *
+	 * @param name The name of the device driver instance.
+	 *	Note: DriverBase() uses a std::string_view, so the std::string must remain valid
+	 * @param c The device type
+	 */
+	DriverBase(const std::string& name,
+			   embvm::DriverType_t c = embvm::DriverType::Undefined) noexcept
+		: name_(name), type_(c)
+	{
+	}
+
+	/** Construct a DriverBase with a std::string_view name.
+	 *
+	 * @param name The name of the device driver instance.
+	 *	Note: DriverBase() uses a std::string_view, so the std::string_view must remain valid
+	 * @param c The device type
+	 */
+	DriverBase(const std::string_view& name,
+			   embvm::DriverType_t c = embvm::DriverType::Undefined) noexcept
+		: name_(name), type_(c)
+	{
+	}
+
 	/// Destructor.
-	/// When DriverBase is destructed, the driver is unregistered from the DriverRegistry.
-	~DriverBase() noexcept;
+	~DriverBase() noexcept = default;
 
 	/// Derived classes override the start_ method to control driver-specific startup behavior.
 	/// (Template Method Pattern)

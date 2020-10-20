@@ -5,12 +5,11 @@
 #include <unittest_hw_platform.hpp>
 
 /// This platform exists for use in the framework unit tests
-class UnitTestPlatform
-	: public embvm::VirtualPlatformBase<UnitTestPlatform, PlatformDriverRegistry>,
-	  public embvm::PlatformDispatcher<PlatformDispatchQueue>,
-	  public embvm::PlatformEventManagement<PlatformEventCenter>
+class UnitTestPlatform : public embvm::VirtualPlatformBase<UnitTestPlatform, UnitTestHWPlatform>,
+						 public embvm::PlatformDispatcher<PlatformDispatchQueue>,
+						 public embvm::PlatformEventManagement<PlatformEventCenter>
 {
-	using VirtualPlatform = embvm::VirtualPlatformBase<UnitTestPlatform, PlatformDriverRegistry>;
+	using VirtualPlatform = embvm::VirtualPlatformBase<UnitTestPlatform, UnitTestHWPlatform>;
 
   public:
 	// Note: Unit test constructors are public for testing purposes
@@ -55,9 +54,6 @@ class UnitTestPlatform
 	{
 		return hw_platform_.name_cstr();
 	}
-
-  private:
-	UnitTestHWPlatform hw_platform_;
 };
 
 using VirtualPlatform = UnitTestPlatform;

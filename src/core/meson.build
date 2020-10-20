@@ -93,7 +93,6 @@ libcore_threadless_hosted_native = static_library(
 libcore_dep = declare_dependency(
 	link_with: libcore,
 	sources: [
-		driver_platform_files,
 		boot_platform_files
 	],
 	dependencies: framework_include_dep,
@@ -102,7 +101,6 @@ libcore_dep = declare_dependency(
 libcore_native_dep = declare_dependency(
 	link_with: libcore_native,
 	sources: [
-		driver_platform_files,
 		boot_platform_files
 	],
 	dependencies: framework_include_dep,
@@ -113,7 +111,6 @@ libcore_native_dep = declare_dependency(
 libcore_threadless_dep = declare_dependency(
 	link_with: libcore_threadless,
 	sources: [
-		driver_platform_files,
 		boot_platform_files,
 	],
 	compile_args: ['-fno-threadsafe-statics'],
@@ -123,7 +120,6 @@ libcore_threadless_dep = declare_dependency(
 libcore_threadless_native_dep = declare_dependency(
 	link_with: libcore_threadless_native,
 	sources: [
-		driver_platform_files,
 		boot_platform_files
 	],
 	compile_args: ['-fno-threadsafe-statics'],

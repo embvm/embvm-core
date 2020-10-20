@@ -18,7 +18,6 @@ Basic driver definition which provides common required interfaces that apply to 
 
 * Provide base-class interfaces for device drivers
 * Provide generic interfaces for a category/type of driver, decoupling users from specific driver implementations
-* Register drivers with the [Driver Registry](driver_registry.md)
 
 ## Requirements
 
@@ -28,9 +27,9 @@ Basic driver definition which provides common required interfaces that apply to 
 
 ## Collaborators
 
-* A [Virtual Hardware Platform](virtual_hardware_platform.md)
-* Drivers are automatically registered with the [Driver Registry](driver_registry.md)
-* Driver objects representing timers/clocks are registered with the [Timer Manager](timer_manager.md) as well as the Driver Registry
+* A [Virtual Hardware Platform](virtual_hardware_platform.md) will declare multiple drivers
+* All drivers can be registered with the [Driver Registry](driver_registry.md)
+* Driver objects representing timers/clocks can be registered with the [Timer Manager](timer_manager.md)
 * A driver may utilize [Registers](../core/register.md)
 
 ## Rationale
@@ -42,12 +41,11 @@ Since we want our framework to utilize an event-driven model, drivers should not
 ## Source Links
 
 * [Driver folder](../../../../src/core/driver/)
-    * [driver_base.cpp](../../../../src/core/driver/driver_base.cpp) - base driver interface
     * [driver.hpp](../../../../src/core/driver/driver.hpp) - base driver interface
     * [driver_type.hpp](../../../../src/core/driver/driver_type.hpp) - defines default driver types
     * [driver_test.cpp](../../../../src/core/driver/driver_test.cpp)
     * Base interfaces:
-        * [communication_bus.hpp](../../../../src/core/driver/communication_bus.hpp) - provides base interface for comunication bus drivers (SPI, I2C, etc.)
+        * [communication_bus.hpp](../../../../src/core/driver/communication_bus.hpp) - provides base interface for communication bus drivers (SPI, I2C, etc.)
         * [gpio.hpp](../../../../src/core/driver/gpio.hpp)
         * [i2c.hpp](../../../../src/core/driver/i2c.hpp)
         * [led.hpp](../../../../src/core/driver/led.hpp)
@@ -71,11 +69,6 @@ Since we want our framework to utilize an event-driven model, drivers should not
     * BMA282: spi only, another might be I2C only, etc.
     * But what if I have a board which does USB interface for BMA282?
     * The constructor specifies the underlying drivers it will accept
-* How can complex composite drivers register their distinct interfaces with the registry?
-    * Consider the BMR456 - we want to provide temp1, temp2, voltage control…
-    * Does this mean our primitive interfaces need to be separate from the Driver interface? Two trees?
-    * Should we create the different interfaces as separate objects to they get registered separately?
-    * Is teh composite just a façade to the subsystem of driver primitives? That would be interesting. Would need to use friend classes or some other mechanism to encapsulate behavior properly. Or maybe the complex interface just passes in its this pointer to the primitives.
 * Should driver start/stop generate events?
     * power state changes - someone may want ot know when the driver is back so other events can be kicked off automatically (e.g.,, data consumer thread)
     * Someone may want to know that their lower-level hardware is unavailable

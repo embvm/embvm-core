@@ -11,12 +11,7 @@ driver_files = files(
     'internal/timer.cpp'
 )
 
-# Because driver_base needs access to each platform's VirtualPlatform
-# Definition, we separate that file out and trust the platform will resolve it at link time
-driver_platform_files = files(
-    'driver_base.cpp',
-)
-
 driver_test_files = files(
 	'driver_test.cpp',
+	'driver_registry_tests.cpp'
 )
