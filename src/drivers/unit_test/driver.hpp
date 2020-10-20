@@ -9,7 +9,7 @@ namespace test
  *
  * @ingroup TestDrivers
  */
-class TestDriverBase : public embvm::DriverBase
+class TestDriverBase final : public embvm::DriverBase
 {
   public:
 	/** Create a driver base
@@ -36,7 +36,7 @@ class TestDriverBase : public embvm::DriverBase
 	}
 
 	/// Default destructor
-	~TestDriverBase() noexcept final;
+	~TestDriverBase() noexcept;
 
   private:
 	void start_() noexcept final;

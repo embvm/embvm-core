@@ -257,7 +257,7 @@ class master : public embvm::DriverBase, public spi::commBus
 	}
 
 	/// Default destructor.
-	~master() noexcept override;
+	~master() noexcept;
 
   public:
 	/** Configure the SPI bus.

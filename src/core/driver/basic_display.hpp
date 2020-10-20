@@ -599,7 +599,7 @@ class basicDisplay : public embvm::DriverBase
 
   protected:
 	/// Default destructor.
-	~basicDisplay() noexcept override;
+	~basicDisplay() noexcept;
 
   protected:
 	/// The current display mode setting.

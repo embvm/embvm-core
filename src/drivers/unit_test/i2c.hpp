@@ -36,7 +36,7 @@ class i2cTestDriver final : public embvm::i2c::master
 	explicit i2cTestDriver(const char* name) noexcept : embvm::i2c::master(name) {}
 
 	/// Default destructor
-	~i2cTestDriver() noexcept final;
+	~i2cTestDriver() noexcept;
 
 	/// Verify that the driver transmitted the correct data
 	/// @param data The data buffer to check.

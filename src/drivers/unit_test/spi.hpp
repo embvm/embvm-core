@@ -45,7 +45,7 @@ class spiTestDriver final : public embvm::spi::master
 	}
 
 	/// Default destructor
-	~spiTestDriver() noexcept final;
+	~spiTestDriver() noexcept;
 
 	/// Verify that the driver transmitted the correct data
 	/// @param data The data buffer to check.

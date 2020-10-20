@@ -159,7 +159,7 @@ class DriverBase
   protected:
 	/// Destructor.
 	/// When DriverBase is destructed, the driver is unregistered from the DriverRegistry.
-	virtual ~DriverBase() noexcept;
+	~DriverBase() noexcept;
 
 	/// Derived classes override the start_ method to control driver-specific startup behavior.
 	/// (Template Method Pattern)

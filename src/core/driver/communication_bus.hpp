@@ -267,7 +267,7 @@ class commBus
 
   protected:
 	/// Default destructor.
-	virtual ~commBus() = default;
+	~commBus() = default;
 
 	/** Handle callbacks.
 	 *

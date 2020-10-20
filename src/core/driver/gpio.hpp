@@ -119,7 +119,7 @@ class base : public embvm::DriverBase
 
   protected:
 	/// Default destructor.
-	~base() noexcept override = default;
+	~base() noexcept = default;
 
 	// embvm::DriverBase function for derived class to implement.
 	void start_() noexcept override = 0;
@@ -219,7 +219,7 @@ class input : public base<gpio::direction::in>
 	virtual gpio::pull pull_(gpio::pull p) noexcept = 0;
 
 	/// Default destructor.
-	~input() noexcept override = default;
+	~input() noexcept = default;
 
 	// embvm::DriverBase function for derived class to implement.
 	void start_() noexcept override = 0;
@@ -295,7 +295,7 @@ class output : public base<gpio::direction::out>
 
   protected:
 	/// Default destructor
-	~output() noexcept override;
+	~output() noexcept;
 
 	// embvm::DriverBase function for derived class to implement.
 	void start_() noexcept override = 0;
@@ -404,7 +404,7 @@ class inputOutput : public base<gpio::direction::inout>
 	virtual gpio::pull pull_(gpio::pull p) noexcept = 0;
 
 	/// Default destructor.
-	~inputOutput() noexcept override = default;
+	~inputOutput() noexcept = default;
 
 	// embvm::DriverBase function for derived class to implement.
 	void start_() noexcept override = 0;

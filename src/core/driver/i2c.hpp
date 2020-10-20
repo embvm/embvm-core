@@ -363,7 +363,7 @@ class master : public embvm::DriverBase, public i2c::commBus
 	}
 
 	/// Default destructor
-	~master() noexcept override;
+	~master() noexcept;
 
   public:
 	/** Configure the I2C bus.

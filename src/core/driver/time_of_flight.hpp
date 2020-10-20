@@ -158,7 +158,7 @@ class sensor : public embvm::DriverBase
 	}
 
 	/// Default destructor.
-	~sensor() noexcept override;
+	~sensor() noexcept;
 
   public:
 	/** ToF Driver Type ID

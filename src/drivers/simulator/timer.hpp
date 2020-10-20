@@ -85,7 +85,7 @@ class SimulatorTimer final : public embvm::timer::Timer, public embvm::HALDriver
 	}
 
 	/// Destructor, which cleans up the timer thread.
-	~SimulatorTimer() noexcept final;
+	~SimulatorTimer() noexcept;
 
 	void registerCallback(const embvm::timer::cb_t& cb) noexcept final
 	{

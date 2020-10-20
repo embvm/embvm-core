@@ -116,7 +116,7 @@ class base : public embvm::DriverBase
 
   protected:
 	/// Default destructor.
-	~base() noexcept override;
+	~base() noexcept;
 
 	// embvm::DriverBase function that derived classes must implement
 	void start_() noexcept override = 0;
@@ -185,7 +185,7 @@ class gpio final : public base
 	}
 
 	/// Default destructor
-	~gpio() final = default;
+	~gpio() = default;
 
 	void start_() noexcept final
 	{

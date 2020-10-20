@@ -26,7 +26,7 @@ class SimulatorSystemClock final : public embvm::clk::SystemClock
 	}
 
 	/// Default destructor
-	~SimulatorSystemClock() noexcept final;
+	~SimulatorSystemClock() noexcept;
 
 	embvm::clk::freq_hz_t::rep frequency() const noexcept final
 	{

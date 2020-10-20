@@ -138,7 +138,7 @@ class Timer : public embvm::DriverBase
 	}
 
 	/// Default destructor.
-	~Timer() noexcept override;
+	~Timer() noexcept;
 
   public:
 	/** Timer Driver Type ID
