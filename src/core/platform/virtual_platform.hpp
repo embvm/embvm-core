@@ -170,7 +170,8 @@ class VirtualPlatformBase
 	 *	there are any number of potential derived classes which will be tracked.
 	 *	To prevent slicing, a pointer to the base class is stored.
 	 */
-	inline void registerDriver(const std::string_view& name, embvm::DriverBase* driver) noexcept
+	inline void registerDriver(const std::string_view& name,
+							   embvm::DriverBase* const driver) noexcept
 	{
 		hw_platform_.registerDriver(name.data(), driver);
 	}
@@ -184,7 +185,8 @@ class VirtualPlatformBase
 	 * @param name The name of the driver to remove.
 	 * @param driver Pointer to the embvm::DriverBase object being removed.
 	 */
-	inline void unregisterDriver(const std::string_view& name, embvm::DriverBase* driver) noexcept
+	inline void unregisterDriver(const std::string_view& name,
+								 embvm::DriverBase* const driver) noexcept
 	{
 		hw_platform_.unregisterDriver(name.data(), driver);
 	}
@@ -210,7 +212,7 @@ class VirtualPlatformBase
 	 *
 	 * @param driver Pointer to the embvm::DriverBase object being removed.
 	 */
-	inline void unregisterDriver(embvm::DriverBase* driver) noexcept
+	inline void unregisterDriver(embvm::DriverBase* const driver) noexcept
 	{
 		hw_platform_.unregisterDriver(driver);
 	}
@@ -239,7 +241,7 @@ class VirtualPlatformBase
 	 * @returns An optional_ref to the embvm::DriverBase instance. If no instance is found,
 	 *	the optional reference will be invalid. The caller must cast to the appropriate type.
 	 */
-	inline auto findDriver(embvm::DriverType_t type) noexcept
+	inline auto findDriver(const embvm::DriverType_t type) noexcept
 	{
 		return hw_platform_.findDriver(type);
 	}
@@ -287,7 +289,7 @@ class VirtualPlatformBase
 	 * @returns A list of embvm::DriverBase instances. If no matching types are found,
 	 *	an empty list will be returned. The caller must cast to the appropriate type.
 	 */
-	inline auto findAllDrivers(embvm::DriverType_t type) noexcept
+	inline auto findAllDrivers(const embvm::DriverType_t type) noexcept
 	{
 		return hw_platform_.findAllDrivers(type);
 	}

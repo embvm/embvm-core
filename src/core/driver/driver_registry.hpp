@@ -98,7 +98,7 @@ class DriverRegistry
 	 *	there are any number of potential derived classes which will be tracked.
 	 *	To prevent slicing, a pointer to the base class is stored.
 	 */
-	void add(const TKey name, embvm::DriverBase* driver) noexcept
+	void add(const TKey name, embvm::DriverBase* const driver) noexcept
 	{
 		lock_.lock();
 		list_.add(name, driver);
@@ -117,7 +117,7 @@ class DriverRegistry
 	 * @param name The name of the driver instance being removed.
 	 * @param driver Pointer to the embvm::DriverBase object being removed.
 	 */
-	void remove(const TKey name, embvm::DriverBase* driver) noexcept
+	void remove(const TKey name, embvm::DriverBase* const driver) noexcept
 	{
 		lock_.lock();
 		list_.remove(name, driver);
@@ -151,7 +151,7 @@ class DriverRegistry
 	 *
 	 * @param driver Pointer to the embvm::DriverBase object being removed.
 	 */
-	void remove(embvm::DriverBase* driver) noexcept
+	void remove(embvm::DriverBase* const driver) noexcept
 	{
 		lock_.lock();
 		list_.remove(driver);
@@ -187,7 +187,7 @@ class DriverRegistry
 	 * @returns an type_safe::optional_ref to the embvm::DriverBase object. If the driver
 	 *	was not found, the optional_ref will be empty.
 	 */
-	auto find(DriverType_t dtype) noexcept
+	auto find(const DriverType_t dtype) noexcept
 	{
 		embvm::DriverBase* ptr = nullptr;
 
@@ -264,7 +264,7 @@ class DriverRegistry
 	 * the requested driver type. An empty list will be returned if no drivers are found.
 	 */
 	template<typename TReturn = std::list<embvm::DriverBase*>>
-	auto findAll(DriverType_t dtype) noexcept -> std::enable_if_t<!TReturnSize, TReturn>
+	auto findAll(const DriverType_t dtype) noexcept -> std::enable_if_t<!TReturnSize, TReturn>
 	{
 		TReturn found_list;
 
@@ -292,7 +292,7 @@ class DriverRegistry
 	 * the requested driver type. An empty list will be returned if no drivers are found.
 	 */
 	template<typename TReturn = etl::list<embvm::DriverBase*, TReturnSize>>
-	auto findAll(DriverType_t dtype) noexcept -> std::enable_if_t<(TReturnSize > 0), TReturn>
+	auto findAll(const DriverType_t dtype) noexcept -> std::enable_if_t<(TReturnSize > 0), TReturn>
 	{
 		TReturn found_list;
 
