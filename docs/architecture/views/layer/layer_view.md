@@ -70,7 +70,6 @@ The layers of the framework communicate in different ways:
 The following elements comprise the layered view:
 
 1. [Processor Layer](#processor-layer)
-	1. [HAL Drivers](#hal-drivers)
 	2. [Architecture Interfaces](#architecture-interfaces)
 	3. [Boot Handler](#boot-handler)
 2. [Platform Layer](#platform-layer)
@@ -95,23 +94,8 @@ The Processor Layer abstracts the underlying processor implementation. A [Platfo
 
 The Processor Layer is composed of the following components:
 
-* [HAL Drivers](#hal-drivers)
 * [Architecture Interfaces](#architecture-interfaces)
 * [Boot Handler](#boot-handler)
-
-#### HAL Drivers
-
-Hardware Abstraction Layer (HAL) Drivers are a specialization of the [Driver](#driver-model) concept. HAL Drivers work directly with the processor peripheral hardware. HAL Drivers have additional responsibilities that generic drivers lack, such as:
-
-* Often requires a memory-mapped register address which corresponds to the device's hardware interface
-* May or may not support DMA
-* May or may not support interrupts
-* May or may not support clock configuration
-* May or may not support error conditions and recovery mechanisms
-
-HAL drivers still work with the [Driver Model](#driver-model). HAL drivers provide generic interfaces to higher-level consumers through the [Driver Registry](#driver-registry).
-
-The [Virtual Hardware Platform](#virtual-hardware-platform) is responsible for initializing and configuring the peripherals required by the platform.
 
 #### Architecture Interfaces
 
@@ -159,16 +143,26 @@ An RTOS may or may not be used on a given platform implementation.
 
 Because the RTOS is dependent (in most cases) on the underlying processor, it must be encapsulated within and initialized by the [Platform Layer](#platform-layer).
 
-#### Driver Model
+#### Driver ModelHAL
 
 The Driver Model provides two critical system pieces:
 
 1. Definitions for generic driver interfaces
 2. A `DriverRegistry` which can be used to access drivers available on a platform without being coupled to the specific underlying device
 
-The [Virtual Hardware Platform](#virtual-hardware-platform) is responsible for initializing the devices that can be used by the system.
+The [Virtual Hardware Platform](#virtual-hardware-platform) is responsible for initializing the devices that can be used by the system. Drivers which should be publicly available (via their abstract interfaces) to the rest of the program should be registered in the Virtual Hardware Platform using the Driver Registry.
 
-The [Processor Layer](#processor-layer) contains [HAL Drivers](#hal-drivers) which are a specialization of the Driver concept. HAL Drivers are also accessible through the `DriverRegistry`.
+Hardware Abstraction Layer (HAL) Drivers are a specialization of the [Driver](#driver-model) concept. HAL Drivers work directly with the processor peripheral hardware. HAL Drivers have additional responsibilities that generic drivers lack, such as:
+
+* Often requires a memory-mapped register address which corresponds to the device's hardware interface
+* May or may not support DMA
+* May or may not support interrupts
+* May or may not support clock configuration
+* May or may not support error conditions and recovery mechanisms
+
+HAL drivers still work with the [Driver Model](#driver-model). HAL drivers provide generic interfaces to higher-level consumers through the [Driver Registry](#driver-registry).
+
+The [Virtual Hardware Platform](#virtual-hardware-platform) is responsible for initializing and configuring the HAL drivers required by the platform.
 
 #### Language Runtime
 

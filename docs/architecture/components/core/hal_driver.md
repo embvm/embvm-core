@@ -26,8 +26,8 @@ Extension of the [Driver](driver.md) concept which provides common functionality
 ## Collaborators
 
 * A [Virtual Processor](virtual_processor.md) uses HAL drivers
-* HAL Drivers are automatically registered with the [Driver Registry](driver_registry.md) through the [Driver](driver.md) base class
-* HAL Drivers representing timers/clocks are registered with the [Timer Manager](timer_manager.md) as well as the Driver Registry
+* HAL Drivers can be registered with the [Driver Registry](driver_registry.md)
+* HAL Drivers representing timers/clocks can be registered with the [Timer Manager](timer_manager.md)
 * A HAL Driver probably uses [Registers](../core/register.md)
 
 ## Rationale
@@ -44,6 +44,7 @@ Examples include interrupts: peripheral drivers need to enable/disable interrupt
 
 * [Driver](driver.md)
 * [DriverRegistry](driver_registry.md)
+* [Timer Manager](timer_manager.md)
 
 ## Notes
 

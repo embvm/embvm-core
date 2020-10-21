@@ -54,16 +54,17 @@ Detailed component information is available for each element:
 * Processor Layer
 	* [Virtual Processor](../../components/core/virtual_processor.md)
 	* [Virtual Processor Architecture](../../components/core/virtual_processor_architecture.md)
-	* [HAL Driver](../../components/core/hal_driver.md)
+* Hardware Platform Layer
+	- [Driver](../../components/core/driver.md)
+	- [HAL Driver](../../components/core/hal_driver.md)
+	- [Driver Registry](../../components/core/driver_registry.md)
+	- [Register](../../components/core/register.md)
+	- [Virtual Hardware Platform](../../components/core/virtual_hardware_platform.md)
 * Platform Layer
 	* [Boot Sequencer](../../components/core/boot_sequencer.md)
-	* [C/C++ Runtime](../../components/core/c_cpp_runtime.md)
-	* [Driver Registry](../../components/core/driver_registry.md)
-	* [Driver](../../components/core/driver.md)
+	* [C/C++ Runtime](../../components/core/c_cpp_runtime.md) 
 	* [Event Center](../../components/core/event_center.md)
-	* [Register](../../components/core/register.md)
-	* [Timer Manager](../../components/core/timer_manager.md)
-	* [Virtual Hardware Platform](../../components/core/virtual_hardware_platform.md)
+	- [Timer Manager](../../components/core/timer_manager.md)
 	* [Virtual Platform](../../components/core/virtual_platform.md)
 * Utilities Layer
 	* [Dispatch Queue](../../components/utilities/dispatch_queue.md)
@@ -98,8 +99,6 @@ This view refines the concepts introduced in the [Layer View](../layer/layer_vie
 This architecture focuses on the framework core components, and the Software Layer is largely excluded here. The Client Application represents higher-level software functionality within this view. The view shows that the Software Layer has a dependency on the Virtual Platform interfaces.
 
 The connections between the elements are constrained per the layering requirements. As documented, the only violation of the layering rules is the Virtual Processor invoking the platform Boot Sequencer. This call is fixed in name.
-
-HAL drivers are contained in the processor layer. Since they descend from the Driver concept, they will automatically register themselves in the Driver Registry through the base class. The Virtual Processor itself needs no knowledge that the Driver Registry exists and will not use the Driver Registry.
 
 ## Related Views
 
