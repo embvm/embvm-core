@@ -181,7 +181,7 @@ class InstanceList
 	 * @param key The key to register the instance under.
 	 * @param instance The instance pointer to track.
 	 */
-	void add(TKey key, TTrackedClass* instance) noexcept
+	void add(TKey const key, TTrackedClass* const instance) noexcept
 	{
 		if constexpr(TSize > 0) // NOLINT
 		{
@@ -202,7 +202,7 @@ class InstanceList
 	 *
 	 * @param instance The instance pointer to track.
 	 */
-	void add(TTrackedClass* instance) noexcept
+	void add(TTrackedClass* const instance) noexcept
 	{
 		add(nullptr, instance);
 	}
@@ -225,7 +225,7 @@ class InstanceList
 	 * @param key The key corresponding to the instance to remove.
 	 * @param instance The instance value to remove.
 	 */
-	void remove(TKey key, TTrackedClass* instance) noexcept
+	void remove(TKey const key, TTrackedClass* const instance) noexcept
 	{
 		auto inst =
 			std::remove(registered_.begin(), registered_.end(), TStorageType{key, instance});
@@ -239,7 +239,7 @@ class InstanceList
 	 *
 	 * @param key The corresponding key to remove instances for.
 	 */
-	void remove(TKey key) noexcept
+	void remove(TKey const key) noexcept
 	{
 		auto insts = std::remove_if(registered_.begin(), registered_.end(),
 									[key](TStorageType& inst) { return inst.key == key; });
@@ -253,7 +253,7 @@ class InstanceList
 	 *
 	 * @param instance The pointer to the instance to remove from the list.
 	 */
-	void remove(TTrackedClass* instance) noexcept
+	void remove(TTrackedClass* const instance) noexcept
 	{
 		auto insts =
 			std::remove_if(registered_.begin(), registered_.end(),
@@ -277,7 +277,7 @@ class InstanceList
 	 * @returns an optional_ref to the TTrackedClass value corresponding to key. If no value is
 	 * found that matches the key, the optional_ref will be empty.
 	 */
-	optional_ref operator[](TKey key) noexcept
+	optional_ref operator[](TKey const key) noexcept
 	{
 		return find(key);
 	}
@@ -288,7 +288,7 @@ class InstanceList
 	 * @returns an optional_ref to the TTrackedClass value corresponding to key. If no value is
 	 * found that matches the key, the optional_ref will be empty.
 	 */
-	optional_ref find(TKey key) noexcept
+	optional_ref find(TKey const key) noexcept
 	{
 		TTrackedClass* ptr = nullptr;
 
