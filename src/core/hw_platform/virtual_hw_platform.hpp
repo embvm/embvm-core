@@ -312,7 +312,7 @@ class VirtualHwPlatformBase
 	 */
 	inline auto findAllDrivers(embvm::DriverType_t type) noexcept
 	{
-		return driver_registry_.find_all(type);
+		return driver_registry_.findAll(type);
 	}
 
 	/** Get a list of all device drivers in the registry by type, cast as the appropriate base
@@ -329,7 +329,7 @@ class VirtualHwPlatformBase
 	template<class TDriverClass>
 	inline auto findAllDrivers() noexcept
 	{
-		return driver_registry_.template find_all<TDriverClass>();
+		return driver_registry_.template findAll<TDriverClass>();
 	}
 
 	/** Get the count of drivers registered with the platform.

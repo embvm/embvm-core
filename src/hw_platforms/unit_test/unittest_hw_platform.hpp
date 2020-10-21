@@ -14,8 +14,7 @@
  * This hardware platform exists to exercise the framework during the unit testing
  * process. This class should not be used directly for any other purpose.
  */
-class UnitTestHWPlatform
-	: public embvm::VirtualHwPlatformBase<UnitTestHWPlatform>
+class UnitTestHWPlatform : public embvm::VirtualHwPlatformBase<UnitTestHWPlatform>
 {
 	using Base = embvm::VirtualHwPlatformBase<UnitTestHWPlatform>;
 

@@ -139,7 +139,7 @@ TEST_CASE("Find all drivers from registry by given type", "[core/driver_registry
 	driver_registry.add(d.name().data(), &d);
 	driver_registry.add(d2.name().data(), &d2);
 
-	auto found_list = driver_registry.find_all(DriverType::SPI);
+	auto found_list = driver_registry.findAll(DriverType::SPI);
 
 	CHECK(2 <= found_list.size());
 
@@ -159,7 +159,7 @@ TEST_CASE("Find all drivers from registry by template method", "[core/driver_reg
 	driver_registry.add(d.name().data(), &d);
 	driver_registry.add(d2.name().data(), &d2);
 
-	auto found_list = driver_registry.find_all<embvm::i2c::master>();
+	auto found_list = driver_registry.findAll<embvm::i2c::master>();
 
 	CHECK(2 <= found_list.size());
 
@@ -183,7 +183,7 @@ TEST_CASE("Find all returns empty list with no matches", "[core/driver_registry]
 {
 	DynamicDriverRegistry<> driver_registry;
 
-	auto found_list = driver_registry.find_all(DriverType::SPI);
+	auto found_list = driver_registry.findAll(DriverType::SPI);
 
 	CHECK(0 == found_list.size());
 }

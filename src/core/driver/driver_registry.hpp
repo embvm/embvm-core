@@ -229,7 +229,7 @@ class DriverRegistry
 	 * the requested driver type. An empty list will be returned if no drivers are found.
 	 */
 	template<typename TReturn = std::list<embvm::DriverBase*>>
-	auto find_all(DriverType_t dtype) noexcept -> std::enable_if_t<!TReturnSize, TReturn>
+	auto findAll(DriverType_t dtype) noexcept -> std::enable_if_t<!TReturnSize, TReturn>
 	{
 		TReturn found_list;
 
@@ -257,7 +257,7 @@ class DriverRegistry
 	 * the requested driver type. An empty list will be returned if no drivers are found.
 	 */
 	template<typename TReturn = etl::list<embvm::DriverBase*, TReturnSize>>
-	auto find_all(DriverType_t dtype) noexcept -> std::enable_if_t<(TReturnSize > 0), TReturn>
+	auto findAll(DriverType_t dtype) noexcept -> std::enable_if_t<(TReturnSize > 0), TReturn>
 	{
 		TReturn found_list;
 
@@ -288,7 +288,7 @@ class DriverRegistry
 	 * the requested driver type. An empty list will be returned if no drivers are found.
 	 */
 	template<class TDriverClass, typename TReturn = std::list<embvm::DriverBase*>>
-	auto find_all() noexcept -> std::enable_if_t<!TReturnSize, TReturn>
+	auto findAll() noexcept -> std::enable_if_t<!TReturnSize, TReturn>
 	{
 		TReturn found_list;
 
