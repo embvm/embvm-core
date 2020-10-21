@@ -109,7 +109,10 @@ class DriverRegistry
 
 	/** Unregister a driver.
 	 *
-	 * Removes a driver from the DriverRegistry.
+	 * Removes a driver from the DriverRegistry using the key and instance.
+	 *
+	 * @precondition key/value combination is registered in the driver list.
+	 * @postcondition key/value combination has been removed from the driver list.
 	 *
 	 * @param name The name of the driver instance being removed.
 	 * @param driver Pointer to the embvm::DriverBase object being removed.
@@ -122,6 +125,38 @@ class DriverRegistry
 	}
 	// Dev note: I'd prefer to call this function "unregister", but it's "remove"
 	// for symmetry with "add"
+
+	/** Unregister a driver by key.
+	 *
+	 * Removes a driver from the DriverRegistry using the key.
+	 *
+	 * @precondition key is registered in the driver list.
+	 * @postcondition key/value combination has been removed from the driver list.
+	 *
+	 * @param name The name of the driver instance being removed.
+	 */
+	void remove(const TKey name) noexcept
+	{
+		lock_.lock();
+		list_.remove(name);
+		lock_.unlock();
+	}
+
+	/** Unregister a driver by value.
+	 *
+	 * Removes a driver from the DriverRegistry using the value.
+	 *
+	 * @precondition vaue is registered in the driver list.
+	 * @postcondition key/value combination has been removed from the driver list.
+	 *
+	 * @param driver Pointer to the embvm::DriverBase object being removed.
+	 */
+	void remove(embvm::DriverBase* driver) noexcept
+	{
+		lock_.lock();
+		list_.remove(driver);
+		lock_.unlock();
+	}
 
 	/** Find a driver by name.
 	 *

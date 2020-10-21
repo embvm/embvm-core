@@ -238,6 +238,32 @@ class VirtualHwPlatformBase
 		driver_registry_.remove(name.data(), driver);
 	}
 
+	/** Hardware Platform API for unregistering a new device driver by key.
+	 *
+	 * Unregister a device driver with the platform's driver registry using the key.
+	 *
+	 * This call forwards the information to the DriverRegistry instance.
+	 *
+	 * @param name The name of the driver to remove.
+	 */
+	inline void unregisterDriver(const std::string_view& name) noexcept
+	{
+		driver_registry_.remove(name.data());
+	}
+
+	/** Hardware Platform API for unregistering a new device driver by value.
+	 *
+	 * Unregister a device driver with the platform's driver registry using the driver pointer.
+	 *
+	 * This call forwards the information to the DriverRegistry instance.
+	 *
+	 * @param driver Pointer to the embvm::DriverBase object being removed.
+	 */
+	inline void unregisterDriver(embvm::DriverBase* driver) noexcept
+	{
+		driver_registry_.remove(driver);
+	}
+
 	/** Access a device driver in the registry by name
 	 *
 	 * Find a driver by name.

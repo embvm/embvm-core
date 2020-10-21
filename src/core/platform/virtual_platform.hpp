@@ -163,7 +163,7 @@ class VirtualPlatformBase
 	 *
 	 * Register a device driver with the platform's driver registry.
 	 *
-	 * This call forwards the information to the DriverRegistry instance.
+	 * This call forwards the information to the Hardware Platform.
 	 *
 	 * @param name The name (used as a key) the driver will be registered under.
 	 * @param driver Pointer to the embvm::DriverBase object. A pointer is used because
@@ -179,7 +179,7 @@ class VirtualPlatformBase
 	 *
 	 * Unregister a device driver with the platform's driver registry.
 	 *
-	 * This call forwards the information to the DriverRegistry instance.
+	 * This call forwards the information to the Hardware Platform.
 	 *
 	 * @param name The name of the driver to remove.
 	 * @param driver Pointer to the embvm::DriverBase object being removed.
@@ -189,11 +189,37 @@ class VirtualPlatformBase
 		hw_platform_.unregisterDriver(name.data(), driver);
 	}
 
+	/** Platform-level API for unregistering a new device driver by key.
+	 *
+	 * Unregister a device driver with the platform's driver registry using the name (key).
+	 *
+	 * This call forwards the information to the Hardware Platform.
+	 *
+	 * @param name The name of the driver to remove.
+	 */
+	inline void unregisterDriver(const std::string_view& name) noexcept
+	{
+		hw_platform_.unregisterDriver(name.data());
+	}
+
+	/** Platform-level API for unregistering a new device driver by value.
+	 *
+	 * Unregister a device driver with the platform's driver registry using the driver pointer.
+	 *
+	 * This call forwards the information to the Hardware Platform.
+	 *
+	 * @param driver Pointer to the embvm::DriverBase object being removed.
+	 */
+	inline void unregisterDriver(embvm::DriverBase* driver) noexcept
+	{
+		hw_platform_.unregisterDriver(driver);
+	}
+
 	/** Access a device driver in the registry by name
 	 *
 	 * Find a driver by name.
 	 *
-	 * This call forwards the information to the DriverRegistry instance.
+	 * This call forwards the information to the Hardware Platform.
 	 *
 	 * @returns An optional_ref to the embvm::DriverBase instance. If no instance is found,
 	 *	the optional reference will be invalid. The caller must cast to the appropriate type.
@@ -208,7 +234,7 @@ class VirtualPlatformBase
 	 * Find a driver by type. If multiple drivers are found for a type, the first one found will be
 	 *returned.
 	 *
-	 * This call forwards the information to the DriverRegistry instance.
+	 * This call forwards the information to the Hardware Platform.
 	 *
 	 * @returns An optional_ref to the embvm::DriverBase instance. If no instance is found,
 	 *	the optional reference will be invalid. The caller must cast to the appropriate type.
@@ -223,7 +249,7 @@ class VirtualPlatformBase
 	 * If multiple drivers are found for a type, the first one found will be returned.
 	 * The type will be returned as the appropriate base class (instead of embvm::DriverBase).
 	 *
-	 * This call forwards the information to the DriverRegistry instance.
+	 * This call forwards the information to the Hardware Platform.
 	 *
 	 * @tparam TDriverClass The class of driver being requested (embvm::i2c::master, SystemClock).
 	 * @returns an type_safe::optional_ref cast to the TDriverClass type. If the driver
@@ -239,7 +265,7 @@ class VirtualPlatformBase
 	 *
 	 * The type will be returned as the appropriate base class (instead of embvm::DriverBase).
 	 *
-	 * This call forwards the information to the DriverRegistry instance.
+	 * This call forwards the information to the Hardware Platform.
 	 *
 	 * @tparam TDriverClass The class of driver being requested (embvm::i2c::master, SystemClock).
 	 * @returns an type_safe::optional_ref cast to the TDriverClass type. If the driver
@@ -255,7 +281,7 @@ class VirtualPlatformBase
 	 *
 	 * The type will be returned as the appropriate base class (instead of embvm::DriverBase).
 	 *
-	 * This call forwards the information to the DriverRegistry instance.
+	 * This call forwards the information to the Hardware Platform.
 	 *
 	 * @param type The type of driver being requested (embvm::i2c::master, SystemClock).
 	 * @returns A list of embvm::DriverBase instances. If no matching types are found,
@@ -271,7 +297,7 @@ class VirtualPlatformBase
 	 *
 	 * The type will be returned as the appropriate base class (instead of embvm::DriverBase).
 	 *
-	 * This call forwards the information to the DriverRegistry instance.
+	 * This call forwards the information to the Hardware Platform.
 	 *
 	 * @tparam TDriverClass The class of driver being requested (embvm::i2c::master, SystemClock).
 	 * @returns A list of driver instances cast as TDriverClass types. If no matching types are

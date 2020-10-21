@@ -27,6 +27,7 @@ TEST_CASE("Create virtual platform base with const char", "[core/platform/virtua
 	UnitTestPlatform p("Test Platform");
 
 	CHECK(0 == strcmp(p.name_cstr(), "Test Platform"));
+	CHECK(EXPECTED_UNIT_TEST_STARTING_DRIVERS == p.driverCount());
 }
 
 TEST_CASE("Create virtual platform base with std::string", "[core/platform/virtual_platform]")
@@ -35,6 +36,7 @@ TEST_CASE("Create virtual platform base with std::string", "[core/platform/virtu
 	UnitTestPlatform p(name);
 
 	CHECK(0 == name.compare(p.name()));
+	CHECK(EXPECTED_UNIT_TEST_STARTING_DRIVERS == p.driverCount());
 }
 
 TEST_CASE("Create virtual platform base with std::string_view", "[core/platform/virtual_platform]")
@@ -43,6 +45,7 @@ TEST_CASE("Create virtual platform base with std::string_view", "[core/platform/
 	UnitTestPlatform p(name);
 
 	CHECK(0 == name.compare(p.name()));
+	CHECK(EXPECTED_UNIT_TEST_STARTING_DRIVERS == p.driverCount());
 }
 
 TEST_CASE("Find a driver by name", "[core/platform/virtual_platform]")
@@ -101,51 +104,8 @@ TEST_CASE("Find all drivers by type", "[core/platform/virtual_platform]")
 	}
 
 	p.unregisterDriver(TestDriver.name(), &TestDriver);
-	p.unregisterDriver(TestDriver2.name(), &TestDriver2);
-	p.unregisterDriver(TestDriver3.name(), &TestDriver3);
-	p.unregisterDriver(TestDriver4.name(), &TestDriver4);
-
-	CHECK((EXPECTED_UNIT_TEST_STARTING_DRIVERS) == p.driverCount());
-}
-
-TEST_CASE("Create unit test platform", "[core/platform/virtual_platform]")
-{
-	auto& p = UnitTestPlatform::inst();
-
-	CHECK(EXPECTED_UNIT_TEST_STARTING_DRIVERS == p.driverCount());
-	CHECK(0 == strcmp(p.name_cstr(), "UnitTestPlatform"));
-}
-
-TEST_CASE("Unit test platform can find drivers", "[core/platform/virtual_platform]")
-{
-	auto& p = UnitTestPlatform::inst();
-
-	TestDriverBase TestDriver("spi0", embvm::DriverType::SPI);
-	TestDriverBase TestDriver2("spi1", embvm::DriverType::SPI);
-	TestDriverBase TestDriver3("spi2", embvm::DriverType::SPI);
-	TestDriverBase TestDriver4("dummy0");
-
-	p.registerDriver(TestDriver.name(), &TestDriver);
-	p.registerDriver(TestDriver2.name(), &TestDriver2);
-	p.registerDriver(TestDriver3.name(), &TestDriver3);
-	p.registerDriver(TestDriver4.name(), &TestDriver4);
-
-	auto driver = p.findDriver("spi1");
-
-	auto driver_list = p.findAllDrivers(embvm::DriverType::SPI);
-
-	CHECK(TestDriver2 == driver);
-	CHECK(4 <= p.driverCount());
-	CHECK(3 <= driver_list.size());
-
-	for(const auto& d : driver_list)
-	{
-		CHECK(embvm::DriverType::SPI == d->DriverType());
-	}
-
-	p.unregisterDriver(TestDriver.name(), &TestDriver);
-	p.unregisterDriver(TestDriver2.name(), &TestDriver2);
-	p.unregisterDriver(TestDriver3.name(), &TestDriver3);
+	p.unregisterDriver(&TestDriver2);
+	p.unregisterDriver(TestDriver3.name());
 	p.unregisterDriver(TestDriver4.name(), &TestDriver4);
 
 	CHECK((EXPECTED_UNIT_TEST_STARTING_DRIVERS) == p.driverCount());

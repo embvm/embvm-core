@@ -41,8 +41,8 @@ TEST_CASE("Add to and remove from static driver registry", "[core/driver_registr
 }
 
 #ifdef TEST_ASSERT_CASES
-Note that this test will assert !TEST_CASE("Add to full static driver registry",
-										   "[core/driver_registry]")
+// Note that this test will assert
+TEST_CASE("Add to full static driver registry", "[core/driver_registry]")
 {
 	StaticDriverRegistry<2> driver_registry;
 	TestDriverBase d("Test base");
@@ -67,6 +67,34 @@ TEST_CASE("TestDriverBase is added to and removed from registery", "[core/driver
 	CHECK(1 == driver_registry.count());
 
 	driver_registry.remove(d.name().data(), &d);
+
+	CHECK(0 == driver_registry.count());
+}
+
+TEST_CASE("Remove driver by key", "[core/driver_registry]")
+{
+	DynamicDriverRegistry<> driver_registry;
+	TestDriverBase d("Test base");
+
+	driver_registry.add(d.name().data(), &d);
+
+	CHECK(1 == driver_registry.count());
+
+	driver_registry.remove(d.name().data());
+
+	CHECK(0 == driver_registry.count());
+}
+
+TEST_CASE("Remove driver by value", "[core/driver_registry]")
+{
+	DynamicDriverRegistry<> driver_registry;
+	TestDriverBase d("Test base");
+
+	driver_registry.add(d.name().data(), &d);
+
+	CHECK(1 == driver_registry.count());
+
+	driver_registry.remove(&d);
 
 	CHECK(0 == driver_registry.count());
 }
