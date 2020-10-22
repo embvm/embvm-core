@@ -57,7 +57,7 @@ int __libcpp_thread_create(__libcpp_thread_t* __t, void* (*__func)(void*), void*
 
 bool __libcpp_thread_isnull(const __libcpp_thread_t* __t)
 {
-	return *__t == 0;
+	return *__t == nullptr;
 }
 
 int __libcpp_thread_destroy(__libcpp_thread_t* __t)
