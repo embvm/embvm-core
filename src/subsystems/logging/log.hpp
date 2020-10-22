@@ -1,6 +1,7 @@
 #ifndef LOG_MACROS_HPP_
 #define LOG_MACROS_HPP_
 
+#include "log_defs.hpp"
 #include <platform_logger.hpp>
 
 /// @addtogroup LoggingSubsystem
