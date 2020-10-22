@@ -334,10 +334,10 @@ class VirtualHwPlatformBase
 
   protected:
 	/// Default constructor
-	VirtualHwPlatformBase() noexcept = default;
+	VirtualHwPlatformBase() noexcept {}
 
 	/// Default destructor
-	~VirtualHwPlatformBase() noexcept = default;
+	~VirtualHwPlatformBase() noexcept {}
 
   private:
 	TDriverRegistry driver_registry_{};

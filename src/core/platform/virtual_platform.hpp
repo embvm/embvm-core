@@ -310,10 +310,10 @@ class VirtualPlatformBase
 	}
 
 	// Default constructor
-	VirtualPlatformBase() noexcept = default;
+	VirtualPlatformBase() noexcept {}
 
 	/// Default destructor
-	~VirtualPlatformBase() = default;
+	~VirtualPlatformBase() noexcept {}
 
 #pragma mark - Data Members -
 
