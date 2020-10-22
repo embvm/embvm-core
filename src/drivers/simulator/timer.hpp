@@ -37,7 +37,7 @@ class SimulatorTimer final : public embvm::timer::Timer, public embvm::HALDriver
 {
   public:
 	/// Create a simulator timer with default options.
-	SimulatorTimer() noexcept : Timer("Simulator Timer"), cb_(nullptr)
+	SimulatorTimer() noexcept : cb_(nullptr)
 	{
 		period_ = embvm::timer::timer_period_t(0);
 		config_ = embvm::timer::config::oneshot;
@@ -50,7 +50,7 @@ class SimulatorTimer final : public embvm::timer::Timer, public embvm::HALDriver
 	 */
 	explicit SimulatorTimer(embvm::timer::timer_period_t period,
 							embvm::timer::config config = embvm::timer::config::oneshot) noexcept
-		: Timer("Simulator Timer"), cb_(nullptr)
+		: cb_(nullptr)
 	{
 		period_ = period;
 		config_ = config;
@@ -64,7 +64,7 @@ class SimulatorTimer final : public embvm::timer::Timer, public embvm::HALDriver
 	 */
 	explicit SimulatorTimer(embvm::timer::timer_period_t period, embvm::timer::cb_t cb,
 							embvm::timer::config config = embvm::timer::config::oneshot) noexcept
-		: Timer("Simulator Timer"), cb_(std::move(cb))
+		: cb_(std::move(cb))
 	{
 		period_ = period;
 		config_ = config;
@@ -78,7 +78,7 @@ class SimulatorTimer final : public embvm::timer::Timer, public embvm::HALDriver
 	 */
 	explicit SimulatorTimer(embvm::timer::timer_period_t period, embvm::timer::cb_t&& cb,
 							embvm::timer::config config = embvm::timer::config::oneshot) noexcept
-		: Timer("Simulator Timer"), cb_(std::move(cb))
+		: cb_(std::move(cb))
 	{
 		period_ = period;
 		config_ = config;

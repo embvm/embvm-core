@@ -29,13 +29,13 @@ TEST_CASE("Create static driver registry", "[core/driver_registry]")
 TEST_CASE("Add to and remove from static driver registry", "[core/driver_registry]")
 {
 	StaticDriverRegistry<32> driver_registry;
-	TestDriverBase d("Test base");
+	TestDriverBase d{};
 
-	driver_registry.add(d.name().data(), &d);
+	driver_registry.add("Test base", &d);
 
 	CHECK(1 == driver_registry.count());
 
-	driver_registry.remove(d.name().data(), &d);
+	driver_registry.remove(&d);
 
 	CHECK(0 == driver_registry.count());
 }
@@ -45,13 +45,13 @@ TEST_CASE("Add to and remove from static driver registry", "[core/driver_registr
 TEST_CASE("Add to full static driver registry", "[core/driver_registry]")
 {
 	StaticDriverRegistry<2> driver_registry;
-	TestDriverBase d("Test base");
-	TestDriverBase d2("Test base2");
-	TestDriverBase d3("Test base3");
+	TestDriverBase d{};
+	TestDriverBase d2{};
+	TestDriverBase d3{};
 
-	driver_registry.add(d.name().data(), &d);
-	driver_registry.add(d2.name().data(), &d2);
-	driver_registry.add(d3.name().data(), &d3);
+	driver_registry.add("Test base", &d);
+	driver_registry.add("Test base2", &d2);
+	driver_registry.add("Test base3", &d3);
 
 	CHECK(2 == driver_registry.count());
 }
@@ -60,13 +60,13 @@ TEST_CASE("Add to full static driver registry", "[core/driver_registry]")
 TEST_CASE("TestDriverBase is added to and removed from registery", "[core/driver_registry]")
 {
 	DynamicDriverRegistry<> driver_registry;
-	TestDriverBase d("Test base");
+	TestDriverBase d{};
 
-	driver_registry.add(d.name().data(), &d);
+	driver_registry.add("Test base", &d);
 
 	CHECK(1 == driver_registry.count());
 
-	driver_registry.remove(d.name().data(), &d);
+	driver_registry.remove("Test base", &d);
 
 	CHECK(0 == driver_registry.count());
 }
@@ -74,13 +74,13 @@ TEST_CASE("TestDriverBase is added to and removed from registery", "[core/driver
 TEST_CASE("Remove driver by key", "[core/driver_registry]")
 {
 	DynamicDriverRegistry<> driver_registry;
-	TestDriverBase d("Test base");
+	TestDriverBase d{};
 
-	driver_registry.add(d.name().data(), &d);
+	driver_registry.add("Test base", &d);
 
 	CHECK(1 == driver_registry.count());
 
-	driver_registry.remove(d.name().data());
+	driver_registry.remove("Test base");
 
 	CHECK(0 == driver_registry.count());
 }
@@ -88,9 +88,9 @@ TEST_CASE("Remove driver by key", "[core/driver_registry]")
 TEST_CASE("Remove driver by value", "[core/driver_registry]")
 {
 	DynamicDriverRegistry<> driver_registry;
-	TestDriverBase d("Test base");
+	TestDriverBase d{};
 
-	driver_registry.add(d.name().data(), &d);
+	driver_registry.add("Test base", &d);
 
 	CHECK(1 == driver_registry.count());
 
@@ -102,18 +102,18 @@ TEST_CASE("Remove driver by value", "[core/driver_registry]")
 TEST_CASE("Find driver from registry by name", "[core/driver_registry]")
 {
 	DynamicDriverRegistry<> driver_registry;
-	TestDriverBase d("Test base");
-	TestDriverBase d2("Test base2");
+	TestDriverBase d{};
+	TestDriverBase d2{};
 
-	driver_registry.add(d.name().data(), &d);
-	driver_registry.add(d2.name().data(), &d2);
+	driver_registry.add("Test base", &d);
+	driver_registry.add("Test base2", &d2);
 
 	CHECK(2 == driver_registry.count());
 	CHECK(d == driver_registry.find("Test base"));
 	CHECK(d2 == driver_registry.find("Test base2"));
 
-	driver_registry.remove(d.name().data(), &d);
-	driver_registry.remove(d2.name().data(), &d2);
+	driver_registry.remove(&d);
+	driver_registry.remove(&d2);
 
 	CHECK(0 == driver_registry.count());
 }
@@ -121,9 +121,9 @@ TEST_CASE("Find driver from registry by name", "[core/driver_registry]")
 TEST_CASE("Find one driver from registry by type", "[core/driver_registry]")
 {
 	DynamicDriverRegistry<> driver_registry;
-	TestDriverBase d("Test base2", DriverType::SPI);
+	TestDriverBase d(DriverType::SPI);
 
-	driver_registry.add(d.name().data(), &d);
+	driver_registry.add("Test base", &d);
 
 	auto d_found = driver_registry.find(DriverType::SPI);
 
@@ -136,7 +136,7 @@ TEST_CASE("Find one driver from registry by template method", "[core/driver_regi
 	DynamicDriverRegistry<> driver_registry;
 	i2cTestDriver d;
 
-	driver_registry.add(d.name().data(), &d);
+	driver_registry.add("i2c0", &d);
 
 	auto d_found = driver_registry.find<embvm::i2c::master>();
 	auto d2_found = driver_registry.find(DriverType::I2C);
@@ -148,9 +148,9 @@ TEST_CASE("Find one driver from registry by template method", "[core/driver_regi
 TEST_CASE("Find one driver from registry by template method via name", "[core/driver_registry]")
 {
 	DynamicDriverRegistry<> driver_registry;
-	i2cTestDriver d("i2c0");
+	i2cTestDriver d{};
 
-	driver_registry.add(d.name().data(), &d);
+	driver_registry.add("i2c0", &d);
 
 	auto d_found = driver_registry.find<embvm::i2c::master>("i2c0");
 
@@ -161,11 +161,11 @@ TEST_CASE("Find one driver from registry by template method via name", "[core/dr
 TEST_CASE("Find all drivers from registry by given type", "[core/driver_registry]")
 {
 	DynamicDriverRegistry<> driver_registry;
-	TestDriverBase d("Test base", DriverType::SPI);
-	TestDriverBase d2("Test base2", DriverType::SPI);
+	TestDriverBase d(DriverType::SPI);
+	TestDriverBase d2(DriverType::SPI);
 
-	driver_registry.add(d.name().data(), &d);
-	driver_registry.add(d2.name().data(), &d2);
+	driver_registry.add("Test base", &d);
+	driver_registry.add("Test base2", &d2);
 
 	auto found_list = driver_registry.findAll(DriverType::SPI);
 
@@ -181,11 +181,11 @@ TEST_CASE("Find all drivers from registry by given type", "[core/driver_registry
 TEST_CASE("Find all drivers from registry by template method", "[core/driver_registry]")
 {
 	DynamicDriverRegistry<> driver_registry;
-	i2cTestDriver d("Test");
-	i2cTestDriver d2("Test2");
+	i2cTestDriver d{};
+	i2cTestDriver d2{};
 
-	driver_registry.add(d.name().data(), &d);
-	driver_registry.add(d2.name().data(), &d2);
+	driver_registry.add("Test", &d);
+	driver_registry.add("Test2", &d2);
 
 	auto found_list = driver_registry.findAll<embvm::i2c::master>();
 

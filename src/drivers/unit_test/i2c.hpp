@@ -29,11 +29,7 @@ class i2cTestDriver final : public embvm::i2c::master
 {
   public:
 	/// Create a generic I2C Master
-	i2cTestDriver() noexcept : embvm::i2c::master() {}
-
-	/// Create a named I2C master
-	/// @param name The name of this i2c instance.
-	explicit i2cTestDriver(const char* name) noexcept : embvm::i2c::master(name) {}
+	i2cTestDriver() noexcept = default;
 
 	/// Default destructor
 	~i2cTestDriver() noexcept;

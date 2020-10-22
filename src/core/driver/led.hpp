@@ -49,40 +49,9 @@ class base : public embvm::DriverBase
   protected:
 	/** Default constructor.
 	 *
-	 * Initializes the led::base instance with a generic name.
+	 * Initializes the driver base with the proper typeid
 	 */
-	base() noexcept : embvm::DriverBase("Generic LED", embvm::DriverType::LED) {}
-
-	/** Construct an led::base with a C-string name.
-	 *
-	 * Initializes the led::base instance with a name.
-	 *
-	 * @param name The name of the LED instance.
-	 */
-	explicit base(const char* name) noexcept : embvm::DriverBase(name, embvm::DriverType::LED) {}
-
-	/** Construct an led::base with a std::string name.
-	 *
-	 * Initializes the led::base instance with a name.
-	 *
-	 * @param name The name of the LED instance.
-	 *	led::base() uses a std::string_view, so the std::string must remain valid
-	 */
-	explicit base(const std::string& name) noexcept
-		: embvm::DriverBase(name, embvm::DriverType::LED)
-	{
-	}
-
-	/** Construct an led::base with a std::string_view name.
-	 *
-	 * Initializes the led::base instance with a name.
-	 *
-	 * @param name The name of the LED instance.
-	 */
-	explicit base(const std::string_view& name) noexcept
-		: embvm::DriverBase(name, embvm::DriverType::LED)
-	{
-	}
+	base() noexcept : embvm::DriverBase(embvm::DriverType::LED) {}
 
   public:
 	/** LED Driver Type ID
@@ -150,39 +119,6 @@ class gpio final : public base
 	 * @param g The embvm::gpio::output object which the LED driver will manage.
 	 */
 	explicit gpio(embvm::gpio::output& g) noexcept : g_(g) {}
-
-	/** Construct an led::gpio() with a C-string name.
-	 *
-	 * Initializes the led::gpio() instance with a GPIO output object to manage and uses
-	 * the specified name.
-	 *
-	 * @param g The embvm::gpio::output object which the LED driver will manage.
-	 * @param name The name of the LED instance.
-	 */
-	explicit gpio(embvm::gpio::output& g, const char* name) noexcept : base(name), g_(g) {}
-
-	/** Construct an led::gpio() with a std::string name.
-	 *
-	 * Initializes the led::gpio() instance with a GPIO output object to manage and uses
-	 * the specified name.
-	 *
-	 * @param g The embvm::gpio::output object which the LED driver will manage.
-	 * @param name The name of the LED instance.
-	 */
-	explicit gpio(embvm::gpio::output& g, const std::string& name) noexcept : base(name), g_(g) {}
-
-	/** Construct an led::gpio() with a std::string_view name.
-	 *
-	 * Initializes the led::gpio() instance with a GPIO output object to manage and uses
-	 * the specified name.
-	 *
-	 * @param g The embvm::gpio::output object which the LED driver will manage.
-	 * @param name The name of the LED instance.
-	 *	led::base() uses a std::string_view, so the std::string must remain valid
-	 */
-	explicit gpio(embvm::gpio::output& g, const std::string_view& name) noexcept : base(name), g_(g)
-	{
-	}
 
 	/// Default destructor
 	~gpio() = default;

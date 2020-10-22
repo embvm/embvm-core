@@ -178,7 +178,7 @@ class master : public embvm::DriverBase, public spi::commBus
   protected:
 	/** Default constructor.
 	 *
-	 * Initializes the spi::master device with a generic name and optional dispatcher.
+	 * Initializes the spi::master device with an optional dispatcher.
 	 *
 	 * @param dispatcher The functor which callbacks will be dispatched to. This will often
 	 *	be paired with a dispatch queue. Example:
@@ -189,70 +189,7 @@ class master : public embvm::DriverBase, public spi::commBus
 	 *	```
 	 */
 	explicit master(const spi::commBus::DispatcherFunc& dispatcher = nullptr) noexcept
-		: embvm::DriverBase("Unidentified SPI Driver", embvm::DriverType::SPI),
-		  spi::commBus(spi::DEFAULT_SPI_BAUD, dispatcher)
-	{
-	}
-
-	/** Construct a SPI master with a C-string name.
-	 *
-	 * Initializes the spi::master instance with a name and optional dispatcher.
-	 *
-	 * @param name C-string name for the SPI master instance.
-	 * @param dispatcher The functor which callbacks will be dispatched to. This will often
-	 *	be paired with a dispatch queue. Example:
-	 *
-	 *	```
-	 * 	embutil::DynamicDispatchQueue<> dispatch;
-	 *	spi0("spi0", dispatch.getBoundDispatch());
-	 *	```
-	 */
-	explicit master(const char* name,
-					const spi::commBus::DispatcherFunc& dispatcher = nullptr) noexcept
-		: embvm::DriverBase(name, embvm::DriverType::SPI), spi::commBus(spi::DEFAULT_SPI_BAUD,
-																		dispatcher)
-	{
-	}
-
-	/** Construct a SPI master with a std::string name.
-	 *
-	 * Initializes the spi::master instance with a name and optional dispatcher.
-	 *
-	 * @param name std::string name for the SPI master instance.
-	 *	Note: spi::master() uses a std::string_view, so the std::string must remain valid
-	 * @param dispatcher The functor which callbacks will be dispatched to. This will often
-	 *	be paired with a dispatch queue. Example:
-	 *
-	 *	```
-	 * 	embutil::DynamicDispatchQueue<> dispatch;
-	 *	spi0("spi0", dispatch.getBoundDispatch());
-	 *	```
-	 */
-	explicit master(const std::string& name,
-					const spi::commBus::DispatcherFunc& dispatcher = nullptr) noexcept
-		: embvm::DriverBase(name, embvm::DriverType::SPI), spi::commBus(spi::DEFAULT_SPI_BAUD,
-																		dispatcher)
-	{
-	}
-
-	/** Construct a SPI master with a std::string_view name.
-	 *
-	 * Initializes the spi::master instance with a name and optional dispatcher.
-	 *
-	 * @param name std::string_view name for the SPI master instance.
-	 *	Note: spi::master() uses a std::string_view, so the original string must remain valid
-	 * @param dispatcher The functor which callbacks will be dispatched to. This will often
-	 *	be paired with a dispatch queue. Example:
-	 *
-	 *	```
-	 * 	embutil::DynamicDispatchQueue<> dispatch;
-	 *	spi0("spi0", dispatch.getBoundDispatch());
-	 *	```
-	 */
-	explicit master(const std::string_view& name,
-					const spi::commBus::DispatcherFunc& dispatcher = nullptr) noexcept
-		: embvm::DriverBase(name, embvm::DriverType::SPI), spi::commBus(spi::DEFAULT_SPI_BAUD,
-																		dispatcher)
+		: embvm::DriverBase(embvm::DriverType::SPI), spi::commBus(spi::DEFAULT_SPI_BAUD, dispatcher)
 	{
 	}
 

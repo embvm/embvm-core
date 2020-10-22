@@ -9,10 +9,10 @@ class SimulatorProcessor : public embvm::VirtualProcessorBase<SimulatorProcessor
 
   public:
 	/// @brief Default constructor.
-	SimulatorProcessor() : ProcessorBase("Simulator Processor") {}
+	SimulatorProcessor() noexcept = default;
 
 	/// @brief Default destructor.
-	~SimulatorProcessor();
+	~SimulatorProcessor() noexcept = default;
 
 #pragma mark - Inherited Functions -
 
@@ -21,11 +21,6 @@ class SimulatorProcessor : public embvm::VirtualProcessorBase<SimulatorProcessor
 	void init_();
 
 	void reset_() {}
-
-#pragma mark - Custom Functions -
-
-  private:
-  private:
 };
 
 #endif // SIMULATOR_PROCESSOR_HPP_

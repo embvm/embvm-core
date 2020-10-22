@@ -117,45 +117,9 @@ class sensor : public embvm::DriverBase
   protected:
 	/** Default constructor.
 	 *
-	 * Initializes the tof::sensor instance with a generic name.
+	 * Initializes the base class with the appropriate typeid
 	 */
-	sensor() noexcept
-		: embvm::DriverBase("Unidentified ToF Driver", embvm::DriverType::TIME_OF_FLIGHT)
-	{
-	}
-
-	/** Construct an tof::sensor with a C-string name.
-	 *
-	 * Initializes the tof::sensor instance with a name.
-	 *
-	 * @param name The name of the ToF instance.
-	 */
-	sensor(const char* name) noexcept : embvm::DriverBase(name, embvm::DriverType::TIME_OF_FLIGHT)
-	{
-	}
-
-	/** Construct an tof::sensor with a std::string name.
-	 *
-	 * Initializes the tof::sensor instance with a name.
-	 *
-	 * @param name The name of the ToF instance.
-	 *	tof::sensor() uses a std::string_view, so the std::string must remain valid
-	 */
-	sensor(const std::string& name) noexcept
-		: embvm::DriverBase(name, embvm::DriverType::TIME_OF_FLIGHT)
-	{
-	}
-
-	/** Construct an tof::sensor with a std::string_view name.
-	 *
-	 * Initializes the tof::sensor instance with a name.
-	 *
-	 * @param name The name of the ToF instance.
-	 */
-	sensor(const std::string_view& name) noexcept
-		: embvm::DriverBase(name, embvm::DriverType::TIME_OF_FLIGHT)
-	{
-	}
+	sensor() noexcept : embvm::DriverBase(embvm::DriverType::TIME_OF_FLIGHT) {}
 
 	/// Default destructor.
 	~sensor() noexcept;

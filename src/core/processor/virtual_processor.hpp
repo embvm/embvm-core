@@ -35,55 +35,6 @@ template<typename TProcessor>
 class VirtualProcessorBase
 {
   public:
-	/** Create a named virtual hardware platform
-	 *
-	 * @param name C-string containing the hardware platform name
-	 */
-	explicit VirtualProcessorBase(const char* name) noexcept : name_(name) {}
-
-	/** Create a named virtual hardware platform
-	 *
-	 * @param name std::string containing the hardware platform name
-	 * 	Note: VirtualProcessorBase uses a std::string_view,
-	 *	so the std::string must remain valid throughout the lifetime of VirtualProcessorBase.
-	 */
-	explicit VirtualProcessorBase(const std::string& name) noexcept : name_(name) {}
-
-	/** Create a named virtual hardware platform
-	 *
-	 * @param name std::string_view containing the hardware platform name
-	 * 	Note: VirtualProcessorBase uses a std::string_view,
-	 *	so the std::string_view must remain valid throughout the lifetime of VirtualProcessorBase.
-	 */
-	explicit VirtualProcessorBase(const std::string_view& name) noexcept : name_(name) {}
-
-	/// Default destructor
-	~VirtualProcessorBase() = default;
-
-	/// Deleted copy constructor
-	VirtualProcessorBase(const VirtualProcessorBase&) = delete;
-
-	/// Deleted copy assignment operator
-	const VirtualProcessorBase& operator=(const VirtualProcessorBase&) = delete;
-
-	/// Deleted move constructor
-	VirtualProcessorBase(VirtualProcessorBase&&) = delete;
-
-	/// Deleted move assignment operator
-	VirtualProcessorBase& operator=(VirtualProcessorBase&&) = delete;
-
-	/// Returns the Virtual HW Platform's name
-	constexpr const std::string_view& name() const noexcept
-	{
-		return name_;
-	}
-
-	/// Returns the platform name as a cstring for C API compatibility
-	constexpr const char* name_cstr() const noexcept
-	{
-		return name_.data();
-	}
-
 	/** Perform any special initialization steps
 	 *
 	 * The earlyInitHook_() function must be implemented by the derived class as
@@ -134,9 +85,24 @@ class VirtualProcessorBase
 		static_cast<TProcessor*>(this)->reset_();
 	}
 
+	/// Deleted copy constructor
+	VirtualProcessorBase(const VirtualProcessorBase&) = delete;
+
+	/// Deleted copy assignment operator
+	const VirtualProcessorBase& operator=(const VirtualProcessorBase&) = delete;
+
+	/// Deleted move constructor
+	VirtualProcessorBase(VirtualProcessorBase&&) = delete;
+
+	/// Deleted move assignment operator
+	VirtualProcessorBase& operator=(VirtualProcessorBase&&) = delete;
+
   protected:
-  private:
-	const std::string_view name_;
+	/// Default constructor
+	VirtualProcessorBase() noexcept = default;
+
+	/// Default destructor
+	~VirtualProcessorBase() noexcept = default;
 };
 
 /// @}

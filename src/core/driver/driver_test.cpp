@@ -23,48 +23,25 @@ static void spi_callback(embvm::spi::op_t input, embvm::comm::status status)
 
 #pragma mark - Test Cases -
 
-TEST_CASE("Create driver base class with const char", "[core/driver]")
+TEST_CASE("Create driver base class", "[core/driver]")
 {
-	TestDriverBase d("Test Base");
+	TestDriverBase d{};
 
 	CHECK(false == d.started());
-	CHECK(0 == strcmp("Test Base", d.name_cstr()));
-	CHECK(DriverType::Undefined == d.DriverType());
-}
-
-TEST_CASE("Create driver base class with std::string", "[core/driver]")
-{
-	std::string name("Test String Base");
-	TestDriverBase d(name);
-
-	CHECK(false == d.started());
-	CHECK(0 == name.compare(d.name()));
-	CHECK(DriverType::Undefined == d.DriverType());
-}
-
-TEST_CASE("Create driver base class with std::string_view", "[core/driver]")
-{
-	std::string_view name("Test String Base");
-	TestDriverBase d(name);
-
-	CHECK(false == d.started());
-	CHECK(0 == name.compare(d.name()));
 	CHECK(DriverType::Undefined == d.DriverType());
 }
 
 TEST_CASE("Driver Type is set during construction", "[core/driver]")
 {
-	std::string_view name("Test String Base");
-	TestDriverBase d(name, DriverType::SPI);
+	TestDriverBase d(DriverType::SPI);
 
 	CHECK(false == d.started());
-	CHECK(0 == name.compare(d.name()));
 	CHECK(DriverType::SPI == d.DriverType());
 }
 
 TEST_CASE("Start then stop driver", "[core/driver]")
 {
-	TestDriverBase d("Test Base");
+	TestDriverBase d{};
 
 	d.start();
 
@@ -83,7 +60,6 @@ TEST_CASE("i2c driver tests", "[core/driver/i2c]")
 	SECTION("Check default values", "[core/driver/i2c]")
 	{
 		CHECK(i2cTestDriver::type() == DriverType::I2C);
-		CHECK(0 == strcmp(d.name_cstr(), "Unidentified I2C Driver"));
 		CHECK(embvm::i2c::baud::standard == d.baudrate());
 		CHECK(embvm::i2c::status::ok == d.busStatus());
 	}
@@ -136,8 +112,6 @@ TEST_CASE("Create an active I2C Driver Object", "[core/driver/i2c]")
 TEST_CASE("SPI driver tests", "[core/driver/spi]")
 {
 	spiTestDriver d;
-
-	CHECK(0 == strcmp(d.name_cstr(), "Unidentified SPI Driver"));
 
 	SECTION("Check default values", "[core/driver/spi]")
 	{

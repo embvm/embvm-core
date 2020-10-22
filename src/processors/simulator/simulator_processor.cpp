@@ -20,8 +20,6 @@ void signal_handler(int signal)
 
 #pragma mark - Class Functions -
 
-SimulatorProcessor::~SimulatorProcessor() {}
-
 void SimulatorProcessor::init_()
 {
 	std::signal(SIGINT, signal_handler);

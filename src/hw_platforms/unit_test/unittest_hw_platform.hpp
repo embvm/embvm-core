@@ -16,11 +16,9 @@
  */
 class UnitTestHWPlatform : public embvm::VirtualHwPlatformBase<UnitTestHWPlatform>
 {
-	using Base = embvm::VirtualHwPlatformBase<UnitTestHWPlatform>;
-
   public:
 	/// @brief Default Constructor.
-	UnitTestHWPlatform() noexcept : Base("Unit Test HW Platform")
+	UnitTestHWPlatform() noexcept
 	{
 		registerDriver("test0", &driver_);
 	}
@@ -50,7 +48,7 @@ class UnitTestHWPlatform : public embvm::VirtualHwPlatformBase<UnitTestHWPlatfor
 
   private:
 	/// We declare a single test driver to exercise the framework
-	test::TestDriverBase driver_ = test::TestDriverBase("Undefined test driver");
+	test::TestDriverBase driver_{};
 };
 
 #endif // UNIT_TEST_HW_PLATFORM_HPP_

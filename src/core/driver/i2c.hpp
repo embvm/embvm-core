@@ -284,7 +284,7 @@ class master : public embvm::DriverBase, public i2c::commBus
   protected:
 	/** Default constructor.
 	 *
-	 * Initializes the i2c::master device with a generic name and optional dispatcher.
+	 * Initializes the i2c::master device with an optional dispatcher function
 	 *
 	 * @param dispatcher The functor which callbacks will be dispatched to. This will often
 	 *	be paired with a dispatch queue. Example:
@@ -295,70 +295,7 @@ class master : public embvm::DriverBase, public i2c::commBus
 	 *	```
 	 */
 	explicit master(const i2c::commBus::DispatcherFunc& dispatcher = nullptr) noexcept
-		: embvm::DriverBase("Unidentified I2C Driver", embvm::DriverType::I2C),
-		  i2c::commBus(i2c::baud::standard, dispatcher)
-	{
-	}
-
-	/** Construct an I2C master with a C-string name.
-	 *
-	 * Initializes the i2c::master instance with a name and optional dispatcher.
-	 *
-	 * @param name C-string name for the I2C master instance.
-	 * @param dispatcher The functor which callbacks will be dispatched to. This will often
-	 *	be paired with a dispatch queue. Example:
-	 *
-	 *	```
-	 * 	embutil::DynamicDispatchQueue<> dispatch;
-	 *	i2c0("i2c0", dispatch.getBoundDispatch());
-	 *	```
-	 */
-	explicit master(const char* name,
-					const i2c::commBus::DispatcherFunc& dispatcher = nullptr) noexcept
-		: embvm::DriverBase(name, embvm::DriverType::I2C), i2c::commBus(i2c::baud::standard,
-																		dispatcher)
-	{
-	}
-
-	/** Construct a I2C master with a std::string name.
-	 *
-	 * Initializes the i2c::master instance with a name and optional dispatcher.
-	 *
-	 * @param name std::string name for the I2C master instance.
-	 *	Note: i2c::master() uses a std::string_view, so the std::string must remain valid
-	 * @param dispatcher The functor which callbacks will be dispatched to. This will often
-	 *	be paired with a dispatch queue. Example:
-	 *
-	 *	```
-	 * 	embutil::DynamicDispatchQueue<> dispatch;
-	 *	i2c0("i2c0", dispatch.getBoundDispatch());
-	 *	```
-	 */
-	explicit master(const std::string& name,
-					const i2c::commBus::DispatcherFunc& dispatcher = nullptr) noexcept
-		: embvm::DriverBase(name, embvm::DriverType::I2C), i2c::commBus(i2c::baud::standard,
-																		dispatcher)
-	{
-	}
-
-	/** Construct a I2C master with a std::string_view name.
-	 *
-	 * Initializes the i2c::master instance with a name and optional dispatcher.
-	 *
-	 * @param name std::string_view name for the I2C master instance.
-	 *	Note: i2c::master() uses a std::string_view, so the original string must remain valid
-	 * @param dispatcher The functor which callbacks will be dispatched to. This will often
-	 *	be paired with a dispatch queue. Example:
-	 *
-	 *	```
-	 * 	embutil::DynamicDispatchQueue<> dispatch;
-	 *	i2c0("i2c0", dispatch.getBoundDispatch());
-	 *	```
-	 */
-	explicit master(const std::string_view& name,
-					const i2c::commBus::DispatcherFunc& dispatcher = nullptr) noexcept
-		: embvm::DriverBase(name, embvm::DriverType::I2C), i2c::commBus(i2c::baud::standard,
-																		dispatcher)
+		: embvm::DriverBase(embvm::DriverType::I2C), i2c::commBus(i2c::baud::standard, dispatcher)
 	{
 	}
 

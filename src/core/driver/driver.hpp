@@ -86,24 +86,6 @@ class DriverBase
 		return type_;
 	}
 
-	/** Provides a string_view reference of the driver name.
-	 *
-	 * @returns `std::string_view` ref containing the driver name.
-	 */
-	constexpr const std::string_view& name() const noexcept
-	{
-		return name_;
-	}
-
-	/** Provides a c-string version of the driver name
-	 *
-	 * @returns c-string containing the driver name
-	 */
-	constexpr const char* name_cstr() const noexcept
-	{
-		return name_.data();
-	}
-
 	/// Increment operator is a no-op, but is used for iterator compatibility.
 	virtual DriverBase& operator++() noexcept
 	{
@@ -123,39 +105,11 @@ class DriverBase
 	DriverBase& operator=(DriverBase&&) = delete;
 
   protected:
-	/** Construct a DriverBase with a C-string name.
+	/** Construct a DriverBase
 	 *
-	 * @param name The name of the device driver instance
-	 * @param c The device type
+	 * @param c The device type ID
 	 */
-	DriverBase(const char* name, embvm::DriverType_t c = embvm::DriverType::Undefined) noexcept
-		: name_(name), type_(c)
-	{
-	}
-
-	/** Construct a DriverBase with a std::string name.
-	 *
-	 * @param name The name of the device driver instance.
-	 *	Note: DriverBase() uses a std::string_view, so the std::string must remain valid
-	 * @param c The device type
-	 */
-	DriverBase(const std::string& name,
-			   embvm::DriverType_t c = embvm::DriverType::Undefined) noexcept
-		: name_(name), type_(c)
-	{
-	}
-
-	/** Construct a DriverBase with a std::string_view name.
-	 *
-	 * @param name The name of the device driver instance.
-	 *	Note: DriverBase() uses a std::string_view, so the std::string_view must remain valid
-	 * @param c The device type
-	 */
-	DriverBase(const std::string_view& name,
-			   embvm::DriverType_t c = embvm::DriverType::Undefined) noexcept
-		: name_(name), type_(c)
-	{
-	}
+	DriverBase(embvm::DriverType_t c = embvm::DriverType::Undefined) noexcept : type_(c) {}
 
 	/// Destructor.
 	~DriverBase() noexcept = default;
@@ -171,9 +125,6 @@ class DriverBase
 	/// Tracks the driver state.
 	/// True if the driver has been started, false if it has been stopped or not yet started.
 	type_safe::boolean started_ = false;
-
-	/// Name of the driver instance.
-	const std::string_view name_;
 
 	/// Type ID of the driver instance.
 	const embvm::DriverType_t type_;

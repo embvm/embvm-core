@@ -61,55 +61,6 @@ template<typename THWPlatform, class TDriverRegistry>
 class VirtualHwPlatformBase
 {
   public:
-	/** Create a named virtual hardware platform
-	 *
-	 * @param name C-string containing the hardware platform name
-	 */
-	explicit VirtualHwPlatformBase(const char* name) noexcept : name_(name) {}
-
-	/** Create a named virtual hardware platform
-	 *
-	 * @param name std::string containing the hardware platform name
-	 * 	Note: VirtualHwPlatformBase uses a std::string_view,
-	 *	so the std::string must remain valid throughout the lifetime of VirtualHwPlatformBase.
-	 */
-	explicit VirtualHwPlatformBase(const std::string& name) noexcept : name_(name) {}
-
-	/** Create a named virtual hardware platform
-	 *
-	 * @param name std::string_view containing the hardware platform name
-	 * 	Note: VirtualHwPlatformBase uses a std::string_view,
-	 *	so the std::string_view must remain valid throughout the lifetime of VirtualHwPlatformBase.
-	 */
-	explicit VirtualHwPlatformBase(const std::string_view& name) noexcept : name_(name) {}
-
-	/// Default destructor
-	~VirtualHwPlatformBase() = default;
-
-	/// Deleted copy constructor
-	VirtualHwPlatformBase(const VirtualHwPlatformBase&) = delete;
-
-	/// Deleted copy assignment operator
-	const VirtualHwPlatformBase& operator=(const VirtualHwPlatformBase&) = delete;
-
-	/// Deleted move constructor
-	VirtualHwPlatformBase(VirtualHwPlatformBase&&) = delete;
-
-	/// Deleted move assignment operator
-	VirtualHwPlatformBase& operator=(VirtualHwPlatformBase&&) = delete;
-
-	/// Returns the Virtual HW Platform's name
-	constexpr const std::string_view& name() const noexcept
-	{
-		return name_;
-	}
-
-	/// Returns the platform name as a cstring for C API compatibility
-	constexpr const char* name_cstr() const noexcept
-	{
-		return name_.data();
-	}
-
 	/** Perform any special initialization steps
 	 *
 	 * The earlyInitHook_() function must be implemented by the derived class as
@@ -205,6 +156,18 @@ class VirtualHwPlatformBase
 	{
 		static_cast<THWPlatform*>(this)->shutdown_();
 	}
+
+	/// Deleted copy constructor
+	VirtualHwPlatformBase(const VirtualHwPlatformBase&) = delete;
+
+	/// Deleted copy assignment operator
+	const VirtualHwPlatformBase& operator=(const VirtualHwPlatformBase&) = delete;
+
+	/// Deleted move constructor
+	VirtualHwPlatformBase(VirtualHwPlatformBase&&) = delete;
+
+	/// Deleted move assignment operator
+	VirtualHwPlatformBase& operator=(VirtualHwPlatformBase&&) = delete;
 
 #pragma mark - Driver Registry Functions -
 
@@ -369,8 +332,14 @@ class VirtualHwPlatformBase
 		return driver_registry_.count();
 	}
 
+  protected:
+	/// Default constructor
+	VirtualHwPlatformBase() noexcept = default;
+
+	/// Default destructor
+	~VirtualHwPlatformBase() noexcept = default;
+
   private:
-	const std::string_view name_;
 	TDriverRegistry driver_registry_{};
 };
 

@@ -102,40 +102,9 @@ class Timer : public embvm::DriverBase
   protected:
 	/** Default constructor.
 	 *
-	 * Initializes the Timer instance with a generic name.
+	 * Initializes the drive base class with the appropriate typeid.
 	 */
-	Timer() noexcept : embvm::DriverBase("Timer", embvm::DriverType::TIMER) {}
-
-	/** Construct an Timer with a C-string name.
-	 *
-	 * Initializes the Timer instance with a name.
-	 *
-	 * @param name The name of the Timer instance.
-	 */
-	explicit Timer(const char* name) noexcept : embvm::DriverBase(name, embvm::DriverType::TIMER) {}
-
-	/** Construct an Timer with a std::string name.
-	 *
-	 * Initializes the Timer instance with a name.
-	 *
-	 * @param name The name of the Timer instance.
-	 *	Timer() uses a std::string_view, so the std::string must remain valid
-	 */
-	explicit Timer(const std::string& name) noexcept
-		: embvm::DriverBase(name, embvm::DriverType::TIMER)
-	{
-	}
-
-	/** Construct an Timer with a std::string_view name.
-	 *
-	 * Initializes the Timer instance with a name.
-	 *
-	 * @param name The name of the Timer instance.
-	 */
-	explicit Timer(const std::string_view& name) noexcept
-		: embvm::DriverBase(name, embvm::DriverType::TIMER)
-	{
-	}
+	Timer() noexcept : embvm::DriverBase(embvm::DriverType::TIMER) {}
 
 	/// Default destructor.
 	~Timer() noexcept;

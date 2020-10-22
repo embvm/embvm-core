@@ -110,47 +110,9 @@ class basicDisplay : public embvm::DriverBase
   protected:
 	/** Default constructor.
 	 *
-	 * Initializes the basicDisplay instance with a generic name.
+	 * Initializes the DriverBase class with a BASIC_DISPLAY type ID
 	 */
-	basicDisplay() noexcept
-		: embvm::DriverBase("Generic display Display", embvm::DriverType::BASIC_DISPLAY)
-	{
-	}
-
-	/** Construct an basicDisplay with a name
-	 *
-	 * Initializes the basicDisplay instance with a name.
-	 *
-	 * @param name The name of the display instance.
-	 *	basicDisplay() uses a std::string_view, so a std::string must remain valid
-	 */
-	basicDisplay(const char* name) noexcept
-		: embvm::DriverBase(name, embvm::DriverType::BASIC_DISPLAY)
-	{
-	}
-
-	/** Construct an basicDisplay with a std::string name.
-	 *
-	 * Initializes the basicDisplay instance with a name.
-	 *
-	 * @param name The name of the display instance.
-	 *	basicDisplay() uses a std::string_view, so the std::string must remain valid
-	 */
-	basicDisplay(const std::string& name) noexcept
-		: embvm::DriverBase(name, embvm::DriverType::BASIC_DISPLAY)
-	{
-	}
-
-	/** Construct an basicDisplay with a std::string_view name.
-	 *
-	 * Initializes the basicDisplay instance with a name.
-	 *
-	 * @param name The name of the display instance.
-	 */
-	basicDisplay(const std::string_view& name) noexcept
-		: embvm::DriverBase(name, embvm::DriverType::BASIC_DISPLAY)
-	{
-	}
+	basicDisplay() noexcept : embvm::DriverBase(embvm::DriverType::BASIC_DISPLAY) {}
 
   public:
 	/** Basic Display Driver Type ID

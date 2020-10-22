@@ -63,40 +63,9 @@ class base : public embvm::DriverBase
   protected:
 	/** Default constructor.
 	 *
-	 * Initializes the gpio::base instance with a generic name.
+	 * Initializes the driver base with the proper typeid.
 	 */
-	base() noexcept : embvm::DriverBase("GPIO", embvm::DriverType::GPIO) {}
-
-	/** Construct an gpio::base with a C-string name.
-	 *
-	 * Initializes the gpio::base instance with a name.
-	 *
-	 * @param name The name of the GPIO instance.
-	 */
-	explicit base(const char* name) noexcept : embvm::DriverBase(name, embvm::DriverType::GPIO) {}
-
-	/** Construct an gpio::base with a std::string name.
-	 *
-	 * Initializes the gpio::base instance with a name.
-	 *
-	 * @param name The name of the GPIO instance.
-	 *	gpio::base() uses a std::string_view, so the std::string must remain valid
-	 */
-	explicit base(const std::string& name) noexcept
-		: embvm::DriverBase(name, embvm::DriverType::GPIO)
-	{
-	}
-
-	/** Construct an gpio::base with a std::string_view name.
-	 *
-	 * Initializes the gpio::base instance with a name.
-	 *
-	 * @param name The name of the GPIO instance.
-	 */
-	explicit base(const std::string_view& name) noexcept
-		: embvm::DriverBase(name, embvm::DriverType::GPIO)
-	{
-	}
+	base() noexcept : embvm::DriverBase(embvm::DriverType::GPIO) {}
 
   public:
 	/** Check the direction of the GPIO pin.
@@ -160,36 +129,8 @@ class input : public base<gpio::direction::in>
 	using gpio_base = base<gpio::direction::in>;
 
   protected:
-	/** Default constructor.
-	 *
-	 * Initializes the gpio::input instance with a generic name.
-	 */
-	input() noexcept : gpio_base("GPIO Input") {}
-
-	/** Construct an gpio::input with a C-string name.
-	 *
-	 * Initializes the gpio::input instance with a name.
-	 *
-	 * @param name The name of the GPIO instance.
-	 */
-	explicit input(const char* name) noexcept : gpio_base(name) {}
-
-	/** Construct an gpio::input with a std::string name.
-	 *
-	 * Initializes the gpio::input instance with a name.
-	 *
-	 * @param name The name of the GPIO instance.
-	 *	gpio::input() uses a std::string_view, so the std::string must remain valid
-	 */
-	explicit input(const std::string& name) noexcept : gpio_base(name) {}
-
-	/** Construct an gpio::input with a std::string_view name.
-	 *
-	 * Initializes the gpio::input instance with a name.
-	 *
-	 * @param name The name of the GPIO instance.
-	 */
-	explicit input(const std::string_view& name) noexcept : gpio_base(name) {}
+	/// Default constructor.
+	input() noexcept = default;
 
   public:
 	/** Get the current GPIO pin state.
@@ -253,36 +194,8 @@ class output : public base<gpio::direction::out>
 	using gpio_base = base<gpio::direction::out>;
 
   protected:
-	/** Default constructor.
-	 *
-	 * Initializes the gpio::output instance with a generic name.
-	 */
-	output() noexcept : gpio_base("GPIO Output") {}
-
-	/** Construct an gpio::output with a C-string name.
-	 *
-	 * Initializes the gpio::output instance with a name.
-	 *
-	 * @param name The name of the GPIO instance.
-	 */
-	explicit output(const char* name) noexcept : gpio_base(name) {}
-
-	/** Construct an gpio::output with a std::string name.
-	 *
-	 * Initializes the gpio::output instance with a name.
-	 *
-	 * @param name The name of the GPIO instance.
-	 *	gpio::output() uses a std::string_view, so the std::string must remain valid
-	 */
-	explicit output(const std::string& name) noexcept : gpio_base(name) {}
-
-	/** Construct an gpio::output with a std::string_view name.
-	 *
-	 * Initializes the gpio::output instance with a name.
-	 *
-	 * @param name The name of the GPIO instance.
-	 */
-	explicit output(const std::string_view& name) noexcept : gpio_base(name) {}
+	/// Default constructor
+	output() noexcept = default;
 
   public:
 	/** Set the current GPIO pin state.
@@ -337,36 +250,8 @@ class inputOutput : public base<gpio::direction::inout>
 	using gpio_base = base<gpio::direction::inout>;
 
   protected:
-	/** Default constructor.
-	 *
-	 * Initializes the gpio::inputOutput instance with a generic name.
-	 */
-	inputOutput() noexcept : gpio_base("GPIO Input/Output") {}
-
-	/** Construct an gpio::inputOutput with a C-string name.
-	 *
-	 * Initializes the gpio::inputOutput instance with a name.
-	 *
-	 * @param name The name of the GPIO instance.
-	 */
-	explicit inputOutput(const char* name) noexcept : gpio_base(name) {}
-
-	/** Construct an gpio::inputOutput with a std::string name.
-	 *
-	 * Initializes the gpio::inputOutput instance with a name.
-	 *
-	 * @param name The name of the GPIO instance.
-	 *	gpio::inputOutput() uses a std::string_view, so the std::string must remain valid
-	 */
-	explicit inputOutput(const std::string& name) noexcept : gpio_base(name) {}
-
-	/** Construct an gpio::inputOutput with a std::string_view name.
-	 *
-	 * Initializes the gpio::inputOutput instance with a name.
-	 *
-	 * @param name The name of the GPIO instance.
-	 */
-	explicit inputOutput(const std::string_view& name) noexcept : gpio_base(name) {}
+	/// Default constructor.
+	inputOutput() noexcept = default;
 
   public:
 	/** Set the current GPIO pin state.

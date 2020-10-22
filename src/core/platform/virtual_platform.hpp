@@ -139,24 +139,6 @@ class VirtualPlatformBase
 		static_cast<TPlatform*>(this)->initHWPlatform_();
 	}
 
-	/** Access the platform's name.
-	 *
-	 * @returns Platform name std::string_view reference.
-	 */
-	constexpr const std::string_view& name() const noexcept
-	{
-		return name_;
-	}
-
-	/** Access the platform name as a cstring for C API compatibility.
-	 *
-	 * @returns Platform name as a C-string.
-	 */
-	constexpr const char* name_cstr() const noexcept
-	{
-		return name_.data();
-	}
-
 #pragma mark - Driver Registry Functions -
 
 	/** Platform-level API for registering a new device driver
@@ -321,29 +303,14 @@ class VirtualPlatformBase
 	}
 
   protected:
+	/// Get the hardware platform instance by function as an alternative of using the variable.
 	THWPlatform& hw_platform()
 	{
 		return hw_platform_;
 	}
 
-	/** Create a virtual platform base using a C-string.
-	 *
-	 * * @param name The name of the platform.
-	 */
-	explicit VirtualPlatformBase(const char* name) noexcept : name_(name) {}
-
-	/** Create a virtual platform base using a std::string name.
-	 *
-	 * @param name The name of the platform.
-	 * 	Note: VirtualPlatformBase() uses a std::string_view, so the std::string must remain valid
-	 */
-	explicit VirtualPlatformBase(const std::string& name) noexcept : name_(name) {}
-
-	/** Create a virtual platform base using a std::string_view name.
-	 *
-	 * @param name The name of the platform.
-	 */
-	explicit VirtualPlatformBase(const std::string_view& name) noexcept : name_(name) {}
+	// Default constructor
+	VirtualPlatformBase() noexcept = default;
 
 	/// Default destructor
 	~VirtualPlatformBase() = default;
@@ -351,7 +318,6 @@ class VirtualPlatformBase
 #pragma mark - Data Members -
 
   protected:
-	const std::string_view name_;
 	THWPlatform hw_platform_{};
 };
 

@@ -12,21 +12,11 @@ class UnitTestPlatform : public embvm::VirtualPlatformBase<UnitTestPlatform, Uni
 	using VirtualPlatform = embvm::VirtualPlatformBase<UnitTestPlatform, UnitTestHWPlatform>;
 
   public:
-	// Note: Unit test constructors are public for testing purposes
+	/// Default constructor
+	UnitTestPlatform() noexcept = default;
 
-	/// Default constructor with a supplied platform name
-	UnitTestPlatform() noexcept : VirtualPlatform("UnitTestPlatform") {}
-
-	/// Specify unit test platform by const char* to test the platform base APIs
-	explicit UnitTestPlatform(const char* name) noexcept : VirtualPlatform(name) {}
-
-	/// Specify unit test platform by std::string to test the platform base APIs
-	explicit UnitTestPlatform(const std::string& name) noexcept : VirtualPlatform(name) {}
-
-	/// Specify unit test platform by std::string_view to test the platform base APIs
-	explicit UnitTestPlatform(const std::string_view& name) noexcept : VirtualPlatform(name) {}
-
-	~UnitTestPlatform() = default;
+	/// Default destructor
+	~UnitTestPlatform() noexcept = default;
 
 	static void earlyInitHook_() noexcept
 	{
@@ -43,16 +33,6 @@ class UnitTestPlatform : public embvm::VirtualPlatformBase<UnitTestPlatform, Uni
 	void initHWPlatform_() noexcept
 	{
 		hw_platform_.init();
-	}
-
-	auto hwPlatformName() noexcept
-	{
-		return hw_platform_.name();
-	}
-
-	auto hwPlatformName_cstr() noexcept
-	{
-		return hw_platform_.name_cstr();
 	}
 };
 

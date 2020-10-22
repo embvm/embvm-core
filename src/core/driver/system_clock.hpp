@@ -43,9 +43,9 @@ class SystemClock : public embvm::DriverBase
   protected:
 	/** Default constructor.
 	 *
-	 * Initializes the SystemClock instance with a generic name.
+	 * Initializes the base class with the proper typeid.
 	 */
-	SystemClock() noexcept : embvm::DriverBase("System Clock", embvm::DriverType::SYSTEM_CLOCK) {}
+	SystemClock() noexcept : embvm::DriverBase(embvm::DriverType::SYSTEM_CLOCK) {}
 
 	/// Default destructor
 	~SystemClock() noexcept;

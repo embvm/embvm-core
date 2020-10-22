@@ -35,15 +35,6 @@ class spiTestDriver final : public embvm::spi::master
 	{
 	}
 
-	/// Create a named spi driver with a dispatcher
-	/// @param name The name of the SPI driver instance.
-	/// @param dispatcher The function to use as a dispatcher for callbacks.
-	explicit spiTestDriver(const char* name,
-						   const embvm::spi::master::DispatcherFunc& dispatcher = nullptr) noexcept
-		: embvm::spi::master(name, dispatcher)
-	{
-	}
-
 	/// Default destructor
 	~spiTestDriver() noexcept;
 
