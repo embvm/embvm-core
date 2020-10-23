@@ -53,7 +53,7 @@ namespace embutil
  * @returns the value of the volatile variable.
  */
 template<typename TType>
-[[nodiscard]] constexpr inline TType volatile_load([[gnu::nonnull]] const TType* target) noexcept
+[[nodiscard]] constexpr inline TType volatile_load(const TType* target) noexcept
 {
 	assert(target);
 	static_assert(std::is_trivially_copyable<TType>::value,
@@ -65,7 +65,7 @@ template<typename TType>
 /// @overload TType volatile_load(TType* target)
 template<typename TType>
 [[nodiscard]] constexpr inline TType
-	volatile_load([[gnu::nonnull]] volatile const TType* target) noexcept
+	volatile_load(volatile const TType* target) noexcept
 {
 	assert(target);
 	static_assert(std::is_trivially_copyable<TType>::value,
@@ -83,7 +83,7 @@ template<typename TType>
  * @param value The new value for the volatile variable.
  */
 template<typename TType>
-inline void volatile_store([[gnu::nonnull]] TType* target, TType value) noexcept
+inline void volatile_store(TType* target, TType value) noexcept
 {
 	assert(target);
 	static_assert(std::is_trivially_copyable<TType>::value,
@@ -94,7 +94,7 @@ inline void volatile_store([[gnu::nonnull]] TType* target, TType value) noexcept
 /// Write to a volatile memory location
 /// @overload void volatile_store(TType* target, TType value)
 template<typename TType>
-inline void volatile_store([[gnu::nonnull]] volatile TType* target, TType value) noexcept
+inline void volatile_store(volatile TType* target, TType value) noexcept
 {
 	assert(target);
 	static_assert(std::is_trivially_copyable<TType>::value,
