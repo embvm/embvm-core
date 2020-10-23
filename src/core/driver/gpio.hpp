@@ -41,6 +41,29 @@ enum class pull
 	pulldown,
 };
 
+/** GPIO port ID helper representation
+ *
+ * This is a "portable" definition for a GPIO port (e.g. PORTA registers)
+ * that use can use as a template parameter for implementation classes, since
+ * you may not want to expose the register definitions publicly in a head.
+ *
+ */
+enum class port : uint8_t
+{
+	A = 0,
+	B,
+	C,
+	D,
+	E,
+	F,
+	G,
+	H,
+	I,
+	J,
+	K,
+	L,
+};
+
 /** This class defines the common GPIO interfaces.
  *
  * The gpio::base class defines interfaces which are common to all GPIO objects.
