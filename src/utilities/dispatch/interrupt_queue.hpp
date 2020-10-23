@@ -116,8 +116,8 @@ class InterruptQueue
 		else
 		{
 			irq_lock_.unlock();
-			assert(0 && "IRQ queue filled to capacity - increase queue size or investigate "
-						"thread blockage");
+			// IRQ queue filled to capacity - increase queue size or investigate thread blockage
+			assert(0);
 		}
 	}
 
@@ -143,8 +143,8 @@ class InterruptQueue
 		else
 		{
 			irq_lock_.unlock();
-			assert(0 && "IRQ queue filled to capacity - increase queue size or investigate "
-						"thread blockage");
+			// IRQ queue filled to capacity - increase queue size or investigate thread blockage
+			assert(0);
 		}
 	}
 

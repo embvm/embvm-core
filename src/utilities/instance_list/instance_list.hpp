@@ -113,7 +113,7 @@ struct InstanceElem
  * }
  * else
  * {
- * 	assert(0 && "ToF Driver Missing");
+ * 	assert(0); // ToF Driver Missing
  * }
  * @endcode
  *

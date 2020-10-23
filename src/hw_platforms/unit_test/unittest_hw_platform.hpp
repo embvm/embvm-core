@@ -43,7 +43,7 @@ class UnitTestHWPlatform : public embvm::VirtualHwPlatformBase<UnitTestHWPlatfor
 
 	void shutdown_ [[noreturn]] () noexcept
 	{
-		assert(0 && "Shutdown not implemented for this platform\n");
+		assert(0); // Shutdown not implemented for this platform
 	}
 
   private:

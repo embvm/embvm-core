@@ -67,7 +67,8 @@ constexpr posix::pthread_priority convert_to_pthread_priority(embvm::thread::pri
 		case embvm::thread::priority::idle:
 			return posix::pthread_priority::idle;
 		default:
-			assert(0 && "Invalid priority value");
+			// Invalid priority value
+			assert(0);
 			return posix::pthread_priority::normal;
 	}
 }
