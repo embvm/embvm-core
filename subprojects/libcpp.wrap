@@ -1,4 +1,4 @@
 [wrap-git]
-url = git@github.com:embeddedartistry/libcpp.git
+url = https://github.com/embeddedartistry/libcpp
 revision = master
 clone-recursive = true

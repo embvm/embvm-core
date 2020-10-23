@@ -1,4 +1,4 @@
 [wrap-git]
-url = git@github.com:embeddedartistry/compiler-rt.git
+url = https://github.com/embeddedartistry/compiler-rt
 revision = master
 clone-recursive = true
