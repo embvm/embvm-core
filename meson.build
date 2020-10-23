@@ -118,8 +118,8 @@ subdir('build/objcopy')
 etl = subproject('etl')
 etl_dep = etl.get_variable('etl_dep')
 
-microsoft_gsl = subproject('microsoft-gsl')
-microsoft_gsl_dep = microsoft_gsl.get_variable('microsoft_gsl_dep')
+gsl_lite = subproject('gsl-lite')
+gsl_lite_dep = gsl_lite.get_variable('gsl_lite_dep')
 
 libmemory = subproject('libmemory')
 libmemory_dep = libmemory.get_variable('libmemory_dep')

@@ -20,7 +20,7 @@ framework_include_dep += declare_dependency(
 	],
 	dependencies: [
 		etl_dep,
-		microsoft_gsl_dep
+		gsl_lite_dep
 	]
 )
 

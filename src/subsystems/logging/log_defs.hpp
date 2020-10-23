@@ -2,7 +2,7 @@
 #define LOG_LIB_DEFS_HPP_
 
 #include "_log_common_defs.h"
-#include <gsl/gsl_util> // for gsl::at
+#include <gsl-lite/gsl-lite.hpp>
 #include <string>
 
 namespace embvm
@@ -39,7 +39,7 @@ inline constexpr const char* level_short_names[] LOG_LEVEL_SHORT_NAMES;
 /// @returns the full name of the log level as a std::string_view.
 inline constexpr std::string_view to_str(level l) noexcept
 {
-	return gsl::at(level_string_names, l);
+	return gsl_lite::at(level_string_names, l);
 }
 
 /// Get the name of a log level as a C-string
@@ -47,7 +47,7 @@ inline constexpr std::string_view to_str(level l) noexcept
 /// @returns the full name of the log level as a C-string.
 inline constexpr const char* to_c_str(level l) noexcept
 {
-	return gsl::at(level_string_names, l).data();
+	return gsl_lite::at(level_string_names, l).data();
 }
 
 /// Get the short name of a log level as a C-string
@@ -55,7 +55,7 @@ inline constexpr const char* to_c_str(level l) noexcept
 /// @returns the short name of the log level as a C-string.
 inline constexpr const char* to_short_c_str(level l) noexcept
 {
-	return gsl::at(level_short_names, l);
+	return gsl_lite::at(level_short_names, l);
 }
 
 } // namespace logger

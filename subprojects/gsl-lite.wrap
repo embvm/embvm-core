@@ -1,0 +1,5 @@
+[wrap-git]
+url = https://github.com/gsl-lite/gsl-lite.git
+patch_directory = gsl-lite-build
+revision = master
+depth=1
