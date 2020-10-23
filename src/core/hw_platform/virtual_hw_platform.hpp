@@ -76,7 +76,7 @@ class VirtualHwPlatformBase
 	 * These functions are declared static to prevent you from easily using
 	 * drivers within their confines
 	 */
-	static void earlyInitHook() noexcept
+	static inline void earlyInitHook() noexcept
 	{
 		THWPlatform::earlyInitHook_();
 	}
@@ -94,7 +94,7 @@ class VirtualHwPlatformBase
 	 * This function will likely invoke the VirtualProcessor::init() function,
 	 * but the order and actual initialization process is left to the derived class.
 	 */
-	void initProcessor() noexcept
+	inline void initProcessor() noexcept
 	{
 		static_cast<THWPlatform*>(this)->initProcessor_();
 	}
@@ -106,7 +106,7 @@ class VirtualHwPlatformBase
 	 * Perform any hardware platform initialization steps, such as preparing
 	 *	peripherals for use, setting up callbacks, etc.
 	 */
-	void init() noexcept
+	inline void init() noexcept
 	{
 		static_cast<THWPlatform*>(this)->init_();
 	}
@@ -121,7 +121,7 @@ class VirtualHwPlatformBase
 	 * A good strategy is to just call virtual processor's reset() function, if
 	 * one is provided.
 	 */
-	void soft_reset() noexcept
+	inline void soft_reset() noexcept
 	{
 		static_cast<THWPlatform*>(this)->soft_reset_();
 	}
@@ -134,7 +134,7 @@ class VirtualHwPlatformBase
 	 *
 	 * Platforms which do not support a hard reset should default to calling soft_reset().
 	 */
-	void hard_reset() noexcept
+	inline void hard_reset() noexcept
 	{
 		static_cast<THWPlatform*>(this)->hard_reset_();
 	}
@@ -152,7 +152,7 @@ class VirtualHwPlatformBase
 	 *
 	 * The shutdown function is not expected to return.
 	 */
-	void shutdown [[noreturn]] () noexcept
+	inline void shutdown [[noreturn]] () noexcept
 	{
 		static_cast<THWPlatform*>(this)->shutdown_();
 	}

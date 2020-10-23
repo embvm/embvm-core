@@ -118,7 +118,7 @@ class sfr<TPerm, T, TAddr, typename std::enable_if<TAddr == 0>::type>
 
 	/// Read from register, explicit operation
 	/// @returns the current value of the SFR.
-	T load() const noexcept
+	inline T load() const noexcept
 	{
 		static_assert(!std::is_same<TPerm, wo>::value, "Invalid read to a write-only register");
 		return *(reinterpret_cast<const_ptr_t>(addr_));
@@ -142,7 +142,7 @@ class sfr<TPerm, T, TAddr, typename std::enable_if<TAddr == 0>::type>
 
 	/// Write to the register
 	/// @param[in] value The value to write to the SFR.
-	void store(T value) noexcept
+	inline void store(T value) noexcept
 	{
 		static_assert(!std::is_same<TPerm, ro>::value, "Invalid write to a read-only register");
 		*(reinterpret_cast<ptr_t>(addr_)) = value;
@@ -234,7 +234,7 @@ class sfr<TPerm, T, TAddr, typename std::enable_if_t<TAddr != 0, void>>
 
 	/// Read from register, explicit operation
 	/// @returns the current value of the SFR.
-	T load() const noexcept
+	inline T load() const noexcept
 	{
 		static_assert(!std::is_same<TPerm, wo>::value, "Invalid read to a write-only register");
 		return *(reinterpret_cast<const_ptr_t>(TAddr));
@@ -258,7 +258,7 @@ class sfr<TPerm, T, TAddr, typename std::enable_if_t<TAddr != 0, void>>
 
 	/// Write to the register
 	/// @param[in] value The value to write to the SFR.
-	void store(T value) noexcept
+	inline void store(T value) noexcept
 	{
 		static_assert(!std::is_same<TPerm, ro>::value, "Invalid write to a read-only register");
 		*(reinterpret_cast<ptr_t>(TAddr)) = value;

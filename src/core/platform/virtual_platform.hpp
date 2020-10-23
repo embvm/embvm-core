@@ -56,7 +56,7 @@ class VirtualPlatformBase
 	 * This function forwards the call to the derived class for the actual
 	 * implementation.
 	 */
-	static void earlyInitHook() noexcept
+	static inline void earlyInitHook() noexcept
 	{
 		TPlatform::earlyInitHook_();
 	}
@@ -71,7 +71,7 @@ class VirtualPlatformBase
 	 * This function forwards the call to the derived class for the actual
 	 * implementation.
 	 */
-	static void initOS() noexcept
+	static inline void initOS() noexcept
 	{
 		TPlatform::initOS_();
 	}
@@ -90,7 +90,7 @@ class VirtualPlatformBase
 	 *	This version of initOS should be used for OSes such as FreeRTOS which
 	 *	kill execution of the current thread when the scheduler is started.
 	 */
-	static void initOS(void (*main_thread)()) noexcept
+	static inline void initOS(void (*main_thread)()) noexcept
 	{
 		TPlatform::initOS_(main_thread);
 	}
@@ -102,7 +102,7 @@ class VirtualPlatformBase
 	 * This function forwards the call to the derived class for the actual
 	 * implementation.
 	 */
-	void init() noexcept
+	inline void init() noexcept
 	{
 		static_cast<TPlatform*>(this)->init_();
 	}
@@ -118,7 +118,7 @@ class VirtualPlatformBase
 	 * This function forwards the call to the derived class for the actual
 	 * implementation.
 	 */
-	void initProcessor() noexcept
+	inline void initProcessor() noexcept
 	{
 		static_cast<TPlatform*>(this)->initProcessor_();
 	}
@@ -134,7 +134,7 @@ class VirtualPlatformBase
 	 * This function forwards the call to the derived class for the actual
 	 * implementation.
 	 */
-	void initHWPlatform() noexcept
+	inline void initHWPlatform() noexcept
 	{
 		static_cast<TPlatform*>(this)->initHWPlatform_();
 	}

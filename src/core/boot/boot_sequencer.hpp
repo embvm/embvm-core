@@ -92,7 +92,7 @@ class BootSequencer
 	BootSequencer& operator=(BootSequencer&&) = delete;
 
 	/// Execute the boot strategy to boot the system
-	static void boot() noexcept
+	static inline void boot() noexcept
 	{
 		TBootStrategy();
 	}
@@ -111,7 +111,7 @@ class BootSequencer
  * @related embvm::BootSequencer
  */
 template<class TPlatform>
-void DefaultBootStrategy() noexcept
+inline void DefaultBootStrategy() noexcept
 {
 	TPlatform::earlyInitHook();
 
@@ -146,7 +146,7 @@ void DefaultBootStrategy() noexcept
  * @related embvm::BootSequencer
  */
 template<class TPlatform>
-void BootOSWithMainThreadStrategy() noexcept
+inline void BootOSWithMainThreadStrategy() noexcept
 {
 	TPlatform::earlyInitHook();
 
@@ -178,7 +178,7 @@ void BootOSWithMainThreadStrategy() noexcept
  * @ingroup FrameworkBoot
  */
 template<class TPlatform>
-void OSXSimulatorBootStrategy() noexcept
+inline void OSXSimulatorBootStrategy() noexcept
 {
 	TPlatform::earlyInitHook();
 

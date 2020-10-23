@@ -50,7 +50,7 @@ class VirtualProcessorBase
 	 * These functions are declared static to prevent you from easily using
 	 * drivers within their confines
 	 */
-	static void earlyInitHook() noexcept
+	static inline void earlyInitHook() noexcept
 	{
 		TProcessor::earlyInitHook_();
 	}
@@ -68,7 +68,7 @@ class VirtualProcessorBase
 	 * This function will likely invoke the VirtualProcessor::init() function,
 	 * but the order and actual initialization process is left to the derived class.
 	 */
-	void init() noexcept
+	inline void init() noexcept
 	{
 		static_cast<TProcessor*>(this)->init_();
 	}
@@ -80,7 +80,7 @@ class VirtualProcessorBase
 	 * A soft reset is intended to reset the program to the beginning without
 	 * performing a full power cycle.
 	 */
-	void reset() noexcept
+	inline void reset() noexcept
 	{
 		static_cast<TProcessor*>(this)->reset_();
 	}
