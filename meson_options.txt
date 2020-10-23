@@ -1,3 +1,4 @@
+option('os-header-path', type: 'string', value: '../../src/core', yield: true)
 option('disable-builtins', type: 'boolean', value: false,
     description: 'Tell the compiler not to generate builtin functions.',
     yield: true)
