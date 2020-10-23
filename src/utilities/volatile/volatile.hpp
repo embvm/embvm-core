@@ -64,8 +64,7 @@ template<typename TType>
 /// Read from a volatile memory location
 /// @overload TType volatile_load(TType* target)
 template<typename TType>
-[[nodiscard]] constexpr inline TType
-	volatile_load(volatile const TType* target) noexcept
+[[nodiscard]] constexpr inline TType volatile_load(volatile const TType* target) noexcept
 {
 	assert(target);
 	static_assert(std::is_trivially_copyable<TType>::value,
