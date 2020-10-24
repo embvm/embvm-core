@@ -22,6 +22,7 @@ subdir('interrupt_lock')
 subdir('nop_lock')
 subdir('sbrm')
 subdir('time')
+subdir('tuple_array')
 subdir('volatile')
 
 utilities_sources = [
@@ -71,6 +72,7 @@ catch2_tests_dep += declare_dependency(
 		interrupt_lock_test_files,
 		sbrm_test_files,
 		time_test_files,
+		tuple_array_test_files,
 		volatile_test_files
 	]
 )
