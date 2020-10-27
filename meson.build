@@ -84,6 +84,9 @@ if enable_threading == false
 	desired_native_cpp_compile_flags += ['-fno-threadsafe-statics']
 endif
 
+# Silence the warning when -nostdinc and -nostdinc++ are specified together
+desired_common_compile_flags += ['-Wno-unused-command-line-argument']
+
 compile_settings_list = [
 	{'lang': 'c', 'compiler': host_c_compiler, 'flags': desired_c_compile_flags, 'isnative': false},
 	{'lang': 'c', 'compiler': native_c_compiler, 'flags': desired_native_c_compile_flags, 'isnative': true},
@@ -200,15 +203,6 @@ stdlib_host_dep = declare_dependency(
 		compiler_rt_builtins_dep,
 	],
 )
-
-# Silence the warning when -nostdinc and -nostdinc++ are specified together
-add_project_arguments(
-	meson.get_compiler('cpp', native : true).get_supported_arguments('-Wno-unused-command-line-argument'),
-	language: ['c', 'cpp'],
-	native: true)
-add_project_arguments(
-	meson.get_compiler('cpp', native : false).get_supported_arguments('-Wno-unused-command-line-argument'),
-	language: ['c', 'cpp'])
 
 # Configure the project to include `libc` headers by default
 
