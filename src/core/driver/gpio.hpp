@@ -48,7 +48,7 @@ enum class pull
  * you may not want to expose the register definitions publicly in a head.
  *
  */
-enum class port : uint8_t
+enum port : uint8_t
 {
 	A = 0,
 	B,
