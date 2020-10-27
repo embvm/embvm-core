@@ -9,6 +9,7 @@ export Q := @
 export VERBOSE := 0
 endif
 
+MESON ?= meson
 BUILDRESULTS ?= buildresults
 CONFIGURED_BUILD_DEP = $(BUILDRESULTS)/build.ninja
 
@@ -67,11 +68,11 @@ package: default docs
 # Manually Reconfigure a target, esp. with new options
 .PHONY: reconfig
 reconfig:
-	$(Q) meson $(BUILDRESULTS) --reconfigure $(INTERNAL_OPTIONS) $(OPTIONS)
+	$(Q) $(MESON) $(BUILDRESULTS) --reconfigure $(INTERNAL_OPTIONS) $(OPTIONS)
 
 # Runs whenever the build has not been configured successfully
 $(CONFIGURED_BUILD_DEP):
-	$(Q) meson $(BUILDRESULTS) $(INTERNAL_OPTIONS) $(OPTIONS)
+	$(Q) $(MESON) $(BUILDRESULTS) $(INTERNAL_OPTIONS) $(OPTIONS)
 
 .PHONY: cppcheck
 cppcheck: | $(CONFIGURED_BUILD_DEP)
@@ -148,6 +149,7 @@ distclean:
 help :
 	@echo "usage: make [OPTIONS] <target>"
 	@echo "  Options:"
+	@echo "    > MESON Override meson tool - useful for testing meson prereleases and forks."
 	@echo "    > VERBOSE Show verbose output for Make rules. Default 0. Enable with 1."
 	@echo "    > BUILDRESULTS Directory for build results. Default buildresults."
 	@echo "    > OPTIONS Configuration options to pass to a build. Default empty."
