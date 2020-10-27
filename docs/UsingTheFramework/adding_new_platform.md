@@ -1,5 +1,18 @@
 # Adding a New Platform
 
+## What is a Platform?
+
+Platform = hw platform + memory allocation scheme + OS + framework core + framework subsystems
+
+## Platform Bring-up Checklist
+
+- [ ] 
+- [ ] 
+- [ ] 
+
+
+## Template Files
+
 * `platform_options.hpp`
 * `platform_logging.hpp`
 * `platform.hpp`
@@ -7,6 +20,12 @@
 * `meson.build`
 
 Talk about the helper script once it is created
+
+## Build
+
+## Selecting a Memory Allocator
+
+Using libmemory - describe this here
 
 ## Alternatives to Find Driver
 
@@ -36,3 +55,151 @@ embvm::tof::sensor& tof0_inst()
 	tof.registerReadCallback([](uint16_t v) { printf("ToF Range: %u mm\n", v); });
 
 ```
+
+## Related Documents
+
+* [Adding a New Hardware Platform](adding_new_hw_platform.md)
+
+
+
+
+
+
+
+
+
+
+See: ADR 20 - depending on your platform, you may be required to define a hw_platform_options.hpp file which is used to select configuration options such as the driver registry type
+
+Need a template options file
+
+## putchar implementation
+
+You'll need to supply an implementation for `_putchar` if you're using `printf`. We recommend doing this in platform.cpp, or another platform-specific file.
+
+If you don't need to use this functionality, but your build requires it, you can define an empty implementation:
+
+```
+// We don't print anything, so supply an empty defintion
+extern "C" void _putchar(char c)
+{
+    (void)c;
+}
+
+```
+
+
+## Making it Easier on Users
+
+If most of our platforms are going to be doing this:
+
+```
+#include <hw_platform_options.hpp>
+
+class UnitTestHWPlatform
+    : public embvm::VirtualHwPlatformBase<UnitTestHWPlatform, PlatformDriverRegistry>
+```
+
+Why don't we make it easier?
+
+We're using C++17, so we can take advantage of `__has_include`
+
+```
+#if __has_include(<hw_platform_options.hpp>)
+#include <hw_platform_options.hpp>
+#endif
+```
+
+```
+#if __has_include(<hw_platform_options.hpp>)
+template<typename THWPlatform, class TDriverRegistry = PlatformDriverRegistry>
+#else
+template<typename THWPlatform, class TDriverRegistry>
+#endif
+```
+
+Now I can compile the project and confirm that everything works like this since I have a configuration header defined
+
+```
+class UnitTestHWPlatform
+    : public embvm::VirtualHwPlatformBase<UnitTestHWPlatform>
+{
+    using Base = embvm::VirtualHwPlatformBase<UnitTestHWPlatform>;
+```
+
+Note documentation from here:
+
+```
+#include <driver/driver_registry.hpp>
+#include <string>
+#if __has_include(<hw_platform_options.hpp>)
+#include <hw_platform_options.hpp>
+#endif
+
+namespace embvm
+{
+/** Virtual Hardware Platform Base
+ *
+ * This class provides the common interfaces and behaviors that virtual hardware platforms
+ * must implement. Some functionality is common to all platforms (name functions).
+ *
+ * Functions whose names are appended with `_` are meant to be supplied by the derived hardware
+ * platform:
+ *  - earlyInitHook_()
+ *  - init_()
+ *  - initProcessor_()
+ *  - soft_reset_()
+ *  - hard_reset_()
+ *  - shutdown_()
+ *
+ * Derived classes may supply additional functions as required. The functions above are the
+ * common required functions that all hardware platforms must supply.
+ *
+ * This class uses the @ref docs/development/patterns/crtp.md ["CRTP pattern"] rather
+ * than virtual inheritance. To derive from this class, do the following:
+ *  @code
+ *  class FWDemoSimulatorHWPlatform : public VirtualHwPlatformBase<FWDemoSimulatorHWPlatform>
+ *  { ... };
+ *  @endcode
+ *
+ * @tparam THWPlatform the derived HW platform implementation (CRTP pattern)
+ * @tparam TDriverRegistry The type of the platform's DriverRegistry. DriverRegistry type is
+ *  specified to enable consumers to specify the exact DriverRegistry type/strategy in the
+ *  platform layer, since the HW platform doesn't need to know anything about the memory
+ *  allocation scheme.
+ *  If your platform defines a hw_platform_options.hpp header, then the base class will
+ *  automatically pick up your configured registry type.
+ *  @code
+ *  class UnitTestHWPlatform
+ *  : public embvm::VirtualHwPlatformBase<UnitTestHWPlatform>
+ *  @endcode
+ *  If this header is missing, or you wish to override the platform default for whatever
+ *  reason, you can manually specify the type.
+ *  @code
+ *  class UnitTestHWPlatform
+ *  : public embvm::VirtualHwPlatformBase<UnitTestHWPlatform, embvm::DynamicDriverRegistry>
+ *  @endcode
+ *
+ * @ingroup FrameworkHwPlatform
+ */
+#if __has_include(<hw_platform_options.hpp>)
+template<typename THWPlatform, class TDriverRegistry = PlatformDriverRegistry>
+#else
+template<typename THWPlatform, class TDriverRegistry>
+#endif
+class VirtualHwPlatformBase
+{
+```
+
+## Linker Scripts
+
+Talk about linker scripts belonging in the platform
+
+show how to manually add them to target
+add link_depends for things to rebuild
+
+talk about how to add them via meson cross files as well
+
+https://embeddedartistry.com/blog/2020/04/27/how-to-incorporate-linker-scripts-in-meson-cross-compilation-files/
+
+If you're using the embvm skeleton, this will already be handled by one of our modules: `build/linker/linker-script-as-property`

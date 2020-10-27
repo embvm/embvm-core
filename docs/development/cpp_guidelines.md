@@ -4,10 +4,13 @@
 
 1. [General Guidelines](#general-guidelines)
 2. [C++ Class Rules](#c-class-rules)
-3. [Use of Optional Returns](#use-of-optional-returns)
+3. [Pointer Meaning](#pointer-meaning)
+3. [Optional](#optional)
 4. [Avoiding Exceptions](#avoiding-exceptions)
 5. [Prefer STL Algorithms to Raw Loops](#prefer-stl-algorithms-to-raw-loops)
 6. [Avoid `void*` in Interfaces](#avoid-void-in-interfaces)
+7. [Prefer Compile-Time Configuration](#prefer-compile-time-configuration)
+8. [Optional Headers](#optional-headers)
 7. [References](#references)
 
 ## General Guidelines
@@ -26,7 +29,6 @@
     * One important point about C++ and lambdas is that while we’re using lambda capture ”by copy”, it still captures current object (the one referred to by `this`) by reference.
 * Dynamic polymorphism works well, but may not be ideal for functions that are called at a high frequency
     * Procedural methods or static polymorphism could be better options for extremely time critical code
-
 
 ## C++ Class Rules
 
@@ -69,7 +71,19 @@ Other notes:
     * Using `friend`s makes sense to eliminate thin `set()`/`get()`` functions which might expose internal class details
     * Keep private members private with `friend` functions
 
-## Use of optional Returns
+## Pointer Meaning
+
+Pointers represent non-owning `nullable` references.
+
+## Optional
+
+`optional` is excellent for passing around resources owned by the current scope.
+
+### Optional and Global Variables
+
+Note that if you want to have an `optional` reference to a global variable, pointers are a superior choice: an `optional` will make a copy of the global variable, while pointers will not. 
+
+### Use of optional Returns
 
 If a function could fail to return a good value, use `std::optional<T>` or `type_safe::optional_ref<T>` as the return type. The user can check to see if the optional value has been supplied. This provides a better alternative to "inout" parameters, `std::pair` returns, or using an "invalid" value (i.e., '-1').
 
@@ -81,11 +95,13 @@ This way a new value is added to the possible values that `T` can hold, which av
 
 ## Avoiding Exceptions
 
-The framework does not use C++ exceptions.
+The `embvm-core` does not use C++ exceptions.
 
 Utilize explicit error handling when required, and implicit if not.
 
-Every function which might fail exists in two versions: `Foo` & `TryFoo`. The latter returns an error code, the former performs an `abort` on failure.
+Every function which might fail can exist in two versions: `Foo` & `TryFoo`. The latter returns an error code, the former performs an `abort` on failure.
+
+In addition, mark functions in the `embvm-core` as `noexcept`, since we do not want any of these functions to throw exceptions.
 
 ## Prefer STL Algorithms to Raw Loops
 
@@ -104,6 +120,52 @@ Instead of raw loops, prefer using an algorithm. The algorithm can be either an 
 In interfaces, if you have memory where you know the type, use `T*`.
 
 If you don't know the type, use `std::byte*` instead of `void*`. `std::byte*` provides support for pointer arithmetic without casting and is still a generic construct.
+
+## Prefer Compile-Time Configuration
+
+We prefer to have configuration options specified at compile-time whenever possible. This reduces the run-time overhead on our microcontroller-based systems.
+
+This means using approaches like policy-based design or "traits", where we pass in options to types as template parameters.
+
+```cpp
+#include <boost/container/static_vector.hpp>
+
+using static_vector_options = typename boost::container::static_vector_options<boost::container::throw_on_overflow<false>>::type;
+
+template,typename T, std::size_t Size>
+using static_vector = boost::container::static_vector<T, Size, static_vector_options>;
+```
+
+## Optional Headers
+
+There are times we want to optionally include a header in the `embvm-core`. This is typically to support user configuration, where we can simplify the definition of a type.
+
+We can use the `__has_include` construct (standardized in C++17) to check for the presence of an optional header:
+
+```
+#if __has_include(<hw_platform_options.hpp>)
+#include <hw_platform_options.hpp>
+#endif
+```
+
+As well as changing the behavior of the code depending on the header.
+
+```
+#if __has_include(<hw_platform_options.hpp>)
+template<typename THWPlatform, class TDriverRegistry = PlatformDriverRegistry>
+#else
+template<typename THWPlatform, class TDriverRegistry>
+#endif
+```
+
+You could also define a value that is used after the initial check.
+
+```
+#if __has_include(<hw_platform_options.hpp>)
+#include <hw_platform_options.hpp>
+#define HW_PLATFORM_OPTIONS_PRESENT
+#endif
+```
 
 ## References
 

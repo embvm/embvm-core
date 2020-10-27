@@ -12,6 +12,10 @@ I will also write drivers for some USB-to-X adapters (Aardvark I2C/SPI, CAN, etc
 * make it easier to write multi-threaded software
 * make it easier to write safer software - eliminate whole categories of common programming problems
 
+## Getting Started
+
+If this is your first time working with the framework, checkout our [Getting Started Guide](getting_started.md) guide for a quick orientation.
+
 
 ## Sub-documents
 

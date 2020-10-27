@@ -1,5 +1,7 @@
 # Developer Guide
 
+AUDIT NEEDEED
+
 **Table of Contents**
 
 1. [Sub-documents](#sub-documents)
@@ -42,51 +44,6 @@ Our developer guidelines have been split up into sub-categories:
 
 For more information on using the framework constructs, see [Using the Framework](UsingTheFramework/using_the_framework.md).
 
-## Adding a New Submodule
-
-When adding a new submodule to the project, the following steps will need to be performed:
-
-1. Update [clang-format-all.sh](../../tools/clang-format-all.sh) to exclude the submodule directory
-2. Update [clang-format-patch.sh](../../tools/clang-format-patch.sh) to exclude the submodule directory
-3. Update [complexity_check.sh](../../tools/complexity_check.sh) to exclude the submodule directory
-1. Update [cppcheck.sh](../../tools/cppcheck.sh) to exclude the submodule directory
-1. Update [cppcheck_xml.sh](../../tools/cppcheck_xml.sh) to exclude the submodule directory
-
-## Adding a New Static Library Build Target
-
-When creating static library or executable targets, you need to specify `libc_header_include` as an `include_directories` entry and `libcxx_header_include_dep` as a `dependencies` entry:
-
-```
-nrf52840 = static_library('nrf52840',
-    [
-        'nrf52840.cpp',
-        '../mdk/gcc_startup_nrf52840.S',
-        '../mdk/system_nrf52840.c',
-    ],
-    include_directories: [
-        nordic_include_dirs,
-        cmsis_corem_include,
-        framework_includes,
-        libc_header_include, # <----- libc header include
-    ],
-    c_args: [
-        '-DCONFIG_GPIO_AS_PINRESET',
-        '-DNRF52840_XXAA',
-    ],
-    cpp_args: [
-        '-DNRF52840_XXAA',
-        '-DDEBUG_ASSERT_NO_STDIO',
-    ],
-    dependencies: [
-        nrf_common_drivers_dep, 
-        libcxx_header_include_dep, # <----- libcpp header dep
-        arm_dep,
-    ],
-    native: false
-)
-```
-
-
 ## Logging Guidelines
 
 Log statements shall not be checked into framework code outside of demonstration platforms and applications. This means *no* log statements in the framework core source and framework utilities.
@@ -105,7 +62,7 @@ For more information on the [Meson](https://mesonbuild.com) build system, see th
 
 ### Anti-Patterns to Avoid
 
-* Do not embed full file paths in the tree. Relative paths work fine, meson will take care of it
+* Do not embed full file paths in the tree. Relative paths work fine, meson will take care of it. You can also use Meson functions like `meson.source_root()` and `meson.build_root.`
 * Do not use `target_machine` when cross-compiling. You should pretty much always use `host_machine`:
 	* `build_machine` is the desktop or laptop computer you are using for your development
 	* `host_machine` is the low powered IoT device, ARM board or equivalent that will run your program
@@ -161,24 +118,24 @@ Verify that your names are not misspelled!
     * Bad: `item` & `items`
     * Good:`itemList` & `selectedItem`
 * Names with non-alphabetic characters
-    * Digits can be confuseing
-    * What is the difference between variables score1, score2, and score3? Better names!
-* Unfamliar or unusual names
-    * Long or uncommon names (alabaster, determinant)
-    * Unusual cryptic names (pilar, betwixt)
-    * Fake names (fizzbin, blurp)
-    * Slang or puns (tunaGuitar, dork, farmOut)
-    * Domain-specific names SHOULD be used because they are familiar to your project sponsors, users, and domian experts.
-        * Define these terms in your glossary.
+    * Digits can be confusing
+    * What is the difference between variables `score1`, `score2`, and `score3`? Pick better names!
+* Unfamiliar or unusual names
+    * Long or uncommon names (`alabaster`, `determinant`)
+    * Unusual cryptic names (`pilar`, `betwixt`)
+    * Fake names (`fizzbin`, `blurp`)
+    * Slang or puns (`tunaGuitar`, `dork`, `farmOut`)
+    * Domain-specific names SHOULD be used because they are familiar to your project sponsors, users, and domain experts.
+        * Define these terms in the glossary for others to reference.
 * Poor compound names
 * Meaningless parts of compound names are fluff and should be avoided:
-    * Utility or Util
-    * Assistant
-    * Helper (every source code element helps something)
-    * Manager
-    * Controller
-    * Administrator
-    * What kind of managing or controlling is hpapening? These terms are usually too vague to use.
+    * `Utility` or `Util`
+    * `Assistant`
+    * `Helper` (every source code element helps something)
+    * `Manager`
+    * `Controller`
+    * `Administrator`
+    * What's the problem with these names? Fundamentally, we're left with the question: what kind of managing or controlling is happening? These terms are usually too vague to use.
 * Redundant names should be avoided
     * `Matrix::clear` NOT `Matrix::ClearMatrix`
 * Acronyms or abbreviations
@@ -188,10 +145,10 @@ Verify that your names are not misspelled!
     * Avoid acronyms or abbreviations unless they're used in the problem domain or common in everyday writing (min & max)
 * Cryptic name codes
     * These names are gibberish to the uninformed. They are only slightly clearer to the informed.
-    * ncd = non-comforming-data.
+    * `ncd` = `non-comforming-data`
         * How would you know?
         * ex: `ncdAddress`
-    * This means *no Hungarian notation*
+    * This means *no Hungarian notation* in the code base.
 
 ## Use Clear Expressions
 
@@ -218,13 +175,13 @@ An uncomplicated way to improve existing code: replace every magic number you fi
 
 Expressions can appear cryptic by being too short or too long. Shorter expressions are preferred, but only if they are clear
 
-### Avoid Anonymous Procedures
+### Minimize Use of Anonymous Procedures
 
-Anonymous procedures are those that have no name, such as lambdas. They are useful, but can be difficult to understand.
+Anonymous procedures are those that have no name, such as lambdas. They are useful, but can be difficult to understand and trace.
 
 If your anonymous procedure has more than two statements, use a named procedure.
 
-Do not chain anonymous functions.
+Do not chain anonymous functions!
 
 ### Avoid Procedure Chaining
 
@@ -234,7 +191,7 @@ Procedure chaining is when one procedure after another is called without interru
 container.get().doAThing().
 ```
 
-Chained procedures are like a run-on sentence in conventional writing. Readbility suffers because the author is trying to be too concise.
+Chained procedures are like a run-on sentence in conventional writing. Readability suffers because the author is trying to be too concise.
 
 ### Avoid Multiple Statements Per Line
 
@@ -254,9 +211,9 @@ Developers don't always indent consistently. Inconsistent indentation is better 
 
 Left-align curly braces so you can see there's a matching pair. This also adds vertical whitespace and makes subsequent statement groups easier to read.
 
-### Improve readbility using whitespace
+### Improve readability using whitespace
 
-Readablity helps readers understand the program operation. Whitespace, line length, page position all affect readability.
+Readability helps readers understand the program operation. Whitespace, line length, page position all affect readability.
 
 Whitespace can be viewed as "negative space". Too little whitespace makes source code dense, cluttered, and hard to understand. Would you be able to process a dense book for hours on end? No!
 
@@ -268,7 +225,7 @@ Consistency can reduce the amount of information you need to remember.
 
 Even so, consistency isn't a standalone virtue - it's only a magnifier. If you consistently pay your bills on time, it's good for your credit rating. If you're a consistent liar, it's bad for your relationships. Consistency makes good actions better or bad actions worse.
 
-Consistency reduces flexibility, which can be undesirable. The balance between consistency and flexbility should be evaluated on a case-by-case basis.
+Consistency reduces flexibility, which can be undesirable. The balance between consistency and flexibility should be evaluated on a case-by-case basis.
 
 #### Names and Types
 
@@ -276,7 +233,7 @@ Use names and types consistently.
 
 If you use the name `Clear()` to clear values in one module, then use the name `Clear()` everywhere values are cleared.
 
-If you use the `short type`for a specific value in one module, then use the `short` type everywhere that value is used. This includes variables, function parameters, return types, etc.
+If you use the `short type` for a specific value in one module, then use the `short` type everywhere that value is used. This includes variables, function parameters, return types, etc.
 
 #### Namespaces
 
@@ -287,13 +244,14 @@ For example, this is a category, not a purpose:
 ```
 System.Math // (class)
 ```
+
 Math should be a namespace, and each operation should be a separate class.
 
 ```
 Math.Sine(x) -> Math::Sine.compute(x)`
 ```
 
-Each class should conform to the single responsibility prinple.
+Each class should conform to the single responsibility principle.
 
 ## Use Symmetry
 
@@ -301,7 +259,7 @@ Symmetry refers to pleasing proportion, arrangement, or balance. It implies unif
 
 ### Parameter Names
 
-Program operations are often symmetrical. For instance, you might wite data to a file, then read it back later. Symmetrical procedure names make this clearer. Naming pairs are useful for public interfaces.
+Program operations are often symmetrical. For instance, you might write data to a file, then read it back later. Symmetrical procedure names make this clearer. Naming pairs are useful for public interfaces.
 
 The following name pairs are nearly universal:
 
@@ -345,7 +303,7 @@ A comment is source code metadata, and it can serve one of two broad purposes. I
 
 Good comments explain the code and are updated when the code is modified. Trivial comments add useless clutter. Obsolete comments are useless and confusing.
 
-Though self-explanatory code is often feasible, language semantics limit your explainations. For example, if your code has an emtpy `catch` clause to ignore file access errors, how can you make it self-explanatory? In this situation, a comment can explain the *purpose* of the empty `catch` clause.
+Though self-explanatory code is often feasible, language semantics limit your explanations. For example, if your code has an empty `catch` clause to ignore file access errors, how can you make it self-explanatory? In this situation, a comment can explain the *purpose* of the empty `catch` clause.
 
 Comments should immediately precede the statements they describe.
 
@@ -359,7 +317,7 @@ Interface comments also act as section dividers, preventing procedures from visu
 
 ### Implementation Comments
 
-Implementation comments describe algorithms or other operational details. They are best used to explain unusual logic or instructions. They are also used to document the purpose behind a particular approach, especially if it is not straigtforward.
+Implementation comments describe algorithms or other operational details. They are best used to explain unusual logic or instructions. They are also used to document the purpose behind a particular approach, especially if it is not straightforward.
 
 Trivial and unnecessary comments add clutter.
 
@@ -394,17 +352,17 @@ Optimization guidelines from Jerry Fitzpatrick:
 
 ## Use atomic initialization
 
-The phrase "atomic initialization" means to completely initialize an instance prior to use. Every instance member is set to either a sepcific or a efault value, putting the instance into a known state.
+The phrase "atomic initialization" means to completely initialize an instance prior to use. Every instance member is set to either a specific or a default value, putting the instance into a known state.
 
 What we don't want is instances that are initialized little-by-little. They start life partially initialized, then you need to call additional functions before use.
 
 **Incremental initialization almost always indicates a poor design.** Incremental initialization is clumsy, error prone, and opposes encapsulation.
 
-Incrememntal initialization has several problems:
+Incremental initialization has several problems:
 
 1. The instance must have public data members or setters, otherwise it can't be initialized incrementally
-2. Even if those members are intended only for initialiation, they can be used at any time for any reason
-3. The benefits of encapulsation are lost
+2. Even if those members are intended only for initialization, they can be used at any time for any reason
+3. The benefits of encapsulation are lost
 4. When an instance is intended to be initialized incrementally, it's rarely clear which data members and procedures should be used for initialization.
 5. Worse yet, initialization may need to occur in a specific order
 6. A bigger problem is that no one knows whether the instance is fully initialized
@@ -414,9 +372,9 @@ Incrememntal initialization has several problems:
 
 Together, these ambiguities make it difficult for client code to initialize the instance correctly.
 
-Sometimes developers will add an `isInitialized` flag for client code to use. This makes the checks simpler and less error-prone, but conditional logic is still neeeded to check the flag. Getting the instance properly initialized also remains a problem.
+Sometimes developers will add an `isInitialized` flag for client code to use. This makes the checks simpler and less error-prone, but conditional logic is still needed to check the flag. Getting the instance properly initialized also remains a problem.
 
-Atomic initalization avoids all of these problems. Data members and setter procedures can be kept private, preserving encapsulation. Iniitalization values and order dependencies are handled in one place. There's no need for clients to perform initialization checks, because they can be sure that the instance is always fully initialized.
+Atomic initialization avoids all of these problems. Data members and setter procedures can be kept private, preserving encapsulation. Initialization values and order dependencies are handled in one place. There's no need for clients to perform initialization checks, because they can be sure that the instance is always fully initialized.
 
 With OO languages, a constructor normally performs initialization. Overloaded constructors are an appropriate choice if an instance can be initialized in several ways. However, each constructor should ensure that the instance is fully initialized.
 
@@ -426,7 +384,7 @@ With OO languages, a constructor normally performs initialization. Overloaded co
 
  > On occasion, I've seen classes with an `Initialize()` procedure that is expected to be called by the client code. This is just sloppy. Initialization is the constructor's purpose, and its guaranteed to be called when the instance is created. By contrast, there's no guarantee that client code will call the `Initialize` procedure, or know when to call it.
 
-Instances should always use atomic initialization to avoid bugs and keep the implementation clear. Atomic initialization is also a pre-requisite for immutable instances.
+Instances should always use atomic initialization to avoid bugs and keep the implementation clear. Atomic initialization is also a prerequisite for immutable instances.
 
 ## Prefer immutable instances
 
@@ -437,8 +395,8 @@ Immutability is enabled by the language and enforced by the compiler. Immutable 
 To develop an immutable type in OO language:
 
 * You must use atomic initialization
-* You must not have any public settters or public mutable data members
-* Any procedure that wuld normally change the state of the instance should return a modified instance instead
+* You must not have any public setters or public mutable data members
+* Any procedure that would normally change the state of the instance should return a modified instance instead
 
 Regardless of visibility, immutable instances are totally harmless if they:
 
@@ -453,7 +411,7 @@ Benefits of immutability:
 
 * An instance can be copied without creating a new instance
     * Instead, the instance can be "copied" by copying a reference to the existing instance
-    * Because the reference is smaller than the instance, memory usage is reduced and perforamnce is increased
+    * Because the reference is smaller than the instance, memory usage is reduced and performance is increased
 * Concurrent threads or processes can share immutable instances without the need for locking
 * We are far less concerned about the coupling of immutable instances.
 
@@ -467,7 +425,7 @@ Our golden rule is: **Validate inputs only at the boundary of your program.**
 
 Validation code increases program size and reduces performance, so it's important to judge the reliability of the source accurately. To make your program robust, you should validate every input from unreliable data sources.
 
-Every data source (file, database, web serice, etc.) controlled exclusively by your team should be considered reliable. With some exceptions, data sources shared with other groups can't be considered reliable, since you don't have full control over them. This is especially true of an external system whose interface is non-standard, poorly documented, or error prone.
+Every data source (file, database, web service, etc.) controlled exclusively by your team should be considered reliable. With some exceptions, data sources shared with other groups can't be considered reliable, since you don't have full control over them. This is especially true of an external system whose interface is non-standard, poorly documented, or error prone.
 
 You should always validate data in just one place: the point where your program obtains the data. By checking the values at this boundary, you can stop invalid data from entering your program. With validated input data, there's no need to add checks anywhere else.
 
@@ -515,9 +473,9 @@ Precision is the primary concern when comparing floating point values. A compute
 Here are guidelines for specifying precision:
 
 * Any digit besides zero is always significant
-* Trailing zeroes are significant if they appear after the decimal point
-* leading zeroes are never significant
-* Trailing zeroes before the decimal point may or may not be signicant, making the precision indeterminate
+* Trailing zeros are significant if they appear after the decimal point
+* leading zeros are never significant
+* Trailing zeros before the decimal point may or may not be significant, making the precision indeterminate
 
 Most microprocessors use IEEE 754 standard, which states:
 * `float` = 7 significant digits of precision
@@ -560,7 +518,7 @@ Some conditional logic is unavoidable, but you can reduce the amount of it by us
 
 The cost of conditional logic far outweighs any benefit. Adding conditional logic to detect a condition that can't or shouldn't happen is an expensive waste of time. It just makes the program larger, more complicated, and once again increases the risk of bugs. If the procedure doesn't work, then fix it. If you can't fix it, then write a new procedure that works correctly. Don't include sanity checks because it *might not work*.
 
-### Context and polymorphism
+## Context and polymorphism
 
 It's quite common to see the same conditional logic repeated in many parts of the code. Recurring logic tends to be error prone, especially when the logic needs to be updated due to requirements changes.
 

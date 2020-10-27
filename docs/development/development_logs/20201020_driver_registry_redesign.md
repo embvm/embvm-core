@@ -1,5 +1,6 @@
 # Driver Registry Redesign Log
-20201020 - Phillip Johnston
+Phillip Johnston
+20201020
 
 First, we want to break the dependency of the driver base class on the driver registry.
 
@@ -743,3 +744,40 @@ TEST_CASE("TestDriverBase is added to and removed from registery", "[core/driver
 Now all the tests compile. But I need to do a few checks for a static driver register.
 
 Now I'm going to pause and make sure all of the associated documentation is up-to-date before continuing on.
+
+## Completed Task Log
+
+- [x] Does the driver registry really belong in the platform? Or the hw_platform?
+    - API for public use belongs in the platform, because they can't access the hardware platform directly.
+- [x] For driver base class remove driver registry auto registration.
+- [x] Update Unit Tests
+- [x] Determine: should the virtual platform CRTP take in a hardware platform? this would solve the driver registry problem. But it also hides details from the user... hmm.... (Yes)
+- [x] Figure out the best way to specify the driver registry class in the HW Platform CRTP definition - platform options file (ADR 20)
+- [x] Can we find a way to simplify the need to have a driverRegistry template param in the hardware platform, since all users are going to defer this anyway?
+- [x] Update find_all in driver registery to be findAll
+- [x] Update the framework diagrams to account for the redesign
+- [x] Virtual Platform API update: Can we remove by name, by pointer, by both? Right now we require both...
+    - Yes - we can remove by key or instance from the underlying instance list, so new APIs were created.
+    ```
+        /** Platform-level API for unregistering a new device driver
+         *
+         * Unregister a device driver with the platform's driver registry.
+         *
+         * This call forwards the information to the DriverRegistry instance.
+         *
+         * @param name The name of the driver to remove.
+         * @param driver Pointer to the embvm::DriverBase object being removed.
+         */
+        static void unregisterDriver(const std::string_view& name, embvm::DriverBase* driver) noexcept
+        {
+            driverRegistry().remove(name.data(), driver);
+        }
+    ```
+- [x] Audit API for const-correctness
+- [x] Create unit tests for the driver registry
+- [x] Now that we've split up the driver registry from the base class - Driver vs Driver Registry: Where does the proper "name" belong? We don't need to store two different instances of the name. Perhaps we just use the name from the driver base class as the registry name? Then we can create drivers with names like `tof0`, `tof1`, etc. Or maybe that just belongs in the registry, and we don't care whether our driver has a name?
+    - if it's in the driver... the we don't need this: `p.registerDriver(d.name(), &d);` - name can be gotten internally using d->name(), no storage needed
+    - But one nice thing about registry having the name is that we can make one driver have multiple driver names/instances (ldo0, ldo1, etc.)
+    - VERDICT: name was removed.
+    - [x] Update registry initialization for all hardware platforms
+        - [x] Driver registry Initialization happens in virtual hardware platform. We now manually register, same object, can have multiple interfaces. User gets control over process.
