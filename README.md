@@ -52,7 +52,7 @@ The instructions below will help you download and build the project.
 
 Detailed documentation on the design and use of the Embedded VM can be found in the [docs/](docs/) folder.
 
-If this is your first encounter with the Embedded VM project, we recommend beginning with our [Getting Started Guide](docs/UsingTheFramework/getting_started.md).
+If this is your first encounter with the Embedded VM project, we recommend beginning with our [Getting Started Guide](docs/UsingTheFramework/getting_started.md). This guide includes links to demo projects that are built using the Embedded VM.
 
 ### Requirements
 
