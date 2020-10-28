@@ -1,15 +1,15 @@
-option('os-header-path', type: 'string', value: '../../src/core', yield: true)
-option('disable-builtins', type: 'boolean', value: false,
+option('disable-builtins', type: 'boolean', value: true,
     description: 'Tell the compiler not to generate builtin functions.',
     yield: true)
+option('disable-exceptions', type : 'boolean', value: true, yield: true)
+option('disable-rtti', type : 'boolean', value: true, yield: true)
 option('disable-stack-protection', type: 'boolean', value: false,
     description: 'Tell the compiler not to insert stack protection calls.', yield: true)
 option('enable-pedantic', type: 'boolean', value: false)
 option('enable-pedantic-error', type: 'boolean', value: false)
 option('enable-threading', type: 'boolean', value: true, yield: true)
-option('disable-rtti', type : 'boolean', value: true, yield: true)
-option('disable-exceptions', type : 'boolean', value: true, yield: true)
-# libc++ Options
+
+#libc++ options
 option('libcxx-use-compiler-rt', type: 'boolean', value: false, yield: true,
     description: 'Use compiler-rt to supply builtin functionality')
 option('libcxx-use-llvm-libunwind', type: 'boolean', value: true)
@@ -24,6 +24,8 @@ option('libcxx-enable-stdinout', type: 'boolean', value: true)
 option('libcxx-default-newdelete', type: 'boolean', value: true)
 option('libcxx-silent-terminate', type: 'boolean', value: true)
 option('libcxx-monotonic-clock', type: 'boolean', value: true)
+option('os-header-path', type: 'string', value: '../../src/core', yield: true)
+
 # Libc Options
 option('hide-unimplemented-libc-apis', type: 'boolean', value: false,
     description: 'Make unimplemented libc functions invisible to the compiler.',
