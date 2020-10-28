@@ -1,6 +1,4 @@
-
 ## What is the Embedded Virtual Machine?
-
 
 
 ## Example Projects

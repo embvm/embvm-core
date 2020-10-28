@@ -41,6 +41,11 @@ cd buildresults
 meson configure -Ddisable-builtins=false
 ```
 
+Need to talk about debug vs release (DEBUG=1, --debug, --optimization=X)
+
+reconfiguring an existng project with make reconfig
+
+
 ## Selecting a Memory Allocator
 
 ## Customizing Log Macros
