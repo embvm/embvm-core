@@ -4,11 +4,9 @@
 #include <array>
 #include <tuple>
 
-// TODO: document
-
 namespace embutil
 {
-/** \defgroup Tuple/Array Conversion Utilities
+/** \defgroup Tuple-Array Conversion Utilities
  *
  * Functions that can be used to convert between tuples and arrays.
  *
@@ -16,7 +14,7 @@ namespace embutil
  * @{
  */
 
-///@name Tuple/Array Conversion Functions
+///@name Tuple-Array Conversion Functions
 /// @brief Convert between tuples and arrays
 
 /** The implementation function that handles the actual conversion.
