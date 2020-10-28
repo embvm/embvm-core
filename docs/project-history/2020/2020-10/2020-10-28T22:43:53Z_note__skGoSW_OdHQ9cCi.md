@@ -1,0 +1,1 @@
+We near the initial release of the Embedded VM as a public project. Design changes are still being made, such as cleaning up the GPIO approach, as well as correcting the build problems resulting from a lack of libc/libcpp specification through cross files. Documentation is currently the biggest gate to a release, although we also want to expand the STM32 driver samples.
