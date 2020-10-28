@@ -24,18 +24,10 @@ By participating in this project, you agree to abide by the Embedded Artistry [C
 
 This project is managed on GitHub:
 
-* [GitHub Project Page]()
-* [GitHub Issue Tracker]()
+* [GitHub Project Page](https://github.com/embvm/embvm-core/projects)
+* [GitHub Issue Tracker](https://github.com/embvm/embvm-core/issues)
 
-Questions can also be submitted [on the Embedded Artistry website](https://embeddedartistry.com/contact) and in the [Embedded Artistry Forum](https://embeddedartistry.com/community/embedded-artistry-oss/).
-
-Useful Documentation:
-
-* 
-
-Embedded Artistry blog posts related to this project:
-
-* 
+Questions can also be submitted [on the Embedded Artistry website](https://embeddedartistry.com/contact) and in the [Embedded Artistry Forum](https://embeddedartistry.com/community/embedded-artistry-oss/). 
 
 ## Questions
 
