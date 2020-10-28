@@ -284,19 +284,23 @@ TEST_CASE("SPI dispatch tests", "[core/driver/spi]")
 
 TEST_CASE("GPIO tests", "[core/driver/gpio]")
 {
-	UnitTestGPIOInput g;
+	UnitTestGPIO g;
 
-	SECTION("Check defaults", "[core/driver/gpio]")
+	SECTION("Check input", "[core/driver/gpio]")
 	{
-		CHECK(embvm::gpio::pull::none == g.pull());
-		CHECK(embvm::gpio::direction::in == g.direction());
+		g.setMode(embvm::gpio::mode::input);
+		CHECK(embvm::gpio::mode::input == g.mode());
 		CHECK(false == g.get());
 	}
 
-	SECTION("Set pull", "[core/driver/gpio]")
+	SECTION("Check output", "[core/driver/gpio]")
 	{
-		UnitTestGPIOInputWithPullup g2;
-		CHECK(embvm::gpio::pull::pullup == g2.pull());
-		CHECK(true == g2.get());
+		g.setMode(embvm::gpio::mode::output);
+		CHECK(embvm::gpio::mode::output == g.mode());
+		CHECK(false == g.get());
+		g.set(true);
+		CHECK(true == g.get());
+		g.toggle();
+		CHECK(false == g.get());
 	}
 }

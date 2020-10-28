@@ -1,7 +1,6 @@
 # Core Driver Build Definition
 
 driver_files = files(
-    'internal/gpio.cpp',
     'internal/i2c.cpp',
     'internal/led.cpp',
     'internal/basic_display.cpp',

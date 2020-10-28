@@ -11,34 +11,19 @@ namespace embvm
 /// Definitions, functions, and classes related to GPIO devices.
 namespace gpio
 {
-/// GPIO direction configuration options
-enum class direction
+/// GPIO mode configuration options
+enum class mode
 {
 	/// GPIO input
-	in = 0,
+	input = 0,
 	/// GPIO output
-	out,
+	output,
 	/// GPIO input-output
 	inout,
 	/// Configure this pin in special-purpose mode.
 	/// e.g. non-standard IO mode such as PWM, SPI CS line
 	special,
-};
-
-/** GPIO internal pull configuration options.
- *
- * This enumeration represents the configuration options for a GPIO's internal pull settings.
- *
- * External pull-ups or pull-downs may still be used if gpio::pull::none is selected.
- */
-enum class pull
-{
-	/// No internal pull option is used.
-	none,
-	/// Internal pull-up is configured.
-	pullup,
-	/// Internal pull-down is enabled.
-	pulldown,
+	MAX_MODE
 };
 
 /** GPIO port ID helper representation
@@ -62,25 +47,60 @@ enum port : uint8_t
 	J,
 	K,
 	L,
+	MAX_PORT,
+};
+
+/** GPIO slew rate (speed) configuration options.
+ *
+ * This enumeration represents the configuraiton options for the GPIO slew rate (speed) settings.
+ * While not attached to a standard GPIO interface, this type can be used in derived drivers
+ * that do support setting slew rate for a pin.
+ */
+enum class slew
+{
+	/// Slow (standard) state transitions.
+	slow = 0,
+	/// High-speed state transitions.
+	fast,
+	/// Indicates final value.
+	MAX_SLEW_RATE,
+};
+
+/** GPIO internal pull configuration options.
+ *
+ * This enumeration represents the configuration options for a GPIO's internal pull settings.
+ * While not attached to a standard GPIO interface, this type can be used in derived drivers
+ * that do support setting internal pullup/pulldown resistors.
+ *
+ * Note that external pull-ups or pull-downs may still be used if gpio::pull::none is selected.
+ * This is not an indication that NO pullups/downs are used, but rather that no internal resistor
+ * setting is used.
+ */
+enum class pull
+{
+	/// No internal pull option is used.
+	none,
+	/// Internal pull-up is configured.
+	pullup,
+	/// Internal pull-down is enabled.
+	pulldown,
+	/// Indicates final value.
+	MAX_PULL
 };
 
 /** This class defines the common GPIO interfaces.
  *
  * The gpio::base class defines interfaces which are common to all GPIO objects.
- * This class is not intended to be used directly for implementing GPIO drivers.
- * Instead, additional specializations are provided:
- * - gpio::input
- * - gpio::output
- * - gpio::inputOutput
+ * This type is used to interface with the GPIO controller itself, giving you
+ * full access to the device.
+ *
+ * These restrict the interfaces that are available to users, ensuring that you
+ * can't accidentally set an input pin to an output or vice versa.
  *
  * Derived classes must implement pure virtual embvm::DriverBase functions:
  * - start_()
  * - stop_()
- *
- * @tparam TDir The direction of the GPIO pin (e.g. input, output).
- * @tparam TPull The pull setting for the GPIO pin.
  */
-template<gpio::direction TDir>
 class base : public embvm::DriverBase
 {
   protected:
@@ -91,15 +111,6 @@ class base : public embvm::DriverBase
 	base() noexcept : embvm::DriverBase(embvm::DriverType::GPIO) {}
 
   public:
-	/** Check the direction of the GPIO pin.
-	 *
-	 * @returns The configured direction of this GPIO pin.
-	 */
-	gpio::direction direction() const noexcept
-	{
-		return TDir;
-	}
-
 	/** GPIO Driver Type ID
 	 *
 	 * @returns GPIO type ID.
@@ -108,6 +119,44 @@ class base : public embvm::DriverBase
 	{
 		return embvm::DriverType::GPIO;
 	}
+
+	/** Set the current GPIO pin state.
+	 *
+	 * Derived classes must implement the set() function.
+	 *
+	 * @precondition The GPIO driver is started.
+	 * @sideeffect The GPIO pin is set ot the desired state.
+	 *
+	 * @param v The desired GPIO state. True for logic 1, false for logic 0.
+	 */
+	virtual void set(bool v) noexcept = 0;
+
+	/** Get the current GPIO pin state.
+	 *
+	 * Derived classes must implement the get() function.
+	 *
+	 * @precondition The GPIO driver is started.
+	 *
+	 * @returns true if the GPIO is set (logic 1), false otherwise (logic 0).
+	 */
+	virtual bool get() noexcept = 0;
+
+	/** Toggle the pin state.
+	 *
+	 * Changes the pin state from high to low, or low to high.
+	 *
+	 * @precondition The GPIO driver is started
+	 * @sideffect The GPIO output changes from high to low, or low to high.
+	 */
+	virtual void toggle() noexcept = 0;
+
+	virtual void setMode(embvm::gpio::mode mode) = 0;
+
+	/** Get the Current Mode
+	 *
+	 * @returns the currently configured GPIO mode
+	 */
+	virtual embvm::gpio::mode mode() = 0;
 
   protected:
 	/// Default destructor.
@@ -119,210 +168,6 @@ class base : public embvm::DriverBase
 	// embvm::DriverBase function for derived class to implement.
 	void stop_() noexcept override = 0;
 };
-
-/** This class defines a GPIO input interface.
- *
- * The gpio::input class defines interfaces which are common to all GPIO input objects.
- *
- * To implement a GPIO input driver, derive from this class:
- * @code
- * template<uint8_t TPinID, gpio::pull TPull = gpio::pull::none>
- * class aardvarkGPIOInput final : public gpio::input<TPull>
- * {...};
- * @endcode
- *
- * Derived classes must implement the following functions:
- *
- * - get()
- * - pull_()
- *
- * Derived class start_() must call the pull_() function to set the
- * pull-up/pull-down appropriately.
- *
- * Derived classes must implement pure virtual embvm::DriverBase functions:
- * - start_()
- * - stop_()
- *
- * @tparam TPull The pull setting for the GPIO pin.
- */
-template<gpio::pull TPull = gpio::pull::none>
-class input : public base<gpio::direction::in>
-{
-	/// Convenience alias for the associated gpio::base definition.
-	using gpio_base = base<gpio::direction::in>;
-
-  protected:
-	/// Default constructor.
-	input() noexcept = default;
-
-  public:
-	/** Get the current GPIO pin state.
-	 *
-	 * Derived classes must implement the get() function.
-	 *
-	 * @returns true if the GPIO is set (logic 1), false otherwise (logic 0).
-	 */
-	virtual bool get() noexcept = 0;
-
-	/** Get the current pull configuration.
-	 *
-	 * @return The currently configured GPIO pull setting.
-	 */
-	gpio::pull pull() const noexcept
-	{
-		return TPull;
-	}
-
-  protected:
-	/** Set the pull configuration in hardware.
-	 *
-	 * Derived classes must implement the pull_(gpio::pull p) function.
-	 *
-	 * @return The currently configured GPIO pull setting.
-	 */
-	virtual gpio::pull pull_(gpio::pull p) noexcept = 0;
-
-	/// Default destructor.
-	~input() noexcept = default;
-
-	// embvm::DriverBase function for derived class to implement.
-	void start_() noexcept override = 0;
-
-	// embvm::DriverBase function for derived class to implement.s
-	void stop_() noexcept override = 0;
-};
-
-/** This class defines a GPIO output interface.
- *
- * The gpio::output class defines interfaces which are common to all GPIO output objects.
- *
- * To implement a GPIO output driver, derive from this class:
- * @code
- * template<uint8_t TPinID, gpio::pull TPull = gpio::pull::none>
- * class aardvarkGPIOOutPut final : public gpio::output<TPull>
- * {...};
- * @endcode
- *
- * Derived classes must implement the following functions:
- *
- * - set()
- *
- * Derived classes must implement pure virtual embvm::DriverBase functions:
- * - start_()
- * - stop_()
- */
-class output : public base<gpio::direction::out>
-{
-	/// Convenience alias for the associated gpio::base definition.
-	using gpio_base = base<gpio::direction::out>;
-
-  protected:
-	/// Default constructor
-	output() noexcept = default;
-
-  public:
-	/** Set the current GPIO pin state.
-	 *
-	 * Derived classes must implement the set() function.
-	 *
-	 * @param v The desired GPIO state. True for logic 1, false for logic 0.
-	 */
-	virtual void set(bool v) noexcept = 0;
-
-  protected:
-	/// Default destructor
-	~output() noexcept;
-
-	// embvm::DriverBase function for derived class to implement.
-	void start_() noexcept override = 0;
-
-	// embvm::DriverBase function for derived class to implement.
-	void stop_() noexcept override = 0;
-};
-
-/** This class defines a GPIO input/output interface.
- *
- * The gpio::inputOutput class defines interfaces which are common to all GPIO input/output objects.
- *
- * To implement a GPIO input/output driver, derive from this class:
- * @code
- * template<uint8_t TPinID, gpio::pull TPull = gpio::pull::none>
- * class aardvarkGPIOinputOutput final : public gpio::inputOutput<TPull>
- * {...};
- * @endcode
- *
- * Derived classes must implement the following functions:
- *
- * - get()
- * - set()
- * - pull_()
- *
- * Derived class start_() must call the pull_() function to set the
- * pull-up/pull-down appropriately.
- *
- * Derived classes must implement pure virtual embvm::DriverBase functions:
- * - start_()
- * - stop_()
- *
- * @tparam TPull The pull setting for the GPIO pin.
- */
-template<gpio::pull TPull = gpio::pull::none>
-class inputOutput : public base<gpio::direction::inout>
-{
-	/// Convenience alias for the associated gpio::base definition.
-	using gpio_base = base<gpio::direction::inout>;
-
-  protected:
-	/// Default constructor.
-	inputOutput() noexcept = default;
-
-  public:
-	/** Set the current GPIO pin state.
-	 *
-	 * Derived classes must implement the set() function.
-	 *
-	 * @param v The desired GPIO state. True for logic 1, false for logic 0.
-	 */
-	virtual void set(bool v) noexcept = 0;
-
-	/** Get the current GPIO pin state.
-	 *
-	 * Derived classes must implement the get() function.
-	 *
-	 * @returns true if the GPIO is set (logic 1), false otherwise (logic 0).
-	 */
-	virtual bool get() noexcept = 0;
-
-	/** Get the current pull configuration.
-	 *
-	 * @return The currently configured GPIO pull setting.
-	 */
-	gpio::pull pull() const noexcept
-	{
-		return TPull;
-	}
-
-  protected:
-	/** Set the pull configuration in hardware.
-	 *
-	 * Derived classes must implement the pull_() function.
-	 *
-	 * @return The currently configured GPIO pull setting.
-	 */
-	virtual gpio::pull pull_(gpio::pull p) noexcept = 0;
-
-	/// Default destructor.
-	~inputOutput() noexcept = default;
-
-	// embvm::DriverBase function for derived class to implement.
-	void start_() noexcept override = 0;
-
-	// embvm::DriverBase function for derived class to implement.
-	void stop_() noexcept override = 0;
-};
-
-/// Alias for inheriting from gpio::base with a special function pin
-using specialFunction = embvm::gpio::base<embvm::gpio::direction::special>;
 
 } // namespace gpio
 

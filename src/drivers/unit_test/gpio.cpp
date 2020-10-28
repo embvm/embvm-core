@@ -2,57 +2,33 @@
 
 using namespace test;
 
-bool UnitTestGPIOInput::get() noexcept
-{
-	switch(pull())
-	{
-		case embvm::gpio::pull::none:
-			return false;
-		case embvm::gpio::pull::pullup:
-			return true;
-		case embvm::gpio::pull::pulldown:
-			return false;
-	}
+void UnitTestGPIO::start_() noexcept {}
 
-	return false;
-}
-
-embvm::gpio::pull UnitTestGPIOInput::pull_(embvm::gpio::pull p) noexcept
-{
-	return p;
-}
-
-void UnitTestGPIOInput::start_() noexcept {}
-
-void UnitTestGPIOInput::stop_() noexcept {}
+void UnitTestGPIO::stop_() noexcept {}
 
 #pragma mark - GPIO With Pullup -
 
-bool UnitTestGPIOInputWithPullup::get() noexcept
+bool UnitTestGPIO::get() noexcept
 {
-	switch(pull())
-	{
-		case embvm::gpio::pull::none:
-			return false;
-		case embvm::gpio::pull::pullup:
-			return true;
-		case embvm::gpio::pull::pulldown:
-			return false;
-	}
-
-	return false;
+	return value_; // This is only really valid for testing
 }
 
-embvm::gpio::pull UnitTestGPIOInputWithPullup::pull_(embvm::gpio::pull p) noexcept
+void UnitTestGPIO::set(bool v) noexcept
 {
-	p_ = p;
-	return p_;
+	value_ = v;
 }
 
-void UnitTestGPIOInputWithPullup::start_() noexcept
+void UnitTestGPIO::toggle() noexcept
 {
-	pull_(embvm::gpio::pull::pullup);
-	CHECK(p_ == embvm::gpio::pull::pullup);
+	value_ = !value_;
 }
 
-void UnitTestGPIOInputWithPullup::stop_() noexcept {}
+void UnitTestGPIO::setMode(embvm::gpio::mode mode) noexcept
+{
+	mode_ = mode;
+}
+
+embvm::gpio::mode UnitTestGPIO::mode() noexcept
+{
+	return mode_;
+}

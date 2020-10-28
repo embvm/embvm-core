@@ -4,42 +4,31 @@
 #include <catch2/catch.hpp>
 #include <driver/gpio.hpp>
 
-// TODO: Add functions that can set the GPIO input values, so we can use this as a "fake" in
-// our unit test framework
-
 namespace test
 {
-/** Unit Test GPIO Input Driver
+/** Unit Test GPIO Driver
  *
  * @ingroup TestDrivers
  */
-class UnitTestGPIOInput final : public embvm::gpio::input<embvm::gpio::pull::none>
+class UnitTestGPIO final : public embvm::gpio::base
 {
   public:
+	UnitTestGPIO() noexcept : mode_(embvm::gpio::mode::output) {}
+	explicit UnitTestGPIO(embvm::gpio::mode mode) noexcept : mode_(mode) {}
+	~UnitTestGPIO() noexcept = default;
 	bool get() noexcept final;
+	void set(bool v) noexcept final;
+	void toggle() noexcept final;
+	void setMode(embvm::gpio::mode mode) noexcept final;
+	embvm::gpio::mode mode() noexcept final;
 
   protected:
-	embvm::gpio::pull pull_(embvm::gpio::pull p) noexcept final;
-	void start_() noexcept final;
-	void stop_() noexcept final;
-};
-
-/** Unit Test GPIO Input Driver, with a pullup
- *
- * @ingroup TestDrivers
- */
-class UnitTestGPIOInputWithPullup final : public embvm::gpio::input<embvm::gpio::pull::pullup>
-{
-  public:
-	bool get() noexcept final;
-
-  protected:
-	embvm::gpio::pull pull_(embvm::gpio::pull p) noexcept final;
 	void start_() noexcept final;
 	void stop_() noexcept final;
 
   private:
-	embvm::gpio::pull p_ = embvm::gpio::pull::pullup;
+	embvm::gpio::mode mode_;
+	bool value_ = false;
 };
 
 } // namespace test

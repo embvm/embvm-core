@@ -97,16 +97,18 @@ class base : public embvm::DriverBase
 /** This class manages a GPIO object which is attached to an LED.
  *
  * This class provides a specialization of the led::base() object. The led::gpio()
- * class manages a embvm::gpio::output object that is connected to an LED in hardware. All
- * interactions with the LED are forwarded to the embvm::gpio::output.
+ * class manages a embvm::gpio::base object that is connected to an LED in hardware. All
+ * interactions with the LED are forwarded to the embvm::gpio::base class.
  *
  * This class is used in the same way as led::base(). The only additonal requirement is that it
- * must be initialized with a embvm::gpio::output object. This driver assumes that is is the sole
- * owner of the embvm::gpio::output object after creation. If other code messes with the
- * embvm::gpio::output state outside of this interface, proper functioning is no longer guaranteed.
+ * must be initialized with a embvm::gpio object.
  *
- * @tparam TActiveHigh If true, the LED turns on when the GPIO is set high. If false, the LED turns
- *on when the GPIO is set low.
+ * @precondition This driver assumes that is is the sole owner of the embvm::gpio::base object after
+ * 	creation. If other code messes with the embvm::gpio::base state outside of this interface,
+ *	proper functioning is no longer guaranteed.
+ *
+ * @tparam TActiveHigh If true, the LED turns on when the GPIO is set high.
+ *	If false, the LED turns on when the GPIO is set low.
  */
 template<bool TActiveHigh = true>
 class gpio final : public base
@@ -116,54 +118,47 @@ class gpio final : public base
 	 *
 	 * Initializes the led::gpio() instance with a GPIO output object to manage.
 	 *
-	 * @param g The embvm::gpio::output object which the LED driver will manage.
+	 * @param g The embvm::gpio::base object which the LED driver will manage.
 	 */
-	explicit gpio(embvm::gpio::output& g) noexcept : g_(g) {}
+	explicit gpio(embvm::gpio::base& g) noexcept : gpio_(g) {}
 
 	/// Default destructor
 	~gpio() = default;
 
-	void start_() noexcept final
+	/**
+	 *
+	 * @postcondition
+	 */
+	inline void start_() noexcept final
 	{
-		g_.start();
+		gpio_.setMode(embvm::gpio::mode::output);
+		gpio_.start();
 		off();
 	}
 
-	void stop_() noexcept final
+	inline void stop_() noexcept final
 	{
-		g_.stop();
+		gpio_.stop();
 	}
 
-	void on() noexcept final
+	inline void on() noexcept final
 	{
-		g_.set(TActiveHigh);
-		on_ = true;
+		gpio_.set(TActiveHigh);
 	}
 
-	void off() noexcept final
+	inline void off() noexcept final
 	{
-		g_.set(!TActiveHigh);
-		on_ = false;
+		gpio_.set(!TActiveHigh);
 	}
 
 	void toggle() noexcept final
 	{
-		if(on_)
-		{
-			off();
-		}
-		else
-		{
-			on();
-		}
+		gpio_.toggle();
 	}
 
   private:
 	/// The GPIO output object which this LED driver is managing.
-	embvm::gpio::output& g_;
-
-	/// State of the LED, required to implement toggle().
-	bool on_ = false;
+	embvm::gpio::base& gpio_;
 };
 
 /// Alias for declaring an led::gpio that is active high
