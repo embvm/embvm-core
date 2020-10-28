@@ -18,8 +18,6 @@ enum class mode
 	input = 0,
 	/// GPIO output
 	output,
-	/// GPIO input-output
-	inout,
 	/// Configure this pin in special-purpose mode.
 	/// e.g. non-standard IO mode such as PWM, SPI CS line
 	special,
