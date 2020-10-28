@@ -30,6 +30,8 @@ ifneq ($(CROSS),)
 	# Split into two strings, first is arch, second is chip
 	CROSS_2 := $(subst :, ,$(CROSS))
 	INTERNAL_OPTIONS += $(foreach FILE,$(CROSS_2),--cross-file=build/cross/$(FILE).txt)
+	# Ensure that the embvm base settings are used.
+	INTERNAL_OPTIONS += --cross-file=build/cross/embvm.txt
 endif
 
 ifneq ($(NATIVE),)
