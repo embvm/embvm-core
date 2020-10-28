@@ -217,19 +217,14 @@ Build configuration is covered in depth in the [Configuration and Tuning](docs/U
 
 ## Documentation
 
-
+We provide a large amount of documentation for the Embedded VM project.
 
 * The [Glossary](docs/glossary.md) contains definitions for concepts used in the documentation and code
 * The [Software Inventory](docs/software_inventory.xlsx) contains a list of all open source projects included in this framework, with version numbers and licensing information
-* The [Development/](docs/development) folder contains guidelines for developers who are building framework components:
-    * [Developer Guide](docs/development/developer_guide.md) contains guidelines for developers working on the project
-    * [C++ Guidelines](docs/development/cpp_guidelines.md) contains guidelines for the C++ code used in the framework
-    * [Documentation Guidelines](docs/development/documentation.md) clarify documentation practices for framework modules
-    * [Error Model](docs/development/error_model.md) describes the framework's approach to error handling
-    * [Namespaces.xlsx](docs/development/namespaces.xlsx) contains a list of namespaces defined by the framework
-    * [Refactoring](docs/development/refactoring.md) provides guidelines for cleaning up existing code
-    * The [Patterns/](docs/development/patterns) directory contains notes about patterns used throughout the framework
-    * The [References/](docs/development/references) directory contains useful references for developers
+* The [Architecture and Design Documentation](docs/architecture/) can be used to understand the current Embedded VM design, as well as the rationale behind many of the decisions made in this project.
+* Our [Developer Documentation](docs/development/developer_documentation) folder provides guidelines and standards for developers who are building the Embedded VM or related components.
+* The [Project History](docs/project-history) folder contains a lot of major events that have occurred throughout this project.
+
 
 ### Building the Documentation
 
