@@ -131,8 +131,8 @@ class gpio final : public base
 	 */
 	inline void start_() noexcept final
 	{
-		gpio_.setMode(embvm::gpio::mode::output);
 		gpio_.start();
+		gpio_.setMode(embvm::gpio::mode::output);
 		off();
 	}
 
