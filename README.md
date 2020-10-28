@@ -217,7 +217,23 @@ Build configuration is covered in depth in the [Configuration and Tuning](docs/U
 
 ## Documentation
 
-Documentation can be built locally by running the following command:
+
+
+* The [Glossary](docs/glossary.md) contains definitions for concepts used in the documentation and code
+* The [Software Inventory](docs/software_inventory.xlsx) contains a list of all open source projects included in this framework, with version numbers and licensing information
+* The [Development/](docs/development) folder contains guidelines for developers who are building framework components:
+    * [Developer Guide](docs/development/developer_guide.md) contains guidelines for developers working on the project
+    * [C++ Guidelines](docs/development/cpp_guidelines.md) contains guidelines for the C++ code used in the framework
+    * [Documentation Guidelines](docs/development/documentation.md) clarify documentation practices for framework modules
+    * [Error Model](docs/development/error_model.md) describes the framework's approach to error handling
+    * [Namespaces.xlsx](docs/development/namespaces.xlsx) contains a list of namespaces defined by the framework
+    * [Refactoring](docs/development/refactoring.md) provides guidelines for cleaning up existing code
+    * The [Patterns/](docs/development/patterns) directory contains notes about patterns used throughout the framework
+    * The [References/](docs/development/references) directory contains useful references for developers
+
+### Building the Documentation
+
+Full documentation can be built locally by running the following command:
 
 ```
 make docs
@@ -248,6 +264,23 @@ Copyright © 2020 Embedded Artistry LLC
 Note that this project is dual-licensed. The open-source version of this project is released under GPLv3. [Commercial licenses](https://embeddedartistry.com/product/embedded-virtual-machine-commercial-license), which provide holders with the ability to create and distribute software without open-source obligations, can be purchased in the [Embedded Artistry store](https://embeddedartistry.com/store). For other open-source licenses, please see the [Software Inventory](docs/software_inventory.xlsx).
 
 See the [LICENSE](LICENSE) file for further licensing details.
+
+## Acknowledgments
+
+I would like to thank the following individuals for their direct contributions to this project:
+
+* Rozi Harris, who has tirelessly listened to ideas, reviewed the framework architecture, and edited documentation
+
+I would like to thank the following individuals for their inspiration on this project:
+
+* Ruth Malan, who inspired the architecture documentation and process
+* James Grenning, who taught me the value of Test-Driven Development (TDD)
+* Jerry Fitzpatrick, who inspired many of the guidelines and practices that were used to build this framework
+
+I would like to thank the following individuals for the open source libraries that have been incorporated into this framework:
+
+* John Wellbelove for the [Embedded Template Library](http://etlcppc.com)
+* Jonathan Müller for [type_safe](https://github.com/foonathan/type_safe) and [debug_assert](https://github.com/foonathan/debug_assert)
 
 **[Back to top](#table-of-contents)**
 
