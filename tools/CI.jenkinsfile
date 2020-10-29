@@ -26,6 +26,14 @@ pipeline
 				sh 'make distclean'
 			}
 		}
+		stage('Update Subprojects')
+		{
+			steps {
+				echo('Updating subprojects')
+				sh 'meson subprojects download'
+				sh 'meson subprojects update'
+			}
+		}
 		stage('Format')
 		{
 			steps
