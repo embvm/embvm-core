@@ -44,6 +44,28 @@ enum class state : uint8_t
 	armed,
 };
 
+/** Timer device ID helper representation
+ *
+ * This is a "portable" definition for a Timer device/channel (e.g. TIM3 registers)
+ * that use can use as a parameter for implementation classes, since
+ * you may not want to expose the register definitions publicly in a head.
+ */
+enum channel : uint8_t
+{
+	CH0 = 0,
+	CH1,
+	CH2,
+	CH3,
+	CH4,
+	CH5,
+	CH6,
+	CH7,
+	CH8,
+	CH9,
+	CH10,
+	MAX_CHANNELS
+};
+
 /** This class provides generic Timer interface definitions.
  *
  * The Timer class defines the common interfaces for Timer drivers. This class
@@ -69,6 +91,9 @@ enum class state : uint8_t
  *
  * The start_() function must implement the steps for starting the timer hardware.
  * The stop_() function is responsible for stopping the timer hardware.
+ #
+ # Note that the derived class will need to update the state variable according
+ # to its current operational status.
  *
  * # Using a Timer driver
  *
