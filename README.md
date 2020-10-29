@@ -2,7 +2,7 @@
 
 This repository contains the designs, documentations, and source files for the Embedded Virtual Machine (`embvm`) project's core interfaces, libraries, and subsystems. This project is required to build Embedded VM applications and reusable modules (including drivers, OS interfaces, subsystems, and more).
 
-Note that this project is dual-licensed. The core project is released under GPLv3 for open-source terms. [Commercial licenses](https://embeddedartistry.com/product/embedded-virtual-machine-commercial-license), which provide holders with the ability to create and distribute software without open-source obligations, can be purchased in the [Embedded Artistry store](https://embeddedartistry.com/store).
+Note that this project is dual-licensed. The open-source version of this project is released under GPLv3. [A commercial license](https://embeddedartistry.com/product/embedded-virtual-machine-commercial-license), which provides holders with the ability to create and distribute software without open-source obligations, can be purchased in the [Embedded Artistry store](https://embeddedartistry.com/store).
 
 ## Table of Contents
 
@@ -14,29 +14,20 @@ Note that this project is dual-licensed. The core project is released under GPLv
         1. [Meson Build System](#meson-build-system)
     2. [Getting the Source](#getting-the-source)
     3. [Building](#building)
-        1. [Enabling Link-time Optimization](#enabling-link-time-optimization)
-    4. [Installation](#installation)
-    5. [Usage](#usage)
+    4. [Testing](#testing)
 4. [Configuration Options](#configuration-options)
 5. [Documentation](#documentation)
 6. [Need Help?](#need-help)
 7. [Contributing](#contributing)
-8. [Further Reading](#further-reading)
 9. [Authors](#authors)
 10. [License](#license)
 11. [Acknowledgments](#acknowledgements)
 
 # About the Project
 
-Here you can provide more details about the project
-* What features does your project provide?
-* Short motivation for the project? (Don't be too long winded)
-* Links to the project site
+The Embedded Virtual Machine (Embedded VM or `embvm` for short) is an embedded software framework that helps developers create portable and reusable embedded software components. The Embedded VM core project provides the core abstractions, boot-related code, utilities, and supporting libraries that are used to build Embedded VM applications. These abstractions are used to quickly create and port embedded systems software from one platform to another.
 
-```
-Show some example code to describe what your project does
-Show some of your APIs
-```
+For a comprehensive introduction to the project, please see the [Getting Started Guide](docs/UsingTheFramework/getting_started.md). You can also find a detailed overview of the project and its design goals in the [System Overview](docs/architecture/system_overview.md).
 
 **[Back to top](#table-of-contents)**
 
@@ -256,7 +247,7 @@ If you are interested in contributing to this project, please read our [contribu
 
 Copyright © 2020 Embedded Artistry LLC
 
-Note that this project is dual-licensed. The open-source version of this project is released under GPLv3. [Commercial licenses](https://embeddedartistry.com/product/embedded-virtual-machine-commercial-license), which provide holders with the ability to create and distribute software without open-source obligations, can be purchased in the [Embedded Artistry store](https://embeddedartistry.com/store). For other open-source licenses, please see the [Software Inventory](docs/software_inventory.xlsx).
+Note that this project is dual-licensed. The open-source version of this project is released under GPLv3. [A commercial license](https://embeddedartistry.com/product/embedded-virtual-machine-commercial-license), which provides holders with the ability to create and distribute software without open-source obligations, can be purchased in the [Embedded Artistry store](https://embeddedartistry.com/store).
 
 See the [LICENSE](LICENSE) file for further licensing details.
 
