@@ -1,5 +1,12 @@
 ## What is the Embedded Virtual Machine?
 
+## Conceptual Overview
+
+The Embedded Virtual Machine (Embedded VM or `embvm` for short) is an embedded software framework that helps developers create portable and reusable embedded software components. The Embedded VM core project provides the core abstractions, boot-related code, utilities, and supporting libraries that are used to build Embedded VM applications. These abstractions are used to quickly create and port embedded systems software from one platform to another.
+
+
+
+Note where detailed design documentation can be found
 
 ## Example Projects
 

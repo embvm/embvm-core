@@ -1,4 +1,4 @@
-# Adding a New Driver Type
+# Adding a New Operating System
 
 * `meson.build`
 * mutex
