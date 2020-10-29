@@ -11,7 +11,7 @@ pipeline
 	parameters
 	{
 		string(defaultValue: '0', description: 'Major version number (x.0.0)', name: 'MAJOR_VERSION')
-		string(defaultValue: '1', description: 'Minor version number (0.x.0)', name: 'MINOR_VERSION')
+		string(defaultValue: '9', description: 'Minor version number (0.x.0)', name: 'MINOR_VERSION')
 	}
 	triggers
 	{
@@ -28,6 +28,9 @@ pipeline
 
 				echo 'Removing existing build results'
 				sh 'make distclean'
+				echo 'Updating subprojects'
+				sh 'meson subprojects download'
+				sh 'meson subprojects update'
 			}
 		}
 		stage('Build for Clang')
