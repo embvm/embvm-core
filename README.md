@@ -2,7 +2,7 @@
 
 This repository contains the designs, documentations, and source files for the Embedded Virtual Machine (`embvm`) project's core interfaces, libraries, and subsystems. This project is required to build Embedded VM applications and reusable modules (including drivers, OS interfaces, subsystems, and more).
 
-Note that this project is dual-licensed. The open-source version of this project is released under GPLv3. [A commercial license](https://embeddedartistry.com/product/embedded-virtual-machine-commercial-license), which provides holders with the ability to create and distribute software without open-source obligations, can be purchased in the [Embedded Artistry store](https://embeddedartistry.com/store).
+Note that this project is dual-licensed. The open-source version of this project is released under GPLv3. [A commercial license](https://embeddedartistry.com/product/embedded-virtual-machine-commercial-license), which provides holders with the ability to create and distribute software without open-source obligations, can be purchased in the [Embedded Artistry store](https://embeddedartistry.com/store). We release additional modules that use the `embvm-core` project under the MIT license, allowing them to work with both the GPLv3 and commercial licenses, as well as making them free for modification and use outside of the Embedded VM framework.
 
 ## Table of Contents
 
@@ -247,9 +247,11 @@ If you are interested in contributing to this project, please read our [contribu
 
 Copyright © 2020 Embedded Artistry LLC
 
-Note that this project is dual-licensed. The open-source version of this project is released under GPLv3. [A commercial license](https://embeddedartistry.com/product/embedded-virtual-machine-commercial-license), which provides holders with the ability to create and distribute software without open-source obligations, can be purchased in the [Embedded Artistry store](https://embeddedartistry.com/store).
+Note that this project is dual-licensed. The open-source version of this project is released under GPLv3. [A commercial license](https://embeddedartistry.com/product/embedded-virtual-machine-commercial-license), which provides holders with the ability to create and distribute software without open-source obligations, can be purchased in the [Embedded Artistry store](https://embeddedartistry.com/store). 
 
-See the [LICENSE](LICENSE) file for further licensing details.
+We release additional modules that use the `embvm-core` project under the MIT license, allowing them to work with both the GPLv3 and commercial licenses, as well as making them free for modification and use outside of the Embedded VM framework. Note, however, that using these modules as-is will result in the `embvm-core` project being used in your application, requiring you to abide by GPLv3 or commercial licensing terms.
+
+See the [LICENSE.md](LICENSE.md) file for further licensing details.
 
 ## Acknowledgments
 
