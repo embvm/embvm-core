@@ -303,6 +303,10 @@ class master : public embvm::DriverBase, public i2c::commBus
 	~master() noexcept;
 
   public:
+	// TODO: refactor this call - it doesn't make sense...
+	// Why do we have configure take in pullup settings, and also call pullups?
+	// We probably just need to have 1) configure, or 2) baudrate+pullups.
+	// Maybe this stuff is even just set by the constructor...
 	/** Configure the I2C bus.
 	 *
 	 * Configures the I2C bus for operation and sets the target baud rate and pull-ups.

@@ -49,6 +49,8 @@ enum DriverType
 	TIMER,
 	/// Represents a basic display without a range of colors, such as a small 2-color OLED display
 	BASIC_DISPLAY,
+	/// Represents a DMA controller,
+	DMA,
 	/// To extend with your own driver types, start the count using this value
 	DRIVER_EXTENSION_START
 };
