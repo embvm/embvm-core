@@ -20,7 +20,10 @@ posix_os_dep = declare_dependency(
 	include_directories: include_directories('.'),
 	sources: posix_os_files,
 	link_args: posix_os_link_args,
-	dependencies: posix_dep
+	dependencies:[
+		posix_dep,
+		framework_include_dep
+	]
 )
 
 ######################
