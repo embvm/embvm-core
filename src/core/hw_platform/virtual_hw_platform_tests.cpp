@@ -1,3 +1,6 @@
+// Copyright 2020 Embedded Artistry LLC
+// SPDX-License-Identifier: GPL-3.0-only OR Embedded Virtual Machine Commercial License
+
 #include "../../hw_platforms/unit_test/unittest_hw_platform.hpp"
 #include "virtual_hw_platform.hpp"
 #include <catch2/catch.hpp>

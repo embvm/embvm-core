@@ -1,3 +1,6 @@
+// Copyright 2020 Embedded Artistry LLC
+// SPDX-License-Identifier: GPL-3.0-only OR Embedded Virtual Machine Commercial License
+
 // clang-format off
 #include <time.h> // We need time.h before os.hpp for Linux builds because of system header types...
 // clang-format on

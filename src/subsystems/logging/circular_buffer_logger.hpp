@@ -1,3 +1,6 @@
+// Copyright 2020 Embedded Artistry LLC
+// SPDX-License-Identifier: GPL-3.0-only OR Embedded Virtual Machine Commercial License
+
 #ifndef CIRCULAR_BUFFER_LOGGER_
 #define CIRCULAR_BUFFER_LOGGER_
 

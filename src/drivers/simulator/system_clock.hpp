@@ -1,3 +1,6 @@
+// Copyright 2020 Embedded Artistry LLC
+// SPDX-License-Identifier: GPL-3.0-only OR Embedded Virtual Machine Commercial License
+
 #ifndef SIMULATOR_SYSTEM_CLOCK_HPP_
 #define SIMULATOR_SYSTEM_CLOCK_HPP_
 

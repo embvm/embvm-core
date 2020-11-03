@@ -1,3 +1,6 @@
+// Copyright 2020 Embedded Artistry LLC
+// SPDX-License-Identifier: GPL-3.0-only OR Embedded Virtual Machine Commercial License
+
 #ifndef VOLATILE_LOAD_STORE_HPP_
 #define VOLATILE_LOAD_STORE_HPP_
 

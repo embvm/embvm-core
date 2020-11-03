@@ -1,6 +1,5 @@
-/*
- * Copyright © 2019 Embedded Artistry LLC.
- */
+// Copyright 2020 Embedded Artistry LLC
+// SPDX-License-Identifier: GPL-3.0-only OR Embedded Virtual Machine Commercial License
 
 #ifndef DISPATCH_HPP_
 #define DISPATCH_HPP_

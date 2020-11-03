@@ -1,6 +1,5 @@
-/*
- * Copyright © 2018 Embedded Artistry LLC.
- */
+// Copyright 2020 Embedded Artistry LLC
+// SPDX-License-Identifier: GPL-3.0-only OR Embedded Virtual Machine Commercial License
 
 #include "interrupt_lock.hpp"
 #include <catch2/catch.hpp>
