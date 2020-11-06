@@ -1,13 +1,26 @@
-# Developing A Device Driver
+# Embedded VM Drivers
 
-Users also need to write their own drivers in their source without messing with the framework. Make templates + examples for this.
+We provide access to device drivers that we've written for use with the Embedded VM ecosystem in the [embvm-drivers](https://github.com/embvm-drivers/) GitHub organization.
 
+## Non-Embedded Drivers
 
-Drivers use multiple inheritence to compose functionality:
-Unfortunately, misguided usage has made this once popular feature almost completely disappear. On the other hand, sometimes you want to inherit from parents that are completely separate from each other. This is where multiple inheritance can become productive. Classes that have orthogonal behaviors are the best case scenario for multiple inheritance.
+Some device drivers are written to provide support with "simulator" applications, modules, and drivers that are developed on your personal computer.
 
+* [embvm-drivers/aardvark](https://github.com/embvm-drivers/aardvark)
+    - Adds support for using the Total Phase Aardvark I2C/SPI/GPIO debug adapter as Embedded VM drivers.
+    - We use this project to develop and test I2C/SPI peripheral drivers on our build machine. Once finished, we can then move the peripheral driver to the target hardware without requiring any modification.
 
-* The kernel is a slave to the application. Code in the kernel (such as in a driver) is passive in that it only reacts to requests from processes in user space. Drivers should not initiate any I/O activity on their own.
-* User processes cannot take direct interrupts. As a corollary to the previous point, kernel interrupt threads cannot jump to user space. Instead, if your application must be made aware of interrupts, it should provide a thread on which to deliver a notification of them.
+## Peripheral Drivers
 
-start() should begin operation + initiate HW
+* [embvm-drivers/ST-VL53L1X](https://github.com/embvm-drivers/ST-VL53L1X)
+    - Driver for the ST VL53L1X Time-of-Flight sensor. 
+    - Currently a work in progress; this driver operates asynchronously, but needs to be redesigned to be less confusing.
+* [embvm-drivers/two-tone-oled](https://github.com/embvm-drivers/two-tone-oled)
+    - OLED driver implementation for two-tone OLED displays.
+    - Currently a work in progress - it supports the SSD1306 display driver and a fixed size, but we will be refactoring the driver to work in a more generalized manner.
+
+## Adding New Drivers
+
+You are not limited to using the drivers that we provide - you can create your own private drivers using the `embvm-core` driver abstract interfaces. You can also create your own abstract interfaces that are used exclusively within your ecosystem.
+
+For more information on developing Embedded VM device drivers please, see our guide for [Adding a New Driver](adding_new_driver.md). If you want to define your own interface, or add a new interface, please see our guide for [Adding a New Driver Type](adding_new_driver_type.md).
