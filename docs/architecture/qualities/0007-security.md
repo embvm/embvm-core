@@ -27,11 +27,8 @@ Security is the protection of the system from theft, leaking of data, and disrup
 ## Test Cases
 
 * When compiled with the following settings, zero warnings will be produced:
-	* -Weverything for Clang
-	* /W4 for MSVC
-	* -Wall -Wextra -pedantic
+	* `-Wall -Wextra -pedantic`
 * When static analysis is run on framework components, no errors should be reported
-* When SaferC++ types are enabled, no errors will be reported
 
 CI Server test cases:
 
