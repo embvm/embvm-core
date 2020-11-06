@@ -1,11 +1,11 @@
 # System Overview
 
-This document provides an overview for the Embedded Framework.
+This document provides an overview for the Embedded Virtual Machine (VM) frameworks.
 
 **Table of Contents:**
 1. [Motivation](#motivation)
 2. [Scope Summary](#scope-summary)
-    1. [Framework Core Scope](#framework-core-scope)
+    1. [Embedded VM Core Scope](#embedded-vm-core-scope)
     2. [Phase 1 Platform Bring-up](#phase-1-platform-bring-up)
     2. [Phase 2 Subsystem Scope](#phase-2-subsystem-scope)
     3. [Ongoing Platform Expansion](#ongoing-platform-expansion)
@@ -43,7 +43,7 @@ There is no need for each company to recreate an embedded systems framework in o
 * Frameworks improve developer productivity and improve the quality, reliability, and robustness of new software
 * Hierarchical design gives a system stability and resilience, and also reduces the amount of information that developers need to keep in mind
 * Companies building embedded products can focus on their unique application features and core business value rather than spending time rebuilding infrastructure for a new platform
-* Companies and developers both benefit from improved productivity, shorter code-compile-test cycles, and the ability to develop firmware and drivers asychronously from hardware schedules
+* Companies and developers both benefit from improved productivity, shorter code-compile-test cycles, and the ability to develop firmware and drivers asynchronously from hardware schedules
 
 ## Scope Summary
 
@@ -51,7 +51,7 @@ Version 1 of the framework consists of the [Framework Core](#framework-core-scop
 
 As the framework development project is open-ended, a variety of commonly required features will be produced during [Phase 2](#phase-2-subsystem-scope). Additional drivers, interfaces, processors, and utilities will be developed on an [ongoing basis](#ongoing-platform-expansion).
 
-### Framework Core Scope
+### Embedded VM Core Scope
 
 A [build system](components/build_system.md) will be created to:
 
@@ -97,79 +97,11 @@ The embedded framework will also provide core utilities for developers:
 * [Templated Buffer Pool](components/utilities/templated_buffer_pool.md)
 * [Templated Queue](components/utilities/templated_queue.md)
 
-The core will also ship with select libraries to support initial development efforts:
-
-* [Logging](components/subsystems/logger.md)
-
-One subsystem will be initially developed:
-
-* [System Power Manager](components/subsystems/system_power_manager.md)
+The core will also ship with select libraries to support initial development efforts, such as a reusable[Logging](components/subsystems/logger.md) subsystem.
 
 The framework will be structured to automatically sequence the boot process, with hooks for clients to customize platform-specific behavior.
 
 The framework will automatically invoke the client application as the final step in the boot process.
-
-### Phase 1 Platform Bring-up
-
-Initial chipsets for core bring-up include:
-
-* nRF52
-* STM32
-* [x86/x86_64 (Host simulator)](components/core/simulator_processor.md)
-
-Initial RTOS Abstractions will be implemented using:
-
-* FreeRTOS
-* Pthreads (Host simulator)
-
-### Phase 2 Subsystem Scope
-
-After the framework core is developed, Embedded Artistry will extend the framework by supporting commonly-required subsystems and features:
-
-* [Panic/Fault Handling](components/core/fault_handler.md) and symbolification support
-* [Memory testing](components/subsystems/memory_tester.md)
-* [Parametric Logging](components/subsystems/parametric_logging.md)
-* [Command line interface](components/subsystems/command_line.md)
-* [Run-time Configuration (KV-store)](components/subsystems/configuration.md)
-
-### Ongoing Platform Expansion
-
-Additional chipsets and drivers will be added as required by client platforms or as time allows.
-
-C interface shims will be developed to enable:
-
-* framework code to inter-operate with C code
-* Developers to work in C while interacting with the C++ framework core
-
-Planned processor additions include:
-
-* Maxim DARWIN MCUs
-* Cortex-A5 (e.g., SAMA5D3)
-
-Planned RTOS additions include:
-
-* ThreadX
-
-Application skeletons will be created for:
-
-* Recovery firmware
-* Manufacturing firmware
-* Multi-stage boot
-
-Additional libraries and utilities will be provided:
-
-* CRC/Checksum
-* Fixed-point Integers & Mathematics
-* Coroutine support
-
-Additional subsystems will be built:
-
-* [Firmware Update](components/subsystems/firmware_update.md)
-* [OTA Update](components/subsystems/OTA.md)
-* [Filesystem](components/subsystems/filesystem.md)
-* [USB Stack](components/subsystems/usb_stack.md)
-* [WiFi Stack](components/subsystems/wifi_stack.md)
-* [Bluetooth Stack](components/subsystems/bt_stack.md)
 
 ## Functionality
 

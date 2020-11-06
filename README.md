@@ -33,7 +33,49 @@ For a comprehensive introduction to the project, please see the [Getting Started
 
 # Project Status
 
-This project is under active development. Reusable programs, platforms, and drivers have been successfully written using the Embedded VM, and they run on ARM Cortex-M4 embedded platforms. Supporting utilities are continually being tested, tuned, and optimized. Interfaces are evolving, and many interfaces still need to be created. A number of reusable subsystems are planned, but not yet implemented.
+This project is under active development. Reusable programs, platforms, and drivers have been successfully written using the Embedded VM, and they run on ARM Cortex-M4 embedded platforms. Supporting utilities are continually being tested, tuned, and optimized. Interfaces are evolving, and many interfaces still need to be created. 
+
+A number of reusable subsystems are planned, but not yet implemented. These include:
+
+* [System Power Manager](docs/architecture/components/subsystems/system_power_manager.md)
+* [Panic/Fault Handling](docs/architecture/components/core/fault_handler.md) and symbolification support
+* [Memory testing](docs/architecture/components/subsystems/memory_tester.md)
+* [Parametric Logging](docs/architecture/components/subsystems/parametric_logging.md)
+* [Command line interface](docs/architecture/components/subsystems/command_line.md)
+* [Run-time Configuration (KV-store)](docs/architecture/components/subsystems/configuration.md)
+* [Firmware Update](docs/architecture/components/subsystems/firmware_update.md)
+* [OTA Update](docs/architecture/components/subsystems/OTA.md)
+* [Filesystem](docs/architecture/components/subsystems/filesystem.md)
+* [USB Stack](docs/architecture/components/subsystems/usb_stack.md)
+* [WiFi Stack](docs/architecture/components/subsystems/wifi_stack.md)
+* [Bluetooth Stack](docs/architecture/components/subsystems/bt_stack.md)
+
+Additional chipsets and drivers will be added as required by client platforms or as time allows.
+
+C interface shims will be developed to enable developers to work in C while interacting with the C++ framework core
+
+Planned processor additions include:
+
+* Nordic nRF91
+* Nordic nRF53
+* Additional STM32 processors
+* Maxim DARWIN MCUs
+
+Planned RTOS additions include:
+
+* ThreadX
+
+Application skeletons will be created for:
+
+* Recovery firmware
+* Manufacturing firmware
+* Multi-stage boot
+
+Additional libraries and utilities will be provided:
+
+* CRC/Checksum
+* Fixed-point Integers & Mathematics
+* Coroutine support
 
 **[Back to top](#table-of-contents)**
 
