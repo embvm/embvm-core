@@ -2,6 +2,9 @@
 
 void TemplatePlatform::earlyInitHook_() noexcept
 {
+	// At a minimum, you probably want to call the early init hook for your hardware platform.
+	TemplateHWPlatform::earlyInitHook()
+
 	// Does your platform require any initialization functions to be called
 	// prior to starting the OS and bringing up the system?
 	// For example, initializing the heap:
@@ -17,7 +20,7 @@ void TemplatePlatform::initOS_() noexcept
 void TemplatePlatform::initHWPlatform_() noexcept
 {
 	// At a minimum, you probably want to call:
-	// hw_platform_.init();
+	hw_platform_.init();
 
 	// You may also want to do any other platform-specific initialization of the hardware platform
 	// Here's an example:
@@ -38,7 +41,7 @@ void TemplatePlatform::initHWPlatform_() noexcept
 void TemplatePlatform::initProcessor_() noexcept
 {
 	// At a minimum, you probably want to call:
-	// hw_platform_.initProcessor();
+	hw_platform_.initProcessor();
 }
 
 void TemplatePlatform::init_() noexcept
