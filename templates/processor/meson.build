@@ -1,11 +1,4 @@
-# meson build for Template Processor
-
-# To get this into the build, go up one level in the directory tree and add
-# a `subdir(your_processor_dir)` command to the subdir group
-
-# Processor impelmentations require items (such as include paths) which should not be leaked into
-# other layers. Build the processor as a static library. Create a dependency which includes
-# safe include paths and links against the library. The hardware platform will reference the dep.
+# Template Processor build rules
 
 # This should be added to the containing build file's test file list
 template_processor_test_files = files('template_processor_tests.cpp')
@@ -14,36 +7,40 @@ template_processor = static_library('template_processor',
     [
     	'template_processor.cpp',
     	# Include other files you might need:
-    	# '../mdk/gcc_startup_nrf52840.S',
-    	# '../mdk/system_nrf52840.c',
+        # Startup files, system initialization code
     ],
     include_directories: [
     	# These include directories are for building the library. You can safely
     	# include vendor headers here.
-    	#nordic_include_dirs,
-		#cmsis_corem_include,
-		framework_includes,
+        include_directories('internal'),
+        #nordic_include_dirs,
+        #cmsis_corem_include,
     ],
     c_args: [
-    	# You might need processor specific definitions?
+    	# You might need processor-specific definitions?
     ],
     cpp_args: [
-        # You might need processor specific definitions?
+        # You might need processor-specific definitions?
     ],
     dependencies: [
+        framework_include_dep,
+        framework_host_include_dep,
     	# These dependencies will be for getting the processor to build. Common dependencies
     	# include the processor arch and common vendor driver implementations
        	# nrf_common_drivers_dep,
         # arm_dep,
     ],
-    native: false
+    native: false,
+    build_by_default: meson.is_subproject() == false
 )
 
 # This dependency is meant to be used by HW platforms built using this processor
-target_processor_dep = declare_dependency(
+template_processor_dep = declare_dependency(
 	include_directories: [
 		# These include directories should be _Safe_ from vendor includes!
-		# These are only what the HW platform needs to talk to the library
+		# These includes are only what the HW platform needs to talk to the processor library.
+        # Note, for example, that `./internal` is not included in the dependency
+        # even though it was included in the library build.
 		include_directories('.')
 	],
 	sources: [files('template_hw_platform.cpp')],
@@ -60,3 +57,9 @@ target_processor_dep = declare_dependency(
 	],
 	link_with: template_processor
 )
+
+catch2_tests_dep += declare_dependency(
+    sources: files('template_processor_tests.cpp'),
+    dependencies: template_processor_dep
+)
+
