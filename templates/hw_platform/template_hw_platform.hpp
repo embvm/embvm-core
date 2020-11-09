@@ -4,12 +4,12 @@
 #include <hw_platform/virtual_hw_platform.hpp>
 
 /**
- * TODO when creating a new hardware platform:
- *	- Rename the header guard so it's not TEMPLATE_HW_PLATFORM_HPP_
- *	- Rename the class to match the new HW platform's actual name
- *	- Update the PlatformBase() constructor with your platform's name
- *	- Update the template_hw_platform.cpp to match the new class name
- *	- Rename the files
+ * Checklist for creating a new hardware platform:
+ *	- [ ] Rename the header guard so it's not TEMPLATE_HW_PLATFORM_HPP_
+ *	- [ ] Rename the class to match the new HW platform's actual name
+ *		- [ ] Update the template_hw_platform.cpp to match the new class name
+ *		- [ ] Rename the files to reflect the new class name
+ *	- [ ] Adjust the name of the "processor_" variable in the .cpp file
  */
 
 /** New Hardware Platform
@@ -26,7 +26,7 @@ class TemplateHWPlatform : public embvm::VirtualHwPlatformBase<TemplateHWPlatfor
 
   public:
 	/// @brief Default constructor.
-	TemplateHWPlatform() noexcept : PlatformBase("Template HW Platform") {}
+	TemplateHWPlatform() noexcept;
 
 	/// @brief Default destructor.
 	~TemplateHWPlatform() noexcept;
@@ -44,24 +44,7 @@ class TemplateHWPlatform : public embvm::VirtualHwPlatformBase<TemplateHWPlatfor
 	// Implement your custom hw platform functionality here
 
   private:
-	embutil::InterruptQueue<std::mutex> irq_bottom_half_;
-	embdrv::SimulatorSystemClock sysclock;
-	embdrv::aardvarkAdapter aardvark{embdrv::aardvarkMode::GpioI2C};
-	embdrv::aardvarkI2CMaster i2c0{aardvark};
-	embdrv::aardvarkGPIOOutput<5> gpio5{aardvark};
-	embdrv::aardvarkGPIOInput<4> gpio4{aardvark};
-	embdrv::aardvarkGPIOInput<3> gpio3{aardvark};
-	embvm::led::gpioActiveHigh led0{gpio5};
-	embdrv::vl53l1x tof0{i2c0, SPARKFUN_VL53L1X_ADDR};
-	embdrv::ssd1306 screen0{i2c0, SPARKFUN_SSD1306_ADDR};
-
-	// Leave unconfigured during declaration, update in init
-	embdrv::SimulatorTimer timer0;
-
-	TimerManager_t tm_{timer0};
-	TimerHandle_t led_sw_timer_handle;
-
-	SimulatorProcessor processor;
+	// Declare drivers and other internal variables here
 };
 
 #endif // TEMPLATE_HW_PLATFORM_HPP_
