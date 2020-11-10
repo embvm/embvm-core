@@ -6,6 +6,16 @@
 
 Talk about the helper script once it is created
 
+
+# To get this into the build, go up one level in the directory tree and add
+# a `subdir(your_hw_platform_dir)` command to the subdir group
+
+# HW Platforms should be typically build as dependencies and added into the Platform dependency
+# list. If HW Platforms include items (such as include paths) which should not be leaked into the
+# main Platform, then build the HW Platform as a static library. Create a dependency which includes
+# safe include paths and links against the library. The Platform will still reference the dependency.
+
+
 ## Alternatives to Find Driver
 
 ```
@@ -142,4 +152,14 @@ template<typename THWPlatform, class TDriverRegistry>
 #endif
 class VirtualHwPlatformBase
 {
+```
+
+## Declaring Drivers
+
+In the hardware platform header file, we can include the `stm32_gpio.hp`p header and declare some GPIO pins:
+    
+```
+    STM32GPIOOutput<STM32GPIOPort::C, 7> led1_pin;
+    STM32GPIOOutput<STM32GPIOPort::B, 7> led2_pin;
+    STM32GPIOOutput<STM32GPIOPort::B, 14> led3_pin;
 ```

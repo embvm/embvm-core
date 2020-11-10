@@ -1,5 +1,46 @@
 # Adding a New Platform
 
+# To get this into the build, go up one level in the directory tree and add
+# a `subdir(your_platform_dir)` command to the subdir group
+
+# Platforms should be typically built as dependencies and added into the application dependency list
+# If platforms include items (such as include paths) which should not be leaked into the main
+# Application, then build the platform as a static library. Create a dependency which includes
+# safe include paths and links against the library. The app will still reference the dependency.
+
+
+// Each platform defines a standard platform.hpp header, which contains
+// the implementation for the platform class. The platform header maps the specific
+// platform class to the `VirtualPlatform` type (with a `using` statement). This
+// ensures that our application has a common way of accessing the platform object and interface,
+// rather than having to redefine the type each time we want to build the application.
+// This can be viewed as an abstract interface of sorts!
+#include <platform.hpp>
+
+
+    // This is how we access our platform class in a portable way -
+    // We use a common `VirtualPlatform` alias.
+    auto& platform = VirtualPlatform::inst();
+
+
+
+    // If a _putchar() function is defined, this will dump the contents of the buffer to the
+    // associated communication channel.
+    // Note that this is a platform API, not a standard logging API.
+    platform.echoLogBufferToConsole();
+
+We also need a _putchar reference. Let's add that to the platform:
+
+```
+#include <printf.h> // for _putchar definition
+
+void _putchar(char c)
+{
+    // TODO:
+}
+```
+
+
 ## What is a Platform?
 
 Platform = hw platform + memory allocation scheme + OS + framework core + framework subsystems
@@ -80,7 +121,7 @@ You'll need to supply an implementation for `_putchar` if you're using `printf`.
 If you don't need to use this functionality, but your build requires it, you can define an empty implementation:
 
 ```
-// We don't print anything, so supply an empty defintion
+// We don't print anything, so supply an empty definition
 extern "C" void _putchar(char c)
 {
     (void)c;
