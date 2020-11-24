@@ -5,7 +5,7 @@
 ###############################
 # Force into an array so we can concatenate
 # TODO Also, what do we do about framework_include_dep and farmework_host_inculde_dep?
-# Ideally I want these combined sot hat they are in the proper order for users,
+# Ideally I want these combined so that they are in the proper order for users,
 # instead of requiring the users to deal with placing them in the proper order!!!
 # Maybe there's a "core" dep which can be used without the host/include for the
 # hosted version, and then "host_include_dep" and "native_include_dep" just include "framework_include_dep"
