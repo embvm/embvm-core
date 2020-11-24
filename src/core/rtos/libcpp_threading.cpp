@@ -1,7 +1,9 @@
 // Copyright 2020 Embedded Artistry LLC
 // SPDX-License-Identifier: GPL-3.0-only OR Embedded Virtual Machine Commercial License
 
+#if __has_include(<__config>)
 #include <__config>
+#endif
 
 #ifdef _LIBCPP_HAS_THREAD_API_EXTERNAL
 
