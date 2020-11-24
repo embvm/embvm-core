@@ -6,6 +6,7 @@
 
 #include "driver.hpp"
 #include <cassert>
+#include <cstring>
 
 namespace embvm
 {
