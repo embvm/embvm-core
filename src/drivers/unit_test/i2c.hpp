@@ -32,7 +32,7 @@ class i2cTestDriver final : public embvm::i2c::master
 {
   public:
 	/// Create a generic I2C Master
-	i2cTestDriver() noexcept = default;
+	i2cTestDriver() noexcept {}
 
 	/// Default destructor
 	~i2cTestDriver() noexcept;
