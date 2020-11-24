@@ -313,4 +313,266 @@ to
 ### Initial Repository Setup
 
 - Create a repository using the [Embedded VM Project Skeleton](https://github.com/embvm/embvm-project-skeleton) template
-- 
+
+
+
+## Parse this
+some of this can go here
+some can go into the driver version
+
+### GPIO Driver Implementation
+
+> **Note:** The GPIO base class was redesigned after this development log was written, so the exact implementation notes are slightly outdated. However, the process is still valid.
+
+We'll start by including our basic GPIO class:
+
+```
+#include <driver/gpio.hpp>
+```
+
+I'll also describe a basic GPIO output class that takes a templated port/pin. Because we don't want to leak implementation details, I'm going to forward these calls to translation class that handles the implementation details under the hood.
+
+```
+template<uint8_t TPort, uint8_t TPin>
+class STM32GPIOOutput final : public embvm::gpio::output
+{
+  public:
+    /** Construct a generic GPIO output
+     */
+    explicit STM32GPIOOutput() noexcept : embvm::gpio::output("nRF GPIO Output") {}
+
+    /** Construct a named GPIO output
+     *
+     * @param name The name of the GPIO pin
+     */
+    explicit STM32GPIOOutput(const char* name) noexcept : embvm::gpio::output(name) {}
+
+    /// Default destructor
+    ~STM32GPIOOutput() final = default;
+
+    void set(bool v) noexcept final
+    {
+        if(v)
+        {
+            STM32GPIOTranslator::set(TPort, TPin);
+        }
+        else
+        {
+            STM32GPIOTranslator::clear(TPort, TPin);
+        }
+    }
+
+  private:
+    void start_() noexcept final
+    {
+        STM32GPIOTranslator::configure_output(TPort, TPin);
+    }
+
+    void stop_() noexcept final
+    {
+        STM32GPIOTranslator::configure_default(TPort, TPin);
+    }
+};
+```
+
+We'll preemptively include this header:
+
+```
+#include "helpers/gpio_helper.hpp"
+```
+
+Now to make `gpio_helper.hpp` and `gpio_helper.cpp` in `drivers/helpers`.
+
+The header file is going to be a simple interface that defines static functions
+
+```
+#ifndef STM32_GPIO_HELPER_HPP_
+#define STM32_GPIO_HELPER_HPP_
+
+#include <cstdint>
+
+/** Translation class which handles STM32 GPIO Configuration.
+ *
+ * This represents a bridge pattern: the implementation of the GPIO functions is separated from the
+ * main interfaces (STM32GPIOOutput, STM32GPIOInput, etc.).
+ *
+ * The GPIO function implementations are isolated from this header because we do not want to make
+ * the STM32 headers accessible from the rest of the system.
+ *
+ * This class cannot be directly instantiated.
+ */
+class STM32GPIOTranslator
+{
+  public:
+    static void configure_output(uint8_t port, uint8_t pin) noexcept;
+    static void configure_input(uint8_t port, uint8_t pin, uint8_t pull_config) noexcept;
+    static void configure_default(uint8_t port, uint8_t pin) noexcept;
+    static void set(uint8_t port, uint8_t pin) noexcept;
+    static void clear(uint8_t port, uint8_t pin) noexcept;
+
+  private:
+    /// This class can't be instantiated
+    STM32GPIOTranslator() = default;
+    ~STM32GPIOTranslator() = default;
+};
+
+#endif // STM32_GPIO_HELPER_HPP_
+```
+
+The source file will be implementations of these functions.
+
+We'll start with the includes:
+
+```
+#include "gpio_helper.h"
+#include <processor_includes.hpp>
+```
+
+We also need to decide whether we want to use the HAL or LL drivers at this point. Eventually we can supply implementations for both, but we need to pick one fundamentally. For now, we're going to use the LL drivers.
+
+In the `.cpp` file, we need to include `<stm32l4xx_ll_gpio.h>`.
+
+Something comes to mind looking at the STM32 files. Predictably, there are multiple ports supported on this processor: `GPIOA...GPIOI`
+
+Now, we don't want to parameterize our template classes by using pointers, and we don't want to expose any headers or implementation details on the STM32 side to the rest of the program. So what can we do? Declare an `enum` that is mapped to the values internally:
+
+```
+enum STM32GPIOPort : uint8_t {
+    A = 0,
+    B,
+    C,
+    D,
+    E,
+    F,
+    G,
+    H,
+    I,
+};
+```
+
+Then we change our template header:
+`template<STM32GPIOPort TPort, uint8_t TPin>`
+
+Inside of our` gpio_helper.cpp` file, we can define an array that can map these values to our actual pointer types:
+
+```
+constexpr std::array<GPIO_TypeDef*,9> ports = {GPIOA, GPIOB, GPIOC, GPIOD, GPIOE, GPIOF, GPIOG, GPIOH, GPIOI};
+```
+
+We also need to translate our integral pin number [0..15] into the proper STM32 representation, which is a bitmask.
+
+```
+#define PIN_INT_TO_STM32(x) (1 << x)
+```
+
+Now we can map our helper functions to the LL functions and types:
+
+```
+void STM32GPIOTranslator::configure_output(uint8_t port, uint8_t pin) noexcept
+{
+    LL_GPIO_InitTypeDef gpio_init = {
+        .Pin = PIN_INT_TO_STM32(pin),
+        .Mode = LL_GPIO_MODE_OUTPUT,
+        .Speed = LL_GPIO_SPEED_FREQ_MEDIUM,
+        .OutputType = LL_GPIO_OUTPUT_PUSHPULL,
+        .Pull = LL_GPIO_PULL_NO,
+        .Alternate = LL_GPIO_AF_0
+    };
+
+    LL_GPIO_Init([ports[port], &gpio_init); // GPIOx, GPIO_InitStruct
+}
+
+void STM32GPIOTranslator::configure_input(uint8_t port, uint8_t pin, uint8_t pull_config) noexcept
+{
+    LL_GPIO_InitTypeDef gpio_init = {
+        .Pin = PIN_INT_TO_STM32(pin),
+        .Mode = LL_GPIO_MODE_INPUT,
+        .Speed = LL_GPIO_SPEED_FREQ_MEDIUM,
+        .Pull = LL_GPIO_PULL_NO,
+        .Alternate = LL_GPIO_AF_0,
+    };
+
+    LL_GPIO_Init(ports[port], &gpio_init); // GPIOx, GPIO_InitStruct
+}
+
+void STM32GPIOTranslator::configure_default(uint8_t port, uint8_t pin) noexcept
+{
+    configure_input(port, pin, 0); // TODO: set to no-pull
+}
+
+void STM32GPIOTranslator::set(uint8_t port, uint8_t pin) noexcept
+{
+    LL_GPIO_SetOutputPin(ports[port], PIN_INT_TO_STM32(pin)); // GPIOx, PinMask
+}
+
+void STM32GPIOTranslator::clear(uint8_t port, uint8_t pin) noexcept
+{
+    LL_GPIO_ResetOutputPin(ports[port], PIN_INT_TO_STM32(pin)); // GPIOx, PinMask
+}
+```
+
+Next we need to get this into the build. In `src/drivers/meson.build`:
+
+```
+# src/drivers/meson.build
+
+stm32_common_drivers_include = include_directories('.')
+
+stm32_common_drivers_dep = declare_dependency(
+    include_directories: stm32_common_drivers_include,
+    sources: [
+        'helpers/gpio_helper.cpp',
+    ],
+    dependencies: stm32_ll_dep,
+)
+```
+
+We'll add the `subdir` call to the `src/meson.build` file. It needs to be included before processor so we can use the driver dependency in the processor build target.
+
+```
+subdir('drivers')
+subdir('processor')
+subdir('hw_platform')
+subdir('platform')
+subdir('app')
+```
+
+In our processor library target, we'll add the driver dependency to the library build and the include directory to the processor dependency:
+
+```
+stm32l4r5 = static_library('stm32l4r5',
+    sources: [
+        files('stm32l4r5.cpp'),
+        stm32l4r5_processor_files,
+    ],
+    c_args: [
+        '-DSTM32L4R5xx',
+    ],
+    cpp_args: [
+        '-DSTM32L4R5xx',
+    ],
+    include_directories: [
+        include_directories('internal'),
+        cmsis_cortex_m_include,
+    ],
+    dependencies: [
+        framework_include_dep,
+        framework_host_include_dep,
+        stm32_cmsis_device_dep,
+        arm_dep,
+        stm32_common_drivers_dep,
+    ],
+    build_by_default: meson.is_subproject() == false
+)
+
+stm32l4r5_processor_dep = declare_dependency(
+    include_directories: [
+        include_directories('.', is_system: true),
+        stm32_common_drivers_include
+    ],
+    dependencies: [
+
+    ],
+    link_with: stm32l4r5,
+)
+```
