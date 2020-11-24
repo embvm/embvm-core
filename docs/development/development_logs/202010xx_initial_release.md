@@ -3,7 +3,7 @@
 The following tasks (and more) were completed in preparation for the initial public Embedded VM release.
 
 - [x] Update Meson required version
-- [x] Revisit pinned github repositories on all of the organizations and make sure we like the top itemsn in all projects to 0.56.0 or later
+- [x] Revisit pinned github repositories on all of the organizations and make sure we like the top items in all projects to 0.56.0 or later
 - [x] Change on all framework projects: clang-format `NamespaceIndentation: Inner` -> `NamespaceIndentation: None`
 - [x] Update clang-format rules: find: /Users/phillip/src/ea/framework/embvm-demo-platforms/test: No such file or directory
 - [x] Fix in all makefiles
