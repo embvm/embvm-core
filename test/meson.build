@@ -1,5 +1,5 @@
 # Specify Settings for Embedded VM Core Test Build
-catch2_tests_dep += declare_dependency(
+embvm_test_dep = declare_dependency(
 	compile_args: [
 		#'-DCATCH_CONFIG_DISABLE',
 		'-DCATCH_CONFIG_FAST_COMPILE',
@@ -24,3 +24,5 @@ catch2_tests_dep += declare_dependency(
 		framework_include_dep
 	],
 )
+
+catch2_tests_dep += embvm_test_dep
