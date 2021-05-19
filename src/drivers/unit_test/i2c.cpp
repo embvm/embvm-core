@@ -69,7 +69,7 @@ embvm::i2c::status i2cTestDriver::transfer_(const embvm::i2c::op_t& op,
 			break;
 	}
 
-	//callback(op, embvm::i2c::status::ok, cb);
+	// callback(op, embvm::i2c::status::ok, cb);
 
 	return embvm::i2c::status::ok;
 }
