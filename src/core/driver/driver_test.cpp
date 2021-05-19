@@ -87,9 +87,27 @@ TEST_CASE("i2c driver tests", "[core/driver/i2c]")
 
 	SECTION("Transfer test #1", "[core/driver/i2c]")
 	{
-		embvm::i2c::op_t op;
+		uint8_t tx_buffer[] = {0x0, 0x1, 0x2};
+		uint8_t rx_buffer[3];
+		uint8_t rx_expected[] = {0xa, 0xb, 0x3};
+
+		embvm::i2c::op_t op = {
+			.address = 0x29,
+			.op = embvm::i2c::operation::writeRead,
+			.tx_size = sizeof(tx_buffer),
+		 	.tx_buffer = tx_buffer,
+		 	.rx_size = sizeof(rx_buffer),
+		 	.rx_buffer = rx_buffer
+		};
+
+		d.clearTxBuffer();
+		d.clearRxBuffer();
+		d.appendToRxBuffer(rx_expected, sizeof(rx_expected));
+
 		auto status = d.transfer(op);
 
+		CHECK(d.checkTxBuffer(tx_buffer, sizeof(tx_buffer)));
+		CHECK(0 == memcmp(rx_buffer, rx_expected, sizeof(rx_buffer)));
 		CHECK(embvm::i2c::status::ok == status);
 	}
 
