@@ -28,7 +28,7 @@ class VirtualPlatformBase
 	/** Get the global platform instance.
 	 *
 	 * Static declaration of the VirtualPlatformBase instance.
-	 * We use this function to avoid the static initializatio order 'fiasco'.
+	 * We use this function to avoid the static initialization order 'fiasco'.
 	 * See more: https://isocpp.org/wiki/faq/ctors#static-init-order
 	 */
 	static TPlatform& inst() noexcept

@@ -41,7 +41,7 @@ namespace embutil
  * # Using an Active Object
  *
  * Operations are added to the op queue through the enqueue() function. Depending on the class
- * and its intended usage, enqueue() can be called direclty by client code or within the derived
+ * and its intended usage, enqueue() can be called directly by client code or within the derived
  * class functions.
  *
  * For example, aardvarkI2CMaster calls enqueue() within the I2C transfer request function
@@ -57,7 +57,7 @@ namespace embutil
  * }
  * @endcode
  *
- * Enqueued operations are processed on the activeObject thread via the derived classes's process_()
+ * Enqueued operations are processed on the activeObject thread via the derived classes process_()
  * function. This is where the useful work happens. In the case of aardvarkI2CMaster,
  * aardvarkI2CMaster::process_() parses the operation, talks to the I2C hardware, and returns
  * the result to the caller via the callback function.
@@ -103,7 +103,7 @@ class activeObject
 	/** Add an operation to the queue.
 	 *
 	 * This function can be called directly, or by functions internal to the activeObject.
-	 * For example, the "transfer" API enqueues transfer operations.
+	 * For example, the "transfer" API enqueue transfer operations.
 	 *
 	 * This function is marked noexcept because we want the program to terminate if an exception
 	 * results from this call. For example, the underlying queue may throw on push.

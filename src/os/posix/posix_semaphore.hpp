@@ -22,7 +22,7 @@ namespace os::posix
 
 /** Create a POSIX semaphore (OSX variant)
  *
- * Useful reference documenation:
+ * Useful reference documentation:
  *	- POSIX semaphore APIs:
  *		https://docs.oracle.com/cd/E19120-01/open.solaris/817-4415/svipc-75667/index.html
  */
@@ -36,7 +36,7 @@ class Semaphore final : public embvm::VirtualSemaphore
 	 * @param mode The semaphore mode (binary, counting).
 	 * @param ceiling The maximum count of the semaphore
 	 * @param initial_count The starting count of the semaphore. Can be used to indicate that
-	 * resources are in use at hte itme of creation.
+	 * resources are in use at the time of creation.
 	 */
 	explicit Semaphore(embvm::semaphore::mode mode = embvm::semaphore::mode::counting,
 					   embvm::semaphore::count_t ceiling = 1,
@@ -136,7 +136,7 @@ class Semaphore final : public embvm::VirtualSemaphore
 // TODO: test on Linux
 /** Create a POSIX semaphore (OSX variant)
  *
- * Useful reference documenation:
+ * Useful reference documentation:
  *	- POSIX semaphore APIs:
  *		https://docs.oracle.com/cd/E19120-01/open.solaris/817-4415/svipc-75667/index.html
  */

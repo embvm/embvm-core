@@ -93,7 +93,7 @@ class EventFlag final : public embvm::VirtualEventFlag
 	 *(opt).
 	 * @post If clearOnExit is true:
 	 *	- All flags set in bits_wait will be cleared from flag_ if AND option is used.
-	 * 	- Flags set in both btis_wait and flags_ will be cleared from flag_ if OR option is used.
+	 * 	- Flags set in both bits_wait and flags_ will be cleared from flag_ if OR option is used.
 	 */
 	embvm::eventflag::flag_t checkAndClearFlags(embvm::eventflag::flag_t bits_wait,
 												embvm::eventflag::option opt,

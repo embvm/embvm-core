@@ -20,7 +20,7 @@ namespace embutil
  * Since these are defined in sys/time.h on POSIX systems, embedded devices may not have
  * them, so we do not use them by default.
  *
- * Time conversionf unctions were inspired by this post on StackOverflow:
+ * Time conversion functions were inspired by this post on StackOverflow:
  *	https://stackoverflow.com/questions/31409036/converting-from-struct-timespec-to-stdchrono
  *
  * @ingroup FrameworkUtils

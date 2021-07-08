@@ -128,7 +128,7 @@ class commBus
 {
 	/**
 	 * The functor declaration which will be used in declaring a DispatcherFunc. This represents the
-	 * statucally-allocated functor that stores a std::bind of the callback, operation, and status.
+	 * statically-allocated functor that stores a std::bind of the callback, operation, and status.
 	 */
 	using TDispatchFunctor = stdext::inplace_function<void(), TDispatchFunctorSize>;
 
@@ -205,7 +205,7 @@ class commBus
 	 * return immediately with a result.
 	 *
 	 * If the derived driver class returns a status code other than TStatus::enqueued or
-	 *TStatus::busy, the callback will be immediately invoked. If the operation was enqueued, the
+	 * TStatus::busy, the callback will be immediately invoked. If the operation was enqueued, the
 	 * final status will be reported when the callback is called.
 	 *
 	 * @param op A bus transfer is defined by an operation (op). The derived class will use the
@@ -248,7 +248,7 @@ class commBus
 	/** Set a new baudrate.
 	 *
 	 * Since each comm bus driver is different, the baudrate update request is forwarded to
-	 *	the derived class, which must implement the pure virtual function baudrate_().
+	 * the derived class, which must implement the pure virtual function baudrate_().
 	 *
 	 * TODO: tolerance check
 	 *
@@ -309,7 +309,7 @@ class commBus
 	 */
 	virtual TStatus transfer_(const TOperation& op, const cb_t& callback) noexcept = 0;
 
-	/** The drived comm class's baudrate update implementation.
+	/** The derived comm class's baudrate update implementation.
 	 *
 	 * Derived classes override this baudrate function to handle baudrate change requests.
 	 *

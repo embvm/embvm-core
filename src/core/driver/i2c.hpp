@@ -199,7 +199,7 @@ using commBus =
  * {...}
  * @endcode
  *
- * Derived classes must imlement the following pure virtual functions to complete I2C master
+ * Derived classes must implement the following pure virtual functions to complete I2C master
  * behavior:
  * - configure_(), to configure the target hardware for operation
  *

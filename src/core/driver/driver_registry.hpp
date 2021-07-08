@@ -149,7 +149,7 @@ class DriverRegistry
 	 *
 	 * Removes a driver from the DriverRegistry using the value.
 	 *
-	 * @precondition vaue is registered in the driver list.
+	 * @precondition value is registered in the driver list.
 	 * @postcondition key/value combination has been removed from the driver list.
 	 *
 	 * @param driver Pointer to the embvm::DriverBase object being removed.
@@ -215,7 +215,7 @@ class DriverRegistry
 	 *casted to the requested driver interface. If no driver is found, an empty object will be
 	 *returned.
 	 *
-	 * To perform the lookup, the requested driver classes's `::type()` static member
+	 * To perform the lookup, the requested driver classes `::type()` static member
 	 * function will be used.
 	 *
 	 * If multiple objects are registered with the same type, the first one found will
@@ -263,7 +263,7 @@ class DriverRegistry
 	 * @tparam TReturn The return type provided to the caller. Most users do not need to change the
 	 * type.
 	 * @param dtype The type of the driver instance to search for.
-	 * @returns a TReturn type (default std::list) of pointers to Dembvm::DriverBase objects with
+	 * @returns a TReturn type (default std::list) of pointers to embvm::DriverBase objects with
 	 * the requested driver type. An empty list will be returned if no drivers are found.
 	 */
 	template<typename TReturn = std::list<embvm::DriverBase*>>
@@ -291,7 +291,7 @@ class DriverRegistry
 	 * @tparam TReturn The return type provided to the caller. Most users do not need to change the
 	 * type.
 	 * @param dtype The type of the driver instance to search for.
-	 * @returns a TReturn type (default etl::list) of pointers to Dembvm::DriverBase objects with
+	 * @returns a TReturn type (default etl::list) of pointers to embvm::DriverBase objects with
 	 * the requested driver type. An empty list will be returned if no drivers are found.
 	 */
 	template<typename TReturn = etl::list<embvm::DriverBase*, TReturnSize>>
@@ -316,13 +316,13 @@ class DriverRegistry
 	 * Performs a driver lookup by type and creates a list of all drivers found with the matching
 	 * type. If no driver is found, an empty list will be returned.
 	 *
-	 * To perform the lookup, the requested driver classes's `::type()` static member
+	 * To perform the lookup, the requested driver classes `::type()` static member
 	 * function will be used.
 	 *
 	 * @tparam TDriverClass The class of driver being requested (embvm::i2c::master, SystemClock).
 	 * @tparam TReturn The return type provided to the caller. Most users do not need to change the
 	 * type.
-	 * @returns a TReturn type (default std::list) of pointers to Dembvm::DriverBase objects with
+	 * @returns a TReturn type (default std::list) of pointers to embvm::DriverBase objects with
 	 * the requested driver type. An empty list will be returned if no drivers are found.
 	 */
 	template<class TDriverClass, typename TReturn = std::list<embvm::DriverBase*>>
@@ -347,13 +347,13 @@ class DriverRegistry
 	 * Performs a driver lookup by type and creates a list of all drivers found with the matching
 	 * type. If no driver is found, an empty list will be returned.
 	 *
-	 * To perform the lookup, the requested driver classes's `::type()` static member
+	 * To perform the lookup, the requested driver classes `::type()` static member
 	 * function will be used.
 	 *
 	 * @tparam TDriverClass The class of driver being requested (embvm::i2c::master, SystemClock).
 	 * @tparam TReturn The return type provided to the caller. Most users do not need to change the
 	 * type.
-	 * @returns a TReturn type (default etl::list) of pointers to Dembvm::DriverBase objects with
+	 * @returns a TReturn type (default etl::list) of pointers to embvm::DriverBase objects with
 	 * the requested driver type. An empty list will be returned if no drivers are found.
 	 */
 	template<class TDriverClass, typename TReturn = etl::list<embvm::DriverBase*, TReturnSize>>

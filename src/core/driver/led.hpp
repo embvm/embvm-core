@@ -103,7 +103,7 @@ class base : public embvm::DriverBase
  * class manages a embvm::gpio::base object that is connected to an LED in hardware. All
  * interactions with the LED are forwarded to the embvm::gpio::base class.
  *
- * This class is used in the same way as led::base(). The only additonal requirement is that it
+ * This class is used in the same way as led::base(). The only additional requirement is that it
  * must be initialized with a embvm::gpio object.
  *
  * @precondition This driver assumes that is is the sole owner of the embvm::gpio::base object after

@@ -159,7 +159,7 @@ class Thread final : public embvm::VirtualThread
 
 		state_ = embvm::thread::state::ready;
 
-		// Our interfaces demand a void(*)(void*), so we adapt to posix's requirement
+		// Our interfaces demand a void(*)(void*), so we adapt to posix requirement
 		// and simply skip out on the return to the caller's perspective
 		r = pthread_create(&handle_, &attributes,
 						   reinterpret_cast<void* (*)(void*)>(BOUNCE(Thread, thread_func)),
@@ -261,7 +261,7 @@ class Thread final : public embvm::VirtualThread
 	/// Thread input arguments.
 	embvm::thread::input_t arg_;
 
-	/// The functor which will be invokd by the thread
+	/// The functor which will be invoked by the thread
 	embvm::thread::func_t func_;
 
 	std::atomic<embvm::thread::state> state_ = embvm::thread::state::ready;

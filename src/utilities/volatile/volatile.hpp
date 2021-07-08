@@ -14,7 +14,7 @@ namespace embutil
  * These functions promote safer loading and storing of volatile values.
  *
  * To quote Odin Holmes:
- * > There is a scary amount of bare metal devs who think `volatile` means atomic,
+ * > There is a scary amount of bare metal developers who think `volatile` means atomic,
  * > because sometimes it happens to mean that on primitive cores.
  *
  * @code
@@ -60,7 +60,7 @@ template<typename TType>
 {
 	assert(target);
 	static_assert(std::is_trivially_copyable<TType>::value,
-				  "Volatile load can only be used with trivially copiable types");
+				  "Volatile load can only be used with trivially copyable types");
 	return *static_cast<const volatile TType*>(target);
 }
 
@@ -71,7 +71,7 @@ template<typename TType>
 {
 	assert(target);
 	static_assert(std::is_trivially_copyable<TType>::value,
-				  "Volatile load can only be used with trivially copiable types");
+				  "Volatile load can only be used with trivially copyable types");
 	return *target;
 }
 
@@ -89,7 +89,7 @@ inline void volatile_store(TType* target, TType value) noexcept
 {
 	assert(target);
 	static_assert(std::is_trivially_copyable<TType>::value,
-				  "Volatile store can only be used with trivially copiable types");
+				  "Volatile store can only be used with trivially copyable types");
 	*static_cast<volatile TType*>(target) = value;
 }
 
@@ -100,7 +100,7 @@ inline void volatile_store(volatile TType* target, TType value) noexcept
 {
 	assert(target);
 	static_assert(std::is_trivially_copyable<TType>::value,
-				  "Volatile store can only be used with trivially copiable types");
+				  "Volatile store can only be used with trivially copyable types");
 	*target = value;
 }
 
