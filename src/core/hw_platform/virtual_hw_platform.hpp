@@ -116,7 +116,7 @@ class VirtualHwPlatformBase
 
 	/** Perform a soft reset of the system (chip reset)
 	 *
-	 * The soft_reset_() function must be implemnted by the derived class.
+	 * The soft_reset_() function must be implemented by the derived class.
 	 *
 	 * A soft reset is intended to reset the program to the beginning without
 	 * performing a full power cycle.

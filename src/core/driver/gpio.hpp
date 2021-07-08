@@ -53,7 +53,7 @@ enum port : uint8_t
 
 /** GPIO slew rate (speed) configuration options.
  *
- * This enumeration represents the configuraiton options for the GPIO slew rate (speed) settings.
+ * This enumeration represents the configuration options for the GPIO slew rate (speed) settings.
  * While not attached to a standard GPIO interface, this type can be used in derived drivers
  * that do support setting slew rate for a pin.
  */

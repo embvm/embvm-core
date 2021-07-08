@@ -84,7 +84,7 @@ using handle_t = uintptr_t;
 /** Mutex types
  *
  * Mutexes come in multiple flavors. The two variants that we utilize in the framework
- * are "normal" mutexs and recursive mutexes.
+ * are "normal" mutexes and recursive mutexes.
  *
  * Normal mutexes can only be locked once, even by the same thread. There is potential
  * for a deadlock to occur if a thread holding a lock tries to lock again.

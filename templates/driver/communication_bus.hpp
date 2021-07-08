@@ -306,7 +306,7 @@ class commBus
 	 */
 	virtual TStatus transfer_(const TOperation& op, const cb_t& callback) noexcept = 0;
 
-	/** The drived comm class's baudrate update implementation.
+	/** The derived comm class's baudrate update implementation.
 	 *
 	 * Derived classes override this baudrate function to handle baudrate change requests.
 	 *

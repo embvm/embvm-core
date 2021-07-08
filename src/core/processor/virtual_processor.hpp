@@ -32,7 +32,7 @@ namespace embvm
  *	{ ... };
  *	@endcode
  *
- * @tparam TProcessor the derived pocessor implementation (CRTP pattern)
+ * @tparam TProcessor the derived processor implementation (CRTP pattern)
  */
 template<typename TProcessor>
 class VirtualProcessorBase
@@ -78,7 +78,7 @@ class VirtualProcessorBase
 
 	/** Reset the chip
 	 *
-	 * The reset_() function must be implemnted by the derived class.
+	 * The reset_() function must be implemented by the derived class.
 	 *
 	 * A soft reset is intended to reset the program to the beginning without
 	 * performing a full power cycle.

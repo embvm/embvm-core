@@ -107,7 +107,7 @@ class BootSequencer
  * 2. Setup the C/C++ runtime
  * 3. Setup the OS
  * 4. Setup the processor
- * 5. Setup the hardware pltaform
+ * 5. Setup the hardware platform
  * 6. Setup the platform
  * 7. Jump to main
  *
@@ -142,7 +142,7 @@ inline void DefaultBootStrategy() noexcept
  * 3. Setup the OS, which will terminate the current call chain and
  *	start a new thread. This new thread will continue execution:
  * 		1. Setup the processor
- * 		2. Setup the hardware pltaform
+ * 		2. Setup the hardware platform
  * 		3. Setup the platform
  * 		4. Jump to main
  *
@@ -173,7 +173,7 @@ inline void BootOSWithMainThreadStrategy() noexcept
  *
  * 1. call earlyInitHook();
  * 2. Setup the processor
- * 3. Setup the hardware pltaform
+ * 3. Setup the hardware platform
  * 4. Setup the platform
  * 5. Jump to main
  *

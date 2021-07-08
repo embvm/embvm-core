@@ -252,7 +252,7 @@ TEST_CASE("SPI Callback is called after transaction", "[core/driver/spi]")
 	CHECK(true == callback_called);
 }
 
-TEST_CASE("Active Object enqueues and runs multiple operations", "[core/driver/spi]")
+TEST_CASE("Active Object enqueue and runs multiple operations", "[core/driver/spi]")
 {
 	spiTestDriver driver_base;
 	embvm::spi::activeMaster<> d(driver_base);

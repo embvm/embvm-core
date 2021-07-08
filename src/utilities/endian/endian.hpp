@@ -33,7 +33,7 @@ constexpr T byteswap_impl(T i, std::index_sequence<N...>) noexcept // NOLINT
  *
  * Performs a constexpr byteswap using fold expressions.
  *
- * @tparam T The type of the value being byteswap'd. This is (typically) deduced by the compiler.
+ * @tparam T The type of the value being byteswapped. This is (typically) deduced by the compiler.
  * @tparam U An unsigned representation corresponding to type T.
  * @param i The value to byteswap.
  * @returns Endian swapped value as an unsigned number.
@@ -58,10 +58,10 @@ constexpr U byteswap(T i) noexcept
  * }
  * @endcode
  *
- * @tparam T The type of the value being byteswap'd. This is (typically) deduced by the compiler.
+ * @tparam T The type of the value being byteswapped. This is (typically) deduced by the compiler.
  * @param i The value to byteswap.
  * @param j Used in the recursive calculation; users should not set this.
- * @param n Used in the recursive calculation; users shoudl not set this.
+ * @param n Used in the recursive calculation; users should not set this.
  * @returns Endian swapped value.
  */
 template<class T>
@@ -131,7 +131,7 @@ void SwapEndian(T& val,
  *
  * @tparam T Type of integer to perform the swap on. This value is (typically) deduced
  *	by the compiler.
- * @param val The value to perform an endian swpa on.
+ * @param val The value to perform an endian swap on.
  */
 template<typename T>
 void SwapEndian_UB(T& val) noexcept

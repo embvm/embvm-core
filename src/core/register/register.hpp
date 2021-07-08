@@ -51,7 +51,7 @@ class sfr;
 /** SFR Class which supports address assignment with a constructor.
  *
  * This variant of the SFR class assigns the register value when the object is created.
- * With an optmizer, this will often result in the same as the static-definition variant.
+ * With an optimizer, this will often result in the same as the static-definition variant.
  */
 template<typename TPerm, typename T, uintptr_t TAddr>
 class sfr<TPerm, T, TAddr, typename std::enable_if<TAddr == 0>::type>

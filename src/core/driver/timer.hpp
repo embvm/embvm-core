@@ -209,7 +209,7 @@ class Timer : public embvm::DriverBase
 	/** Restart the timer with a specific period.
 	 *
 	 * @param period The desired timer period to reset the timer to use.
-	 *	Accepts an integral count representing the period in microseonds.
+	 *	Accepts an integral count representing the period in microseconds.
 	 */
 	void restart(const timer_period_t::rep period) noexcept
 	{
@@ -271,7 +271,7 @@ class Timer : public embvm::DriverBase
 	/// The current state of the timer.
 	timer::state state_ = timer::state::stopped;
 
-	/// The timer configuratoin.
+	/// The timer configuration.
 	timer::config config_ = timer::config::oneshot;
 };
 } // namespace timer

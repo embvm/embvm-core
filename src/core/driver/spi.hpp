@@ -98,7 +98,7 @@ using commBus = commBus<spi::op_t, spi::baud_t, spi::SPI_MASTER_REQD_STATIC_FUNC
  * {...}
  * @endcode
  *
- * Derived classes must imlement the following pure virtual functions to complete SPI master
+ * Derived classes must implement the following pure virtual functions to complete SPI master
  * behavior:
  * - setOrder_(), to set byte ordering
  * - setMode_(), to set bus mode
@@ -228,7 +228,7 @@ class master : public embvm::DriverBase, public spi::commBus
 	/** Set the SPI bus mode.
 	 *
 	 * Derived classes must implement the setMode_() function,
-	 * which is reponsible for configuring the target hardware.
+	 * which is responsible for configuring the target hardware.
 	 *
 	 * @param mode The desired SPI bus mode.
 	 * @returns The new SPI bus mode.
@@ -252,7 +252,7 @@ class master : public embvm::DriverBase, public spi::commBus
 
 	/** Set the SPI bus byte order.
 	 *
-	 * Derived classes must implement the setOrder_() function, which is reponsible for
+	 * Derived classes must implement the setOrder_() function, which is responsible for
 	 * configuring the target hardware.
 	 *
 	 * @param order The desired byte ordering.

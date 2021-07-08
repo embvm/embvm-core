@@ -69,7 +69,7 @@ namespace embutil
  * @param acquire The function used to acquire the resource.
  * @param release The function used to release the resource.
  * @param args A variadic list of arguments which will be forwarded to the acquire function.
- * @returns a std::unique_ptr which manages an instance of type T, configurd with release as the
+ * @returns a std::unique_ptr which manages an instance of type T, configured with release as the
  * 	deleter function. When the resource goes out of scope, it will be automatically cleaned up
  *	via the release function.
  */
@@ -83,7 +83,7 @@ std::unique_ptr<T, ReleaseFunc> unique_resource(AcquisitionFunc acquire, Release
 /** Enable Scope-Bound Resource Management (SBRM) for C-style resources (std::shared_ptr variant).
  *
  * The shared_resource() function creates unique pointers that manage C-style Resources.
- * The function takes in an acquisiton function and release function (e.g. fopen and fclose).
+ * The function takes in an acquisition function and release function (e.g. fopen and fclose).
  * Remaining arguments are optional. If specified, they will be forwarded to the acquisition
  * function.
  *
@@ -134,7 +134,7 @@ std::unique_ptr<T, ReleaseFunc> unique_resource(AcquisitionFunc acquire, Release
  * @param acquire The function used to acquire the resource.
  * @param release The function used to release the resource.
  * @param args A variadic list of arguments which will be forwarded to the acquire function.
- * @returns a std::shared_ptr which manages an instance of type T, configurd with release as the
+ * @returns a std::shared_ptr which manages an instance of type T, configured with release as the
  * 	deleter function. When the std::shared_ptr refcount reaches 0, it will be automatically cleaned
  *	up via the release function.
  */

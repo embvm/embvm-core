@@ -158,7 +158,7 @@ class ActiveEventQueue : embutil::activeObject<ActiveEventQueue, TEvent, TQueueS
 
 	/** Enqueue an event
 	 *
-	 * Enqueues the event with the Active Object's thread
+	 * Enqueue the event with the Active Object's thread
 	 *
 	 * @param e Event to push onto the queue
 	 */
