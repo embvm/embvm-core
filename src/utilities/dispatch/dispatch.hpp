@@ -386,7 +386,7 @@ class DispatchQueue_Base
  * With multiple threads, operations will be executed as soon as a thread is
  * available.
  *
- * @note This queue is only safe to call from contexts which can aquire mutexes.
+ * @note This queue is only safe to call from contexts which can acquire mutexes.
  * @note To instantiate with default TFunc type, use `DynamicDispatchQueue<>`.
  *
  * @tparam TFunc The type representing a dispatch function prototype. Defaults to any functor
@@ -399,7 +399,7 @@ template<typename TFunc = std::function<void()>, typename TLock = std::mutex,
 		 typename TCond = std::condition_variable>
 using DynamicDispatchQueue = DispatchQueue_Base<0, 0, TFunc, TLock, TCond>;
 
-/** Dispatch queue specializatoin using only static memory allocation.
+/** Dispatch queue specialization using only static memory allocation.
  *
  * This dispatch queue type uses a staticly sized queue and configurable thread count.
  * The function queue is fully serial, so each operation will execute in order.
@@ -410,7 +410,7 @@ using DynamicDispatchQueue = DispatchQueue_Base<0, 0, TFunc, TLock, TCond>;
  *
  * TSize = size of the underlying queue in bytes
  *
- * @note This queue is only safe to call from contexts which can aquire mutexes.
+ * @note This queue is only safe to call from contexts which can acquire mutexes.
  *
  * @tparam TSize The size of the storage queue. When TSize is 0, dynamic memory allocation will be
  *	used. Otherwise static memory types are used and the maximum number of operations is limited to

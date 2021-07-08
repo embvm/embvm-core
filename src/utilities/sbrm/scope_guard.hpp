@@ -29,7 +29,7 @@ namespace embutil
  * // Binding function with parameters:
  * auto guard = makeScopeGuard(&func, std::ref(arg1), arg2);
  *
- * // Binding lamda function:
+ * // Binding lambda function:
  * auto guard = makeScopeGuard([&argByRef, argByValue]()
  * {
  * 	//guard code goes here

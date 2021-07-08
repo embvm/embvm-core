@@ -41,7 +41,7 @@ class PlatformEventManagement
 	 * @param sig The signal to subscribe to.
 	 * @param cb The callback function to invoke when the signal is raised.
 	 * @returns A handle to the event subscription. The handle must remain within scope for the
-	 * subscription to be valid. Whent he handle leaves scope, the
+	 * subscription to be valid. When he handle leaves scope, the
 	 */
 	auto subscribeToEvent(event_sig_t sig, const event_cb_t& cb) noexcept
 	{

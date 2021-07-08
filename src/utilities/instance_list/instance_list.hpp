@@ -235,7 +235,7 @@ class InstanceList
 		registered_.erase(inst);
 	}
 
-	/** Remove all instances matchey key
+	/** Remove all instances matched key
 	 *
 	 * This function is marked noexcept because we want the program to terminate if an exception
 	 * results from this call.

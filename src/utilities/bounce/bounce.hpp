@@ -40,7 +40,7 @@ namespace embutil
  *
  * [...]
  *
- * // Our interfaces demand a void(*)(void*), so we adapt to posix's requirement
+ * // Our interfaces demand a void(*)(void*), so we adapt to posix requirement
  * // and simply skip out on the return to the caller's perspective
  * r = pthread_create(&handle_, &attributes,
  *	reinterpret_cast<void* (*)(void*)>(
@@ -85,7 +85,7 @@ static auto bounce(void* priv, Params... params) noexcept
  * which we want to pass to pthread_create().
  *
  * @code
- * // Our interfaces demand a void(*)(void*), so we adapt to posix's requirement
+ * // Our interfaces demand a void(*)(void*), so we adapt to posix requirement
  * // and simply skip out on the return to the caller's perspective
  * r = pthread_create(&handle_, &attributes,
  *	reinterpret_cast<void* (*)(void*)>(BOUNCE(posixThread, thread_func)),

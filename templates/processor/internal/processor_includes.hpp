@@ -8,7 +8,7 @@
  * within processor .cpp files.
  */
 
-/** Checklist for new processor bringup:
+/** Checklist for new processor bring up:
  *
  * - [ ] Rename TEMPLATE_PROCESSOR_INCLUDES_HPP_ to something else
  * - [ ] Add any processor-specific includes here that may be needed for internal modules (drivers,

@@ -52,7 +52,7 @@ namespace embvm
  * class CircularLogBufferLogger final : public LoggerBase
  * @endcode
  *
- * This derived class is used to declare the actual log bufer storage and handle the log buffer
+ * This derived class is used to declare the actual log buffer storage and handle the log buffer
  * implementation.
  *
  * Derived classes must implement the following functions to control specific log behavior:
@@ -119,7 +119,7 @@ class LoggerBase
 
 	/** Enable/disable echo to console.
 	 *
-	 * @param en Echo switch. If true, log statements will also be echo'd to the console through
+	 * @param en Echo switch. If true, log statements will also be echoed to the console through
 	 * printf(). If false, log statements will only go to the log buffer.
 	 * @returns true if echo to console is enabled, false if disabled.
 	 */
@@ -205,7 +205,7 @@ class LoggerBase
 
 	/** Print the contents of the log buffer in the console.
 	 *
-	 * When called, the contents of the log buffer will be echo'd to the console through printf.
+	 * When called, the contents of the log buffer will be echoed to the console through printf.
 	 * The entire log buffer will be displayed.
 	 *
 	 * Derived classes must implement this function.
