@@ -1,4 +1,4 @@
 [wrap-git]
-url = https://github.com/ETLCPP/etl
+url = https://github.com/embeddedartistry/etl.git
 revision = master
 clone-recursive = true
