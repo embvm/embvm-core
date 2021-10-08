@@ -37,49 +37,26 @@ class i2cTestDriver final : public embvm::i2c::master
 	/// Default destructor
 	~i2cTestDriver() noexcept;
 
-	/// Verify that the driver transmitted the correct data
-	/// @param data The data buffer to check.
-	/// @param length The number of bytes in the input buffer to compare.
-	bool checkTxBuffer(uint8_t* data, size_t length) noexcept
+	void expects(embvm::i2c::op_t& op)
 	{
-		if(txBuffer_.size() != length)
-		{
-			return false;
-		}
-
-		for(size_t i = 0; i < length; i++)
-		{
-			if(data[i] != txBuffer_[i])
-			{
-				return false;
-			}
-		}
-
-		return true;
+		expectedOps_.push(op);
 	}
 
-	/// Clear the stored TX buffer
-	void clearTxBuffer() noexcept
+	void returns(embvm::i2c::op_t& op)
 	{
-		txBuffer_.resize(0);
+		returnOps_.push(op);
 	}
 
-	/// Append data to the RX buffer to be returned with the next read operation.
-	/// @param data The data to append to the RX buffer
-	/// @param length the number of bytes to append
-	void appendToRxBuffer(uint8_t* data, size_t length) noexcept
+	/// Clear the stored expected operations
+	void clearExpected() noexcept
 	{
-		for(size_t i = 0; i < length; i++)
-		{
-			rxBuffer_.push(data[i]);
-		}
+		expectedOps_.resize(0);
 	}
 
-	/// Clears the data stored in the RX buffer.
-	void clearRxBuffer() noexcept
+	/// Clear the stored return operations
+	void clearReturns()
 	{
-		std::queue<uint8_t> empty;
-		std::swap(rxBuffer_, empty);
+		returnOps_.resize(0);
 	}
 
   protected:
@@ -92,11 +69,8 @@ class i2cTestDriver final : public embvm::i2c::master
 	embvm::i2c::pullups setPullups_(embvm::i2c::pullups pullups) noexcept final;
 
   private:
-	/// Storage represnting the tx buffer
-	std::vector<uint8_t> txBuffer_;
-
-	/// Storage representing the rx bufferre
-	std::queue<uint8_t> rxBuffer_;
+	std::vector<embvm::i2c::op_t> expectedOps_;
+	std::queue<embvm::i2c::op_t> returnOps_;
 };
 
 } // namespace test
