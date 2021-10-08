@@ -49,7 +49,8 @@ class VirtualOSFactory
 	 * embvm::VirtualConditionVariable pointer is returned, masking the underlying implementation
 	 * from higher layers.
 	 *
-	 * The caller owns the returned pointer. It must be returned with the factory destroy() function.
+	 * The caller owns the returned pointer. It must be returned with the factory destroy()
+	 * function.
 	 *
 	 * @returns a embvm::VirtualConditionVariable pointer
 	 */
@@ -63,7 +64,8 @@ class VirtualOSFactory
 	 * Creates a thread using the underlying platform RTOS. A generic embvm::VirtualThread pointer
 	 *is returned, masking the underlying implementation from higher layers.
 	 *
-	 * The caller owns the returned pointer. It must be returned with the factory destroy() function.
+	 * The caller owns the returned pointer. It must be returned with the factory destroy()
+	 *function.
 	 *
 	 * @pre f is not nullptr
 	 * @post A thread object is created and the thread is started.
@@ -94,7 +96,8 @@ class VirtualOSFactory
 	 * Creates a virtual mutex using the underlying RTOS. A generic embvm::VirtualMutex pointer is
 	 * returned, masking the underlying implementation from higher layers.
 	 *
-	 * The caller owns the returned pointer. It must be returned with the factory destroy() function.
+	 * The caller owns the returned pointer. It must be returned with the factory destroy()
+	 * function.
 	 *
 	 * @param type The type of mutex to create.
 	 * @param mode The mutex's operational mode.
@@ -115,7 +118,8 @@ class VirtualOSFactory
 	 *
 	 * A binary semaphore is limited to a count of 1.
 	 *
-	 * The caller owns the returned pointer. It must be returned with the factory destroy() function.
+	 * The caller owns the returned pointer. It must be returned with the factory destroy()
+	 * function.
 	 *
 	 * @returns a embvm::VirtualSemaphore pointer
 	 */
@@ -132,7 +136,8 @@ class VirtualOSFactory
 	 *
 	 * The counting semaphore supports counts > 1.
 	 *
-	 * The caller owns the returned pointer. It must be returned with the factory destroy() function.
+	 * The caller owns the returned pointer. It must be returned with the factory destroy()
+	 *function.
 	 *
 	 * @param ceiling The maximum count the semaphore supports.
 	 * @param initial_count Sets the initial count of the semaphore variable.
@@ -154,7 +159,8 @@ class VirtualOSFactory
 	 * message queue is determined using a template parameter. A generic embvm::VirtualMessageQueue
 	 * pointer is returned, masking the underlying implementation from higher layers.
 	 *
-	 * The caller owns the returned pointer. It must be returned with the factory destroy() function.
+	 * The caller owns the returned pointer. It must be returned with the factory destroy()
+	 * function.
 	 *
 	 * @tparam TType The type of the underlying data to be stored.
 	 * @param queue_length The maximum number of elements to store in the queue.
@@ -171,7 +177,8 @@ class VirtualOSFactory
 	 * Creates a virtual event flag using the underlying RTOS. A generic embvm::VirtualEventFlag
 	 * pointer is returned, masking the underlying implementation from higher layers.
 	 *
-	 * The caller owns the returned pointer. It must be returned with the factory destroy() function.
+	 * The caller owns the returned pointer. It must be returned with the factory destroy()
+	 * function.
 	 *
 	 * @returns a embvm::VirtualEventFlag pointer.
 	 */
