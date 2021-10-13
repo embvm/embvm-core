@@ -20,7 +20,7 @@ The Embedded Virtual Machine (Embedded VM or `embvm` for short) is an embedded s
 The ultimate goals of the Embedded Virtual Machine project are:
 
 1. Increasing the ability to reuse embedded systems software across products
-1. Minimizing the cost of hardware changes in an embedded system by constraining existing code modifications to the hardware platform layer, as well as writing implementations for any new devices.
+1. Minimizing the cost of hardware changes in an embedded system by constraining existing code modifications to isolated modules
 1. Reduce time-to-market by enabling developers to build embedded systems software by leveraging modular, tested components
 1. Provide developers with tools and constructs that enable them to develop, test, and debug embedded software off target (we often use this capability to develop and test drivers on our personal computers, moving them to the target hardware once they're working as expected)
 
