@@ -21,7 +21,7 @@ The ultimate goals of the Embedded Virtual Machine project are:
 
 1. Increasing the ability to reuse embedded systems software across products
 1. Minimizing the cost of hardware changes in an embedded system by constraining existing code modifications to the hardware platform layer, as well as writing implementations for any new devices.
-1. Reduce time-to-market by enabling developers to build embedded systems software by composing 
+1. Reduce time-to-market by enabling developers to build embedded systems software by leveraging modular, tested components
 1. Provide developers with tools and constructs that enable them to develop, test, and debug embedded software off target (we often use this capability to develop and test drivers on our personal computers, moving them to the target hardware once they're working as expected)
 
 We carefully selected these goals because we were continually tired of repeatedly facing the [same challenges over the past ten years](https://embeddedartistry.com/blog/2018/08/06/musings-on-tight-coupling-between-firmware-and-hardware/). We're tired of being stuck in the software development dark ages. We want to do our part to improve the state of the art in embedded systems software development, enabling users like you to more quickly develop reliable embedded systems software.
