@@ -70,8 +70,8 @@ The layers of the framework communicate in different ways:
 The following elements comprise the layered view:
 
 1. [Processor Layer](#processor-layer)
-	2. [Architecture Interfaces](#architecture-interfaces)
-	3. [Boot Handler](#boot-handler)
+	1. [Architecture Interfaces](#architecture-interfaces)
+	2. [Boot Handler](#boot-handler)
 2. [Platform Layer](#platform-layer)
 	1. [Virtual Hardware Platform](#virtual-hardware-platform)
 	2. [Virtual RTOS](#virtual-rtos)
