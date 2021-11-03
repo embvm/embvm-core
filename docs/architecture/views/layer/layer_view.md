@@ -4,7 +4,7 @@ The Layer View abstracts the embedded framework into a layered architecture. The
 
 1. [Processor Layer](#processor-layer), which abstracts the underlying processor used by the target platform
 2. [Platform Layer](#platform-layer), which abstracts the underlying circuit board, operating system, and C/C++ runtime
-3. [Software Layer](#software-layer) sits atop the Platform Layer, which allows it to be portable across platforms (given that requirements are met by the platform implementation)
+3. [Software Layer](#software-layer), which sits atop the Platform Layer, which allows it to be portable across platforms (given that requirements are met by the platform implementation)
 
 In addition, there is a cross-cutting [Utilities](#utilities) "layer" which is independent of the target platform & architecture. The Utility constructs are usable by all layers.
 
