@@ -120,9 +120,9 @@ The Platform Layer provides a set of abstracted interfaces. The underlying abstr
 
 Platform abstractions are not fixed. Users can define their own Platform Abstractions and reuse them on multiple platform implementations.
 
-#### Virtual Hardware Platform
+#### Virtual Hardware Platform (HAL)
 
-The Virtual Hardware Platform abstracts away the underlying hardware (e.g.,, circuit board) and [Processor Layer](#processor-layer). The job of the Virtual Hardware Platform is to decouple the software from the hardware details. Board-specific functionality should be encapsulated in generic drivers and generic APIs, allowing the software to be decoupled from underlying hardware changes. This is what sets the framework apart from most embedded system designs.
+The Virtual Hardware Platform abstracts away the underlying hardware (e.g., circuit board) and the [Processor Layer](#processor-layer). The job of the Virtual Hardware Platform is to decouple the software from the hardware details. Board-specific functionality should be encapsulated in generic drivers and generic APIs, allowing the software to be decoupled from underlying hardware changes. This is what sets the framework apart from most embedded system designs.
 
 Externally, a Virtual Hardware Platform provides a generalized set of capabilities and functionality to the higher-level software.
 
@@ -143,7 +143,7 @@ An RTOS may or may not be used on a given platform implementation.
 
 Because the RTOS is dependent (in most cases) on the underlying processor, it must be encapsulated within and initialized by the [Platform Layer](#platform-layer).
 
-#### Driver ModelHAL
+#### Driver Model
 
 The Driver Model provides two critical system pieces:
 
