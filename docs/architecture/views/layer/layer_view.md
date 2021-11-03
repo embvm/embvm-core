@@ -3,8 +3,9 @@
 The Layer View abstracts the embedded framework into a layered architecture. The framework decomposes into three layers:
 
 1. [Processor Layer](#processor-layer), which abstracts the underlying processor used by the target platform
-2. [Platform Layer](#platform-layer), which abstracts the underlying circuit board, operating system, and C/C++ runtime
-3. [Software Layer](#software-layer), which sits atop the Platform Layer, which allows it to be portable across platforms (given that requirements are met by the platform implementation)
+2. [Harware Platform Layer](#hardware-platform-layer), which abstracts the underlying circuit board and provides board-level abstractions for use by the platform layer
+3. [Platform Layer](#platform-layer), which abstracts the underlying hardware platform, operating system, and C/C++ runtime
+4. [Software Layer](#software-layer), which sits atop the Platform Layer, which allows it to be portable across platforms (given that requirements are met by the platform implementation)
 
 In addition, there is a cross-cutting [Utilities](#utilities) "layer" which is independent of the target platform & architecture. The Utility constructs are usable by all layers.
 
@@ -72,6 +73,7 @@ The following elements comprise the layered view:
 1. [Processor Layer](#processor-layer)
 	1. [Architecture Interfaces](#architecture-interfaces)
 	2. [Boot Handler](#boot-handler)
+2. [Hardware Platform Layer](#hardware-platform-layer)
 2. [Platform Layer](#platform-layer)
 	1. [Virtual Hardware Platform](#virtual-hardware-platform)
 	2. [Virtual RTOS](#virtual-rtos)
@@ -107,33 +109,32 @@ When power is applied to an embedded system, the first context of control in a p
 
 **Processor start-up is the only exception to the layering "allowed-to-use" rules.**
 
-### Platform Layer
+## Hardware Platform Layer
 
-The Platform Layer abstracts the [Software Layer](#software-layer) from the underlying hardware/OS platform. The Platform Layer represents a set of platform interfaces which provide specific capabilities and responsibilities, covering both capabilities provided by the hardware and (optionally) the RTOS. The Platform Layer also provides abstract interfaces to the [Device Drivers](#driver-model) available on the platform.
-
-The Platform Layer provides a set of abstracted interfaces. The underlying abstractions are:
-
-1. [Virtual Hardware Platform](#virtual-hardware-platform)
-2. [Virtual RTOS](#virtual-rtos)
-3. [Driver Model](#driver-model)
-4. [Language Runtime](#language-runtime)
-
-Platform abstractions are not fixed. Users can define their own Platform Abstractions and reuse them on multiple platform implementations.
-
-#### Virtual Hardware Platform (HAL)
-
-The Virtual Hardware Platform abstracts away the underlying hardware (e.g., circuit board) and the [Processor Layer](#processor-layer). The job of the Virtual Hardware Platform is to decouple the software from the hardware details. Board-specific functionality should be encapsulated in generic drivers and generic APIs, allowing the software to be decoupled from underlying hardware changes. This is what sets the framework apart from most embedded system designs.
+The Hardware Platform Layer (also referred to as the Virtual Hardware Platform) abstracts away the underlying hardware (e.g., circuit board) and the [Processor Layer](#processor-layer). The job of the Hardware Platform is to decouple the software from the hardware details. Board-specific functionality should be encapsulated in generic drivers and generic APIs, allowing the software to be decoupled from underlying hardware changes.
 
 Externally, a Virtual Hardware Platform provides a generalized set of capabilities and functionality to the higher-level software.
 
 Internally, the Virtual Hardware Platform implementation functions can be implemented in multiple ways and using multiple hardware components. The Virtual Hardware Platform implementation is where:
 
 * The processor that will be used is decided upon
-* GPIOs are mapped and input to platform interfaces or drivers
+* GPIOs are mapped and registered with drivers
 * Peripheral and clock settings are applied
 * Drivers are created and configured
 
-The Virtual Hardware Platform interacts with the [Processor Layer](#processor-layer), and may provide access to higher levels of software by providing generic interfaces.
+The Virtual Hardware Platform interacts with the [Processor Layer](#processor-layer), and may provide processor access to higher levels of software by providing generic interfaces.
+
+### Platform Layer
+
+The Platform Layer abstracts the [Software Layer](#software-layer) from the underlying hardware/OS combination. The Platform Layer represents a set of platform interfaces which provide specific capabilities and responsibilities, covering both capabilities provided by the hardware and (optionally) the RTOS. The Platform Layer also provides abstract interfaces to the [Device Drivers](#driver-model) available on the platform, and it is responsible for configuring specific connections between hardware and software components that are required by the application.
+
+The Platform Layer provides a set of abstracted interfaces. The underlying abstractions are:
+
+2. [Virtual RTOS](#virtual-rtos)
+3. [Driver Model](#driver-model)
+4. [Language Runtime](#language-runtime)
+
+Platform abstractions are not fixed. Users can define their own Platform Abstractions and reuse them on multiple platform implementations.
 
 #### Virtual RTOS
 
