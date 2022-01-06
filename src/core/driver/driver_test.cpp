@@ -91,12 +91,14 @@ TEST_CASE("i2c driver tests", "[core/driver/i2c]")
 		uint8_t rx_buffer[3];
 		uint8_t rx_expected[] = {0xa, 0xb, 0x3};
 
-		embvm::i2c::op_t op = {.address = 0x29,
-							   .op = embvm::i2c::operation::writeRead,
-							   .tx_size = sizeof(tx_buffer),
-							   .tx_buffer = tx_buffer,
-							   .rx_size = sizeof(rx_buffer),
-							   .rx_buffer = rx_buffer};
+		embvm::i2c::op_t op{
+			.address = 0x29,
+			.op = embvm::i2c::operation::writeRead,
+			.tx_buffer = tx_buffer,
+			.tx_size = sizeof(tx_buffer),
+			.rx_buffer = rx_buffer,
+			.rx_size = sizeof(rx_buffer),
+		};
 
 		d.clearTxBuffer();
 		d.clearRxBuffer();
