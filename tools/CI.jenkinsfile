@@ -264,13 +264,6 @@ pipeline
 				sh 'make docs'
 			}
 		}
-		stage('Generate Release')
-		{
-			steps
-			{
-				sh 'make package'
-			}
-		}
 	}
 	post
 	{
