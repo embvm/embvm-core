@@ -43,7 +43,8 @@ enum class pthread_priority : uint8_t
 };
 
 /// Convert between framework thread priorities and PThread priorities
-constexpr posix::pthread_priority convert_to_pthread_priority(embvm::thread::priority p) noexcept
+constexpr auto convert_to_pthread_priority(embvm::thread::priority p) noexcept
+	-> posix::pthread_priority
 {
 	switch(p)
 	{
@@ -103,7 +104,7 @@ class Thread final : public embvm::VirtualThread
 		pthread_attr_t attributes;
 
 		// PThread requires stack alignment, this alignment was empirically determined
-		assert(stack_ptr == NULL || embutil::is_aligned(stack_ptr, PTHREAD_STACK_MIN / 2));
+		assert(stack_ptr == nullptr || embutil::is_aligned(stack_ptr, PTHREAD_STACK_MIN / 2));
 		assert(func != nullptr);
 
 		int r = pthread_attr_init(&attributes);
@@ -114,7 +115,7 @@ class Thread final : public embvm::VirtualThread
 			stack_size = PTHREAD_STACK_MIN;
 		}
 
-		if(stack_ptr)
+		if(stack_ptr != nullptr)
 		{
 			r = pthread_attr_setstack(&attributes, stack_ptr, stack_size);
 			assert(r == 0);
@@ -147,7 +148,7 @@ class Thread final : public embvm::VirtualThread
 		r = pthread_attr_setinheritsched(&attributes, PTHREAD_EXPLICIT_SCHED);
 		assert(r == 0);
 
-		sched_param schedule;
+		sched_param schedule{};
 		r = pthread_attr_getschedparam(&attributes, &schedule);
 		assert(r == 0);
 
@@ -171,7 +172,7 @@ class Thread final : public embvm::VirtualThread
 	}
 
 	/// Default destructor, cleans up thread on deletion.
-	~Thread() noexcept;
+	~Thread() noexcept override;
 
 	// posix auto-starts threads
 	void start() noexcept final {}
@@ -190,22 +191,22 @@ class Thread final : public embvm::VirtualThread
 		// ESRCH can indicate that the thread has completed - let join() complete
 	}
 
-	int detach() noexcept
+	auto detach() noexcept -> int
 	{
 		return pthread_detach(handle_);
 	}
 
-	std::string_view name() const noexcept final
+	[[nodiscard]] std::string_view name() const noexcept final
 	{
 		return name_;
 	}
 
-	embvm::thread::state state() const noexcept final
+	[[nodiscard]] auto state() const noexcept -> embvm::thread::state final
 	{
 		return state_;
 	}
 
-	embvm::thread::handle_t native_handle() const noexcept final
+	[[nodiscard]] auto native_handle() const noexcept -> embvm::thread::handle_t final
 	{
 		return reinterpret_cast<embvm::thread::handle_t>(handle_);
 	}
@@ -226,7 +227,7 @@ class Thread final : public embvm::VirtualThread
 	 * We wrap the thread to enable canceling, and so we can gracefully tell if
 	 * the thread has completed successfully
 	 */
-	void* thread_func() noexcept
+	auto thread_func() noexcept -> void*
 	{
 		// Register a cleanup handler that will be called if the thread is terminated
 		pthread_cleanup_push(reinterpret_cast<void (*)(void*)>(BOUNCE(Thread, terminate_func)),
@@ -251,12 +252,11 @@ class Thread final : public embvm::VirtualThread
 		return nullptr;
 	}
 
-  private:
 	/// THe name of this thread instance.
-	std::string_view name_;
+	std::string_view name_{};
 
 	/// The pthread handle corresponding to this thread instance.
-	pthread_t handle_;
+	pthread_t handle_{};
 
 	/// Thread input arguments.
 	embvm::thread::input_t arg_;
