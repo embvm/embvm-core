@@ -122,7 +122,7 @@ class DispatchQueue_Base
 			threads_.reserve(thread_count);
 		}
 
-		for(size_t i = 0; i < threads_.capacity(); i++)
+		for(size_t i = 0; i < thread_count; i++)
 		{
 			threads_.emplace_back(&DispatchQueue_Base::dispatch_thread_handler, this);
 		}
