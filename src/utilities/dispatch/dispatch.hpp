@@ -136,7 +136,7 @@ class DispatchQueue_Base
 	 * @param thread_count Optional parameter that determines the number of threads associated with
 	 * 	this queue. thread_count cannot exceed TThreadCount.
 	 */
-	explicit DispatchQueue_Base(const std::string name, size_t thread_count = 1) noexcept
+	explicit DispatchQueue_Base(const std::string& name, size_t thread_count = 1) noexcept
 		: name_(std::move(name))
 	{
 		if constexpr(TThreadCount == 0)
