@@ -6,7 +6,7 @@
 
 #include <driver/driver.hpp>
 #include <inplace_function/inplace_function.hpp>
-#include <type_safe/optional.hpp>
+#include <optional>
 
 namespace embvm
 {

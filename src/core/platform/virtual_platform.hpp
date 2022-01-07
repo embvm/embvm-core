@@ -208,8 +208,8 @@ class VirtualPlatformBase
 	 *
 	 * This call forwards the information to the Hardware Platform.
 	 *
-	 * @returns An optional_ref to the embvm::DriverBase instance. If no instance is found,
-	 *	the optional reference will be invalid. The caller must cast to the appropriate type.
+	 * @returns A std::optional pointer to the embvm::DriverBase instance. If no instance is found,
+	 *	the optional will be invalid. The caller must cast to the appropriate type.
 	 */
 	inline auto findDriver(const std::string_view& name) noexcept
 	{
@@ -239,8 +239,8 @@ class VirtualPlatformBase
 	 * This call forwards the information to the Hardware Platform.
 	 *
 	 * @tparam TDriverClass The class of driver being requested (embvm::i2c::master, SystemClock).
-	 * @returns an type_safe::optional_ref cast to the TDriverClass type. If the driver
-	 *	was not found, the optional_ref will be empty.
+	 * @returns a std::optional pointer cast to the TDriverClass type. If the driver
+	 *	was not found, the optional will be empty.
 	 */
 	template<class TDriverClass>
 	inline auto findDriver() noexcept

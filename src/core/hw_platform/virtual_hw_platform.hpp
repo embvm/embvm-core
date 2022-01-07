@@ -269,8 +269,8 @@ class VirtualHwPlatformBase
 	 * This call forwards the information to the DriverRegistry instance.
 	 *
 	 * @tparam TDriverClass The class of driver being requested (embvm::i2c::master, SystemClock).
-	 * @returns an type_safe::optional_ref cast to the TDriverClass type. If the driver
-	 *	was not found, the optional_ref will be empty.
+	 * @returns a std::optional holding a pointer to the TDriverClass type. If the driver
+	 *	was not found, the optional will be empty.
 	 */
 	template<class TDriverClass>
 	inline auto findDriver() noexcept
@@ -285,8 +285,8 @@ class VirtualHwPlatformBase
 	 * This call forwards the information to the DriverRegistry instance.
 	 *
 	 * @tparam TDriverClass The class of driver being requested (embvm::i2c::master, SystemClock).
-	 * @returns an type_safe::optional_ref cast to the TDriverClass type. If the driver
-	 *	was not found, the optional_ref will be empty.
+	 * @returns a std::optional holding a pointer to the TDriverClass type. If the driver
+	 *	was not found, the optional will be empty.
 	 */
 	template<class TDriverClass>
 	inline auto findDriver(const std::string_view& name) noexcept

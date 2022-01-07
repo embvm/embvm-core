@@ -292,10 +292,6 @@ clangformat_excludes = [
 	meson.source_root() / 'src/utilities/debug_assert',
 ]
 
-lizard_insert_options = [
-	'--exclude', meson.source_root() / 'src/utilities/type_safe/*'
-]
-
 subdir('build/analysis/clang-tidy')
 subdir('build/analysis/complexity')
 subdir('build/analysis/cppcheck')

@@ -2,11 +2,6 @@
 
 framework_include_dep += declare_dependency(
 	compile_args: '-DDEBUG_ASSERT_NO_STDIO',
-	include_directories: [
-		include_directories('type_safe/include', is_system: true),
-		# Unfortunately, type_safe directly includes debug_assert.hpp - let's make that work
-		include_directories('debug_assert', is_system: true)
-	]
 )
 
 subdir('active_object')

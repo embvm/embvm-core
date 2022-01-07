@@ -6,7 +6,6 @@
 
 #include "driver_type.hpp"
 #include <string>
-#include <type_safe/boolean.hpp>
 
 namespace embvm
 {
@@ -68,7 +67,7 @@ class DriverBase
 	 *
 	 * @returns `true` if the driver is running (started), `false` if not running (stopped).
 	 */
-	[[nodiscard]] auto started() const noexcept -> type_safe::boolean
+	[[nodiscard]] auto started() const noexcept -> bool
 	{
 		return started_;
 	}
@@ -127,7 +126,7 @@ class DriverBase
 
 	/// Tracks the driver state.
 	/// True if the driver has been started, false if it has been stopped or not yet started.
-	type_safe::boolean started_ = false;
+	bool started_ = false;
 
 	/// Type ID of the driver instance.
 	const embvm::DriverType_t type_{};

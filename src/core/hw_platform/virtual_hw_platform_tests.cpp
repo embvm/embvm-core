@@ -24,7 +24,7 @@ TEST_CASE("Find a driver by name using hw platform", "[core/platform/virtual_har
 	auto driver = p.findDriver("PlatformSPI");
 
 	CHECK((EXPECTED_UNIT_TEST_STARTING_DRIVERS + 1) == p.driverCount());
-	CHECK(TestDriver == driver);
+	CHECK(&TestDriver == *driver);
 
 	p.unregisterDriver(&TestDriver);
 
@@ -41,7 +41,7 @@ TEST_CASE("Find a driver by type using hw platform", "[core/platform/virtual_har
 	auto driver = p.findDriver(embvm::DriverType::SPI);
 
 	CHECK((EXPECTED_UNIT_TEST_STARTING_DRIVERS + 1) == p.driverCount());
-	CHECK(TestDriver == driver);
+	CHECK(&TestDriver == *driver);
 
 	p.unregisterDriver("PlatformSPI");
 

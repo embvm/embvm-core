@@ -7,8 +7,8 @@
 #include <etl/list.h>
 #include <etl/vector.h>
 #include <list>
+#include <optional>
 #include <string>
-#include <type_safe/optional_ref.hpp>
 #include <vector>
 
 namespace embutil
@@ -104,8 +104,8 @@ struct InstanceElem
  *	return list_.find(name);
  * }
  *
- * The return type of find() is a type_safe::optional_ref<TTrackedClass>. If the value is found,
- * The optional_ref will be valid and can be used. If the value is not found, the optional_ref
+ * The return type of find() is a std::optional<TTrackedClass*>. If the value is found,
+ * The optional_ref will be valid and can be used. If the value is not found, the optional
  * will be marked as invalid. Validity can be determined with `operator bool()`:
  *
  * @code
@@ -131,7 +131,7 @@ template<class TTrackedClass, typename TKey, class TContainer, const size_t TSiz
 class InstanceList
 {
 	/// Convenience alias for optional references, used internally to the class.
-	using optional_ref = type_safe::optional_ref<TTrackedClass>;
+	using optional_ref = std::optional<TTrackedClass*>;
 
   public:
 	using TStorageType = InstanceElem<TTrackedClass, TKey>;
@@ -293,17 +293,17 @@ class InstanceList
 	 */
 	optional_ref find(TKey const key) noexcept
 	{
-		TTrackedClass* ptr = nullptr;
+		optional_ref ptr = std::nullopt;
 
 		auto val = std::find_if(registered_.begin(), registered_.end(),
 								[&](const TStorageType& inst) { return inst.key == key; });
 
 		if(val != registered_.end())
 		{
-			ptr = val->value;
+			ptr = optional_ref(val->value);
 		}
 
-		return type_safe::opt_ref(ptr);
+		return ptr;
 	}
 
 	/// @}
