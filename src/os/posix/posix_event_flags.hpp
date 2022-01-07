@@ -96,7 +96,7 @@ class EventFlag final : public embvm::VirtualEventFlag
 	 * 	- Flags set in both bits_wait and flags_ will be cleared from flag_ if OR option is used.
 	 */
 	auto checkAndClearFlags(embvm::eventflag::flag_t bits_wait, embvm::eventflag::option opt,
-								   bool clearOnExit) noexcept -> embvm::eventflag::flag_t
+							bool clearOnExit) noexcept -> embvm::eventflag::flag_t
 	{
 		embvm::eventflag::flag_t return_flags = 0;
 		auto flags_copy = flags_.load();
