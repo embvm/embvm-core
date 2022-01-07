@@ -7,6 +7,7 @@
 #include <algorithm>
 #include <array>
 #include <climits>
+#include <cstdint>
 
 namespace embutil
 {
