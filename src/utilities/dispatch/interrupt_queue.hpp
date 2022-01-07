@@ -79,19 +79,20 @@ class InterruptQueue
 		}
 
 		os::Factory::destroy(flags_);
+		flags_ = nullptr;
 	}
 
 	/// Deleted copy constructor
 	InterruptQueue(const InterruptQueue&) = delete;
 
 	/// Deleted copy assignment operator
-	const InterruptQueue& operator=(const InterruptQueue&) = delete;
+	auto operator=(const InterruptQueue&) -> const InterruptQueue& = delete;
 
 	/// Deleted move constructor
 	InterruptQueue(InterruptQueue&&) = delete;
 
 	/// Deleted move assignment operator
-	InterruptQueue& operator=(InterruptQueue&&) = delete;
+	auto operator=(InterruptQueue&&) -> InterruptQueue& = delete;
 
 	/** Dispatch an operation to the thread via copy
 	 * Adds the operation to the queue
@@ -155,30 +156,29 @@ class InterruptQueue
 	}
 
 	/// Return the current number of enqueued operations
-	size_t queue_size() const noexcept
+	[[nodiscard]] auto queue_size() const noexcept -> size_t
 	{
 		return q_.size();
 	}
 
 	/// Return the capacity of the queue
-	constexpr size_t capacity() const noexcept
+	[[nodiscard]] constexpr auto capacity() const noexcept -> size_t
 	{
 		return q_.capacity();
 	}
 
 	/// Return the number of threads associated with the interrupt queue (always 1)
-	constexpr size_t thread_count() const noexcept
+	[[nodiscard]] constexpr auto thread_count() const noexcept -> size_t
 	{
 		return 1;
 	}
 
   private:
-	std::thread thread_;
-	embvm::VirtualEventFlag* flags_;
-	etl::queue<IRQBottomHalfOp_t, TSize> q_;
+	std::thread thread_{};
+	embvm::VirtualEventFlag* flags_{};
+	etl::queue<IRQBottomHalfOp_t, TSize> q_{};
 	TLockType irq_lock_;
 
-  private:
 	/**
 	 * Convenience function which waits for the queue and pops off of it without requiring excessive
 	 * locks/unlocks
@@ -196,7 +196,7 @@ class InterruptQueue
 	 *
 	 * @returns false if the thread should exit, true otherwise
 	 */
-	bool wait_and_pop(IRQBottomHalfOp_t& op) noexcept
+	auto wait_and_pop(IRQBottomHalfOp_t& op) noexcept -> bool
 	{
 		while(q_.empty())
 		{
@@ -223,9 +223,9 @@ class InterruptQueue
 	 * This function is marked noexcept because we want the program to terminate if an exception
 	 * results from this call.
 	 */
-	void dispatch_thread_handler(void) noexcept
+	void dispatch_thread_handler() noexcept
 	{
-		IRQBottomHalfOp_t op;
+		IRQBottomHalfOp_t op{};
 
 		while(wait_and_pop(op))
 		{
