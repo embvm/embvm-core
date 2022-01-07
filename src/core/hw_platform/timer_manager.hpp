@@ -4,6 +4,16 @@
 #ifndef TIMER_MANAGER_HPP_
 #define TIMER_MANAGER_HPP_
 
+#ifdef __GNUG__
+    #ifndef __clang__
+// There is a (presumed) false-positive generated with static allocation
+// and timers here - only GCC detects it, and the warning is so unhelpful
+// that it cannot even report WHERE the dereference might occur... just
+// in the struct declaration!
+#pragma GCC diagnostic ignored "-Wnull-dereference"
+#endif
+#endif
+
 #include <cassert>
 #include <driver/timer.hpp>
 #include <etl/list.h>
