@@ -81,7 +81,7 @@ TEST_CASE("Dynamic Dispatch lambda runs after added to queue", "[utility/dispatc
 	flag = 0;
 	embutil::DynamicDispatchQueue<> q("TestQueue");
 
-	q.dispatch([] { flag = 2; });
+	q.dispatch([]() noexcept { flag = 2; });
 
 	std::this_thread::sleep_for(std::chrono::milliseconds(1));
 
