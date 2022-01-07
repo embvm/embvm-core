@@ -97,7 +97,6 @@ class TimerManager
 			: config(std::move(rhs.config)), target_time(std::move(rhs.target_time)),
 			  cb(std::move(rhs.cb)), wait_in_progress(std::move(rhs.wait_in_progress))
 		{
-			current_time = rhs.current_time;
 			rhs.wait_in_progress = false;
 		}
 
