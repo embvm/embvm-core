@@ -115,7 +115,7 @@ class Thread final : public embvm::VirtualThread
 			stack_size = PTHREAD_STACK_MIN;
 		}
 
-		if(stack_ptr != nullptr)
+		if(stack_ptr)
 		{
 			r = pthread_attr_setstack(&attributes, stack_ptr, stack_size);
 			assert(r == 0);
