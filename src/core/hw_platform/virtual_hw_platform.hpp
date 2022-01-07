@@ -6,6 +6,8 @@
 
 #include <driver/driver_registry.hpp>
 #include <string>
+
+// cppcheck-suppress preprocessorErrorDirective
 #if __has_include(<hw_platform_options.hpp>)
 #include <hw_platform_options.hpp>
 #endif
