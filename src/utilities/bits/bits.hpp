@@ -54,10 +54,13 @@ constexpr auto is_power_2(TIntegralType val) noexcept -> bool
 template<typename TType>
 inline constexpr auto is_aligned(const TType val, const size_t align) noexcept -> bool
 {
-	bool r;
+	// This assignment is NOT redundant in a constexpr context, and will break GCC
+	// cppcheck-suppress redundantAssignment
+	bool r = false;
 
 	if constexpr(std::is_integral<TType>::value)
 	{
+		// cppcheck-suppress redundantAssignment
 		r = static_cast<bool>(IS_ALIGNED(val, align));
 	}
 	else if constexpr(std::is_pointer<TType>::value)
