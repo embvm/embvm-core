@@ -26,13 +26,13 @@ class VirtualSemaphore
 	VirtualSemaphore(const VirtualSemaphore&) = delete;
 
 	/// Delete the copy assignment operator
-	const VirtualSemaphore& operator=(const VirtualSemaphore&) = delete;
+	auto operator=(const VirtualSemaphore&) -> const VirtualSemaphore& = delete;
 
 	/// Default move constructor
 	VirtualSemaphore(VirtualSemaphore&&) = default;
 
 	/// Default move operator
-	VirtualSemaphore& operator=(VirtualSemaphore&&) = default;
+	auto operator=(VirtualSemaphore&&) -> VirtualSemaphore& = default;
 
 	/** Increment count
 	 * Return a resource to the semaphore, incrementing the count.
@@ -53,15 +53,16 @@ class VirtualSemaphore
 	 * 	indicates that the thread should block until the semaphore can be acquired.
 	 * @returns true if take was successful, false if a timeout occurred.
 	 */
-	virtual bool take(const embvm::os_timeout_t& timeout = embvm::OS_WAIT_FOREVER) noexcept = 0;
+	virtual auto take(const embvm::os_timeout_t& timeout = embvm::OS_WAIT_FOREVER) noexcept
+		-> bool = 0;
 
 	/** Check the count of the semaphore.
 	 *
 	 * @returns The current semaphore count.
 	 */
-	[[nodiscard]] virtual embvm::semaphore::count_t count() const noexcept = 0;
+	[[nodiscard]] virtual auto count() const noexcept -> embvm::semaphore::count_t = 0;
 
-	[[nodiscard]] virtual embvm::semaphore::handle_t native_handle() const noexcept = 0;
+	[[nodiscard]] virtual auto native_handle() const noexcept -> embvm::semaphore::handle_t = 0;
 
   protected:
 	VirtualSemaphore() = default;

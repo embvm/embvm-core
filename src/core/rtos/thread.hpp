@@ -31,19 +31,19 @@ class VirtualThread
 	VirtualThread(const VirtualThread&) = delete;
 
 	/// Deleted copy assignment operator
-	const VirtualThread& operator=(const VirtualThread&) = delete;
+	auto operator=(const VirtualThread&) -> const VirtualThread& = delete;
 
 	/// Default move constructor
 	VirtualThread(VirtualThread&&) = delete;
 
 	/// Default move assignment operator
-	VirtualThread& operator=(VirtualThread&&) = delete;
+	auto operator=(VirtualThread&&) -> VirtualThread& = delete;
 
 	/** Get the thread state.
 	 *
 	 * @returns The state of the thread.
 	 */
-	virtual embvm::thread::state state() const noexcept = 0;
+	[[nodiscard]] virtual auto state() const noexcept -> embvm::thread::state = 0;
 
 	/// Start the thread, if it is not auto-started
 	virtual void start() noexcept = 0;
@@ -62,7 +62,7 @@ class VirtualThread
 	 *
 	 * @returns The thread object's name.
 	 */
-	[[nodiscard]] virtual std::string_view name() const noexcept = 0;
+	[[nodiscard]] virtual auto name() const noexcept -> std::string_view = 0;
 
 	/** Join a running thread.
 	 *
@@ -80,7 +80,7 @@ class VirtualThread
 	 *
 	 * @returns the native thread object handle as a `void*`. The user must cast appropriately.
 	 */
-	[[nodiscard]] virtual embvm::thread::handle_t native_handle() const noexcept = 0;
+	[[nodiscard]] virtual auto native_handle() const noexcept -> embvm::thread::handle_t = 0;
 
   protected:
 	VirtualThread() = default;
@@ -113,7 +113,7 @@ void yield() noexcept;
  *
  * @returns the native thread object handle as a `void*`. The user must cast appropriately.
  */
-embvm::thread::handle_t get_handle() noexcept;
+auto get_handle() noexcept -> embvm::thread::handle_t;
 } // namespace this_thread
 
 /// @}

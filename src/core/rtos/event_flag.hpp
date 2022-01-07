@@ -42,10 +42,11 @@ class VirtualEventFlag
 	 *elapsed time if flags are not set.
 	 * @returns 0 if timeout, or flags that were currently set according to bits_wait
 	 */
-	virtual embvm::eventflag::flag_t
-		get(embvm::eventflag::flag_t bits_wait,
-			embvm::eventflag::option opt = embvm::eventflag::option::OR, bool clearOnExit = true,
-			const embvm::os_timeout_t& timeout = embvm::OS_WAIT_FOREVER) noexcept = 0;
+	virtual auto get(embvm::eventflag::flag_t bits_wait,
+					 embvm::eventflag::option opt = embvm::eventflag::option::OR,
+					 bool clearOnExit = true,
+					 const embvm::os_timeout_t& timeout = embvm::OS_WAIT_FOREVER) noexcept
+		-> embvm::eventflag::flag_t = 0;
 
 	/** Set event flags.
 	 *
@@ -74,19 +75,19 @@ class VirtualEventFlag
 	/// Get the native handle for the event flags group object
 	/// @returns the native handle for this event flags object. The handle will
 	/// 	always return the handle_t and it must be cast to the native handle type by the user.
-	[[nodiscard]] virtual embvm::eventflag::handle_t native_handle() const noexcept = 0;
+	[[nodiscard]] virtual auto native_handle() const noexcept -> embvm::eventflag::handle_t = 0;
 
 	/// Delete the copy constructor
 	VirtualEventFlag(const VirtualEventFlag&) = delete;
 
 	/// Delete the copy assignment operator
-	const VirtualEventFlag& operator=(const VirtualEventFlag&) = delete;
+	auto operator=(const VirtualEventFlag&) -> const VirtualEventFlag& = delete;
 
 	/// Default move constructor
 	VirtualEventFlag(VirtualEventFlag&&) = default;
 
 	/// Default move assignment operator
-	VirtualEventFlag& operator=(VirtualEventFlag&&) = default;
+	auto operator=(VirtualEventFlag&&) -> VirtualEventFlag& = default;
 
   protected:
 	VirtualEventFlag() = default;

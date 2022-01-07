@@ -27,13 +27,13 @@ class VirtualMutex
 	VirtualMutex(const VirtualMutex&) = delete;
 
 	/// Deleted copy assignment operator
-	const VirtualMutex& operator=(const VirtualMutex&) = delete;
+	auto operator=(const VirtualMutex&) -> const VirtualMutex& = delete;
 
 	/// Default move constructor
 	VirtualMutex(VirtualMutex&&) = default;
 
 	/// Default move assignment operator
-	VirtualMutex& operator=(VirtualMutex&&) = default;
+	auto operator=(VirtualMutex&&) -> VirtualMutex& = default;
 
 	/** Lock the mutex.
 	 *
@@ -59,9 +59,9 @@ class VirtualMutex
 	 * @post If the mutex is unowned, the mutex will be locked and owned by the calling thread.
 	 * @returns true if the mutex is successfully locked, false if another thread owns the mutex.
 	 */
-	virtual bool trylock() noexcept = 0;
+	virtual auto trylock() noexcept -> bool = 0;
 
-	[[nodiscard]] virtual embvm::mutex::handle_t native_handle() const noexcept = 0;
+	[[nodiscard]] virtual auto native_handle() const noexcept -> embvm::mutex::handle_t = 0;
 
   protected:
 	VirtualMutex() = default;

@@ -54,7 +54,7 @@ class VirtualOSFactory
 	 *
 	 * @returns a embvm::VirtualConditionVariable pointer
 	 */
-	static embvm::VirtualConditionVariable* createConditionVariable() noexcept
+	static auto createConditionVariable() noexcept -> embvm::VirtualConditionVariable*
 	{
 		return TFactory::createConditionVariable_impl();
 	}
@@ -80,11 +80,11 @@ class VirtualOSFactory
 	 *
 	 * @returns a embvm::VirtualThread pointer
 	 */
-	static embvm::VirtualThread*
-		createThread(std::string_view name, embvm::thread::func_t f,
-					 embvm::thread::input_t input = nullptr,
-					 embvm::thread::priority p = embvm::thread::priority::normal,
-					 size_t stack_size = DEFAULT_STACK_SIZE, void* stack_ptr = nullptr) noexcept
+	static auto createThread(std::string_view name, embvm::thread::func_t f,
+							 embvm::thread::input_t input = nullptr,
+							 embvm::thread::priority p = embvm::thread::priority::normal,
+							 size_t stack_size = DEFAULT_STACK_SIZE,
+							 void* stack_ptr = nullptr) noexcept -> embvm::VirtualThread*
 	{
 		assert(f != nullptr); // We need a thread function - block nullptr
 
@@ -103,9 +103,9 @@ class VirtualOSFactory
 	 * @param mode The mutex's operational mode.
 	 * @returns a embvm::VirtualMutex pointer.
 	 */
-	static embvm::VirtualMutex*
-		createMutex(embvm::mutex::type type = embvm::mutex::type::defaultType,
-					embvm::mutex::mode mode = embvm::mutex::mode::defaultMode) noexcept
+	static auto createMutex(embvm::mutex::type type = embvm::mutex::type::defaultType,
+							embvm::mutex::mode mode = embvm::mutex::mode::defaultMode) noexcept
+		-> embvm::VirtualMutex*
 	{
 		return TFactory::createMutex_impl(type, mode);
 	}
@@ -123,7 +123,7 @@ class VirtualOSFactory
 	 *
 	 * @returns a embvm::VirtualSemaphore pointer
 	 */
-	static embvm::VirtualSemaphore* createBinarySemaphore() noexcept
+	static auto createBinarySemaphore() noexcept -> embvm::VirtualSemaphore*
 	{
 		return TFactory::createSemaphore_impl(embvm::semaphore::mode::binary, 1, 0);
 	}
@@ -145,9 +145,9 @@ class VirtualOSFactory
 	 *		Negative value indicates default setting - match ceiling
 	 * @returns a embvm::VirtualSemaphore pointer.
 	 */
-	static embvm::VirtualSemaphore*
-		createSemaphore(embvm::semaphore::count_t ceiling,
-						embvm::semaphore::count_t initial_count = -1) noexcept
+	static auto createSemaphore(embvm::semaphore::count_t ceiling,
+								embvm::semaphore::count_t initial_count = -1) noexcept
+		-> embvm::VirtualSemaphore*
 	{
 		return TFactory::createSemaphore_impl(embvm::semaphore::mode::counting, ceiling,
 											  initial_count);
@@ -167,7 +167,8 @@ class VirtualOSFactory
 	 * @returns a embvm::VirtualMessageQueue<TType> pointer.
 	 */
 	template<typename TType>
-	static embvm::VirtualMessageQueue<TType>* createMessageQueue(size_t queue_length) noexcept
+	static auto createMessageQueue(size_t queue_length) noexcept
+		-> embvm::VirtualMessageQueue<TType>*
 	{
 		return TFactory::template createMessageQueue_impl<TType>(queue_length);
 	}
@@ -182,7 +183,7 @@ class VirtualOSFactory
 	 *
 	 * @returns a embvm::VirtualEventFlag pointer.
 	 */
-	static embvm::VirtualEventFlag* createEventFlag() noexcept
+	static auto createEventFlag() noexcept -> embvm::VirtualEventFlag*
 	{
 		return TFactory::createEventFlag_impl();
 	}
@@ -219,7 +220,6 @@ class VirtualOSFactory
 	}
 #endif
 
-  public:
 	VirtualOSFactory() = default;
 	~VirtualOSFactory() = default;
 
