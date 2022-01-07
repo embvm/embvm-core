@@ -245,7 +245,7 @@ class InstanceList
 	void remove(TKey const key) noexcept
 	{
 		auto insts = std::remove_if(registered_.begin(), registered_.end(),
-									[key](TStorageType& inst) { return inst.key == key; });
+									[key](const TStorageType& inst) { return inst.key == key; });
 		registered_.erase(insts);
 	}
 
@@ -260,7 +260,7 @@ class InstanceList
 	{
 		auto insts =
 			std::remove_if(registered_.begin(), registered_.end(),
-						   [instance](TStorageType& inst) { return inst.value == instance; });
+						   [instance](const TStorageType& inst) { return inst.value == instance; });
 		registered_.erase(insts);
 	}
 
