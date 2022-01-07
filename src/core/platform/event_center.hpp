@@ -119,7 +119,7 @@ class EventCenter
 	explicit EventCenter(const DispatcherFunc& dispatcher) noexcept : dispatcher_(dispatcher) {}
 
 	/// Default destructor
-	~EventCenter() = default;
+	~EventCenter() {}
 
 	/// Deleted copy constructor
 	EventCenter(const EventCenter&) = delete;
@@ -207,7 +207,7 @@ class EventCenter
 		}
 
 		EventHandle handle(this, sig, list.insert(list.end(), cb));
-		return std::move(handle);
+		return handle;
 	}
 
 	/** Subscribe to an event.
@@ -240,7 +240,7 @@ class EventCenter
 		}
 
 		EventHandle handle(this, sig, list.insert(list.end(), std::move(cb)));
-		return std::move(handle);
+		return handle;
 	}
 
 	/** Unsubscribe from listening for an event.
