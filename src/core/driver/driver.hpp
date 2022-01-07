@@ -68,7 +68,7 @@ class DriverBase
 	 *
 	 * @returns `true` if the driver is running (started), `false` if not running (stopped).
 	 */
-	type_safe::boolean started() const noexcept
+	[[nodiscard]] auto started() const noexcept -> type_safe::boolean
 	{
 		return started_;
 	}
@@ -84,13 +84,13 @@ class DriverBase
 	 *
 	 * @returns the registered driver type as a embvm::DriverType_t value
 	 */
-	constexpr embvm::DriverType_t DriverType() const noexcept
+	[[nodiscard]] constexpr embvm::DriverType_t DriverType() const noexcept
 	{
 		return type_;
 	}
 
 	/// Increment operator is a no-op, but is used for iterator compatibility.
-	virtual DriverBase& operator++() noexcept
+	virtual auto operator++() noexcept -> DriverBase&
 	{
 		return *this;
 	}
@@ -99,20 +99,20 @@ class DriverBase
 	DriverBase(const DriverBase&) = delete;
 
 	/// Deleted copy assignment operator
-	const DriverBase& operator=(const DriverBase&) = delete;
+	auto operator=(const DriverBase&) -> const DriverBase& = delete;
 
 	/// Deleted move constructor
 	DriverBase(DriverBase&&) = delete;
 
 	/// Deleted move assignment operator
-	DriverBase& operator=(DriverBase&&) = delete;
+	auto operator=(DriverBase&&) -> DriverBase& = delete;
 
   protected:
 	/** Construct a DriverBase
 	 *
 	 * @param c The device type ID
 	 */
-	DriverBase(embvm::DriverType_t c = embvm::DriverType::Undefined) noexcept : type_(c) {}
+	explicit DriverBase(embvm::DriverType_t c = embvm::DriverType::Undefined) noexcept : type_(c) {}
 
 	/// Destructor.
 	~DriverBase() noexcept = default;
@@ -130,7 +130,7 @@ class DriverBase
 	type_safe::boolean started_ = false;
 
 	/// Type ID of the driver instance.
-	const embvm::DriverType_t type_;
+	const embvm::DriverType_t type_{};
 };
 
 /// @}

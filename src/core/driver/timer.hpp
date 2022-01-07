@@ -132,7 +132,10 @@ class Timer : public embvm::DriverBase
 	 *
 	 * Initializes the drive base class with the appropriate typeid.
 	 */
-	Timer() noexcept : embvm::DriverBase(embvm::DriverType::TIMER) {}
+	Timer() noexcept : embvm::DriverBase(embvm::DriverType::TIMER)
+	{
+		// empty constructor
+	}
 
 	/// Default destructor.
 	~Timer() noexcept;
@@ -142,7 +145,7 @@ class Timer : public embvm::DriverBase
 	 *
 	 * @returns Timer type ID.
 	 */
-	static constexpr embvm::DriverType type() noexcept
+	static constexpr auto type() noexcept -> embvm::DriverType
 	{
 		return embvm::DriverType::TIMER;
 	}
@@ -151,7 +154,7 @@ class Timer : public embvm::DriverBase
 	 *
 	 * @returns the currently configured timer period.
 	 */
-	timer_period_t period() const noexcept
+	[[nodiscard]] timer_period_t period() const noexcept
 	{
 		return period_;
 	}
@@ -226,7 +229,7 @@ class Timer : public embvm::DriverBase
 	 *
 	 * @returns the current timer state.
 	 */
-	virtual timer::state state() const noexcept
+	[[nodiscard]] virtual auto state() const noexcept -> timer::state
 	{
 		return state_;
 	}
@@ -235,7 +238,7 @@ class Timer : public embvm::DriverBase
 	 *
 	 * @returns the current timer configuration.
 	 */
-	virtual timer::config config() const noexcept
+	[[nodiscard]] virtual auto config() const noexcept -> timer::config
 	{
 		return config_;
 	}
@@ -245,7 +248,7 @@ class Timer : public embvm::DriverBase
 	 * @param c The desired timer configuration (periodic or oneshot).
 	 * @returns the current timer configuration.
 	 */
-	virtual timer::config config(timer::config c) noexcept
+	virtual auto config(timer::config c) noexcept -> timer::config
 	{
 		config_ = c;
 		return c;
@@ -255,7 +258,7 @@ class Timer : public embvm::DriverBase
 	 *
 	 * @returns the current count of the timer
 	 */
-	virtual timer_period_t count() const noexcept = 0;
+	[[nodiscard]] virtual timer_period_t count() const noexcept = 0;
 
   protected:
 	// embvm::DriverBase function that derived classes must implement
@@ -264,7 +267,6 @@ class Timer : public embvm::DriverBase
 	// embvm::DriverBase function that derived classes must implement
 	void stop_() noexcept override = 0;
 
-  protected:
 	/// The configured timer period.
 	timer_period_t period_{0};
 

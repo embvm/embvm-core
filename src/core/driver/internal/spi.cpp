@@ -2,5 +2,3 @@
 // SPDX-License-Identifier: GPL-3.0-only OR Embedded Virtual Machine Commercial License
 
 #include <driver/spi.hpp>
-
-embvm::spi::master::~master() noexcept = default;
