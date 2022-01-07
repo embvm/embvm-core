@@ -16,10 +16,10 @@ class UnitTestPlatform : public embvm::VirtualPlatformBase<UnitTestPlatform, Uni
 
   public:
 	/// Default constructor
-	UnitTestPlatform() noexcept = default;
+	UnitTestPlatform() noexcept {}
 
 	/// Default destructor
-	~UnitTestPlatform() noexcept = default;
+	~UnitTestPlatform() noexcept {}
 
 	static void earlyInitHook_() noexcept
 	{
