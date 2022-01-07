@@ -56,8 +56,7 @@ class VirtualConditionVariable
 
 	// TODO: template these like in the STL
 	// Precondition: mutex is locked
-	auto wait(embvm::VirtualMutex* mutex, const embvm::cv::func_t& predicate) noexcept
-		-> bool
+	auto wait(embvm::VirtualMutex* mutex, const embvm::cv::func_t& predicate) noexcept -> bool
 	{
 		while(!predicate())
 		{
@@ -70,7 +69,7 @@ class VirtualConditionVariable
 	// TODO: template these for predicate like in the STL?
 	// Precondition: mutex is locked
 	auto wait(embvm::VirtualMutex* mutex, const embvm::cv::func_t& predicate,
-					 const embvm::os_timeout_t& timeout = embvm::OS_WAIT_FOREVER) noexcept -> bool
+			  const embvm::os_timeout_t& timeout = embvm::OS_WAIT_FOREVER) noexcept -> bool
 	{
 		bool success = true;
 

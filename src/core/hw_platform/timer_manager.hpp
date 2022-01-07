@@ -5,7 +5,7 @@
 #define TIMER_MANAGER_HPP_
 
 #ifdef __GNUG__
-    #ifndef __clang__
+#ifndef __clang__
 // There is a (presumed) false-positive generated with static allocation
 // and timers here - only GCC detects it, and the warning is so unhelpful
 // that it cannot even report WHERE the dereference might occur... just
@@ -94,9 +94,8 @@ class TimerManager
 		}
 
 		delayInfo(delayInfo&& rhs) noexcept
-			: config(std::move(rhs.config)),
-			  target_time(std::move(rhs.target_time)), cb(std::move(rhs.cb)),
-			  wait_in_progress(std::move(rhs.wait_in_progress))
+			: config(std::move(rhs.config)), target_time(std::move(rhs.target_time)),
+			  cb(std::move(rhs.cb)), wait_in_progress(std::move(rhs.wait_in_progress))
 		{
 			current_time = rhs.current_time;
 			rhs.wait_in_progress = false;
