@@ -9,8 +9,7 @@
 
 /// This platform exists for use in the framework unit tests
 class UnitTestPlatform : public embvm::VirtualPlatformBase<UnitTestPlatform, UnitTestHWPlatform>,
-						 public embvm::PlatformDispatcher<PlatformDispatchQueue>,
-						 public embvm::PlatformEventManagement<PlatformEventCenter>
+						 public embvm::PlatformDispatcher<PlatformDispatchQueue>
 {
 	using VirtualPlatform = embvm::VirtualPlatformBase<UnitTestPlatform, UnitTestHWPlatform>;
 

@@ -17,12 +17,6 @@ static void test_flag(void)
 	flag = true;
 }
 
-static void subscribeTestCb(embvm::EventBase e)
-{
-	(void)e;
-	flag = true;
-}
-
 #pragma mark - Test Cases -
 
 TEST_CASE("Create virtual platform base", "[core/platform/virtual_platform]")
@@ -107,6 +101,7 @@ TEST_CASE("Dispatch from platform interface", "[core/platform/virtual_platform]"
 	CHECK(flag == true);
 }
 
+#if 0 //- RE-ADD WITH EVENTS
 TEST_CASE("Subscribe/unsubscribe to event from platform interface",
 		  "[core/platform/virtual_platform]")
 {
@@ -153,6 +148,7 @@ TEST_CASE("Publish event from platform interface", "[core/platform/unit_test_pla
 
 	CHECK(flag == true);
 }
+#endif
 
 TEST_CASE("Hardware platform drivers are automatically registered",
 		  "[core/platform/unit_test_platform]")
