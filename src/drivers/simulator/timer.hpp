@@ -88,7 +88,7 @@ class SimulatorTimer final : public embvm::timer::Timer, public embvm::HALDriver
 	}
 
 	/// Destructor, which cleans up the timer thread.
-	~SimulatorTimer() noexcept;
+	~SimulatorTimer() noexcept override;
 
 	void registerCallback(const embvm::timer::cb_t& cb) noexcept final
 	{
@@ -100,7 +100,7 @@ class SimulatorTimer final : public embvm::timer::Timer, public embvm::HALDriver
 		cb_ = std::move(cb);
 	}
 
-	embvm::timer::timer_period_t count() const noexcept final
+	[[nodiscard]] embvm::timer::timer_period_t count() const noexcept final
 	{
 		return std::chrono::duration_cast<embvm::timer::timer_period_t>(
 				   std::chrono::steady_clock::now().time_since_epoch()) -
@@ -114,7 +114,6 @@ class SimulatorTimer final : public embvm::timer::Timer, public embvm::HALDriver
 	void start_() noexcept final;
 	void stop_() noexcept final;
 
-  private:
 	/// Thread which simulates a timer.
 	/// We sleep the thread for the requested period using a std::condition_variable::wait_for().
 	/// When the timer expires, we call the callback.

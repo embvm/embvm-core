@@ -31,12 +31,12 @@ class SimulatorSystemClock final : public embvm::clk::SystemClock
 	/// Default destructor
 	~SimulatorSystemClock() noexcept;
 
-	embvm::clk::freq_hz_t::rep frequency() const noexcept final
+	[[nodiscard]] embvm::clk::freq_hz_t::rep frequency() const noexcept final
 	{
 		return std::ratio_divide<std::ratio<1, 1>, std::chrono::steady_clock::period>::num;
 	}
 
-	tick_duration_t::rep ticks() const noexcept final
+	[[nodiscard]] tick_duration_t::rep ticks() const noexcept final
 	{
 		return std::chrono::duration_cast<tick_duration_t>(
 				   std::chrono::steady_clock::now().time_since_epoch())

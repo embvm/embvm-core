@@ -5,4 +5,4 @@
 
 using namespace embdrv;
 
-SimulatorSystemClock::~SimulatorSystemClock() noexcept {}
+SimulatorSystemClock::~SimulatorSystemClock() noexcept = default;
