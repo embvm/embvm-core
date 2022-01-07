@@ -15,13 +15,13 @@ class ConditionVariable final : public embvm::VirtualConditionVariable
   public:
 	ConditionVariable() = default;
 
-	~ConditionVariable() noexcept
+	~ConditionVariable() noexcept override
 	{
 		auto r = pthread_cond_destroy(&handle_);
 		assert(r == 0);
 	}
 
-	bool wait(embvm::VirtualMutex* mutex) noexcept final
+	auto wait(embvm::VirtualMutex* mutex) noexcept -> bool final
 	{
 		auto mutex_handle = reinterpret_cast<Mutex*>(mutex)->native_handle();
 		auto r = pthread_cond_wait(&handle_, reinterpret_cast<pthread_mutex_t*>(mutex_handle));
@@ -30,25 +30,23 @@ class ConditionVariable final : public embvm::VirtualConditionVariable
 		return r == 0;
 	}
 
-	bool wait(embvm::VirtualMutex* mutex, const embvm::os_timeout_t& timeout) noexcept final
+	auto wait(embvm::VirtualMutex* mutex, const embvm::os_timeout_t& timeout) noexcept -> bool final
 	{
 		if(timeout == embvm::OS_WAIT_FOREVER)
 		{
 			return wait(mutex);
 		}
-		else
-		{
-			auto t_abs = std::chrono::time_point_cast<std::chrono::nanoseconds>(
-				std::chrono::system_clock::now());
-			t_abs += timeout;
 
-			auto ts = embutil::timepointToTimespec(t_abs);
+		auto t_abs = std::chrono::time_point_cast<std::chrono::nanoseconds>(
+			std::chrono::system_clock::now());
+		t_abs += timeout;
 
-			return timed_wait(mutex, ts);
-		}
+		auto ts = embutil::timepointToTimespec(t_abs);
+
+		return timed_wait(mutex, ts);
 	}
 
-	bool timed_wait(embvm::VirtualMutex* mutex, timespec timeout) noexcept
+	auto timed_wait(embvm::VirtualMutex* mutex, timespec timeout) noexcept -> bool
 	{
 		auto mutex_handle = reinterpret_cast<Mutex*>(mutex)->native_handle();
 		return 0 == pthread_cond_timedwait(
@@ -67,7 +65,7 @@ class ConditionVariable final : public embvm::VirtualConditionVariable
 		assert(r == 0);
 	}
 
-	embvm::cv::handle_t native_handle() const noexcept final
+	[[nodiscard]] auto native_handle() const noexcept -> embvm::cv::handle_t final
 	{
 		return reinterpret_cast<embvm::cv::handle_t>(&handle_);
 	}

@@ -24,12 +24,12 @@ class EventFlag final : public embvm::VirtualEventFlag
 	EventFlag() = default;
 
 	/// Default destructor which cleans up the event flag group.
-	~EventFlag() noexcept;
+	~EventFlag() noexcept override;
 
-	embvm::eventflag::flag_t
-		get(embvm::eventflag::flag_t bits_wait,
-			embvm::eventflag::option opt = embvm::eventflag::option::OR, bool clearOnExit = true,
-			const embvm::os_timeout_t& timeout = embvm::OS_WAIT_FOREVER) noexcept final
+	auto get(embvm::eventflag::flag_t bits_wait,
+			 embvm::eventflag::option opt = embvm::eventflag::option::OR, bool clearOnExit = true,
+			 const embvm::os_timeout_t& timeout = embvm::OS_WAIT_FOREVER) noexcept
+		-> embvm::eventflag::flag_t final
 	{
 		// We start wait_success as true in case flags is 0: we want to enter the loop
 		bool wait_success = true;
@@ -38,11 +38,11 @@ class EventFlag final : public embvm::VirtualEventFlag
 
 		auto flags = checkAndClearFlags(bits_wait, opt, clearOnExit);
 
-		while(wait_success == true && flags == 0)
+		while(wait_success && flags == 0)
 		{
 			wait_success = cv_.wait(&mutex_, timeout);
 
-			if(wait_success == true)
+			if(wait_success)
 			{
 				flags = checkAndClearFlags(bits_wait, opt, clearOnExit);
 			}
@@ -78,7 +78,7 @@ class EventFlag final : public embvm::VirtualEventFlag
 		mutex_.unlock();
 	}
 
-	embvm::eventflag::handle_t native_handle() const noexcept final
+	[[nodiscard]] auto native_handle() const noexcept -> embvm::eventflag::handle_t final
 	{
 		return 0;
 	}
@@ -95,9 +95,8 @@ class EventFlag final : public embvm::VirtualEventFlag
 	 *	- All flags set in bits_wait will be cleared from flag_ if AND option is used.
 	 * 	- Flags set in both bits_wait and flags_ will be cleared from flag_ if OR option is used.
 	 */
-	embvm::eventflag::flag_t checkAndClearFlags(embvm::eventflag::flag_t bits_wait,
-												embvm::eventflag::option opt,
-												bool clearOnExit) noexcept
+	auto checkAndClearFlags(embvm::eventflag::flag_t bits_wait, embvm::eventflag::option opt,
+								   bool clearOnExit) noexcept -> embvm::eventflag::flag_t
 	{
 		embvm::eventflag::flag_t return_flags = 0;
 		auto flags_copy = flags_.load();
@@ -111,7 +110,7 @@ class EventFlag final : public embvm::VirtualEventFlag
 			return_flags = bits_wait;
 		}
 
-		if(return_flags && clearOnExit)
+		if((return_flags != 0u) && clearOnExit)
 		{
 			flags_ &= ~(return_flags);
 		}
@@ -119,7 +118,6 @@ class EventFlag final : public embvm::VirtualEventFlag
 		return return_flags;
 	}
 
-  private:
 	/// The storage type for the event flag group's flags.
 	std::atomic<embvm::eventflag::flag_t> flags_ = 0;
 

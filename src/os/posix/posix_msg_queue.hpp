@@ -38,14 +38,15 @@ class MessageQueue final : public embvm::VirtualMessageQueue<TType>
 	explicit MessageQueue(size_t queue_length) noexcept : queue_max_(queue_length) {}
 
 	/// Default destructor, cleans up the message queue.
-	~MessageQueue() {}
+	~MessageQueue() = default;
 
-	bool push(TType val, embvm::os_timeout_t timeout = embvm::OS_WAIT_FOREVER) noexcept final
+	auto push(TType val, embvm::os_timeout_t timeout = embvm::OS_WAIT_FOREVER) noexcept
+		-> bool final
 	{
 		// We initialize to true so we can enter the loop on the first run if full()
 		bool wait_success = true;
 
-		while(full() && (wait_success == true))
+		while(full() && (wait_success))
 		{
 			mutex_.lock();
 
@@ -54,7 +55,7 @@ class MessageQueue final : public embvm::VirtualMessageQueue<TType>
 			mutex_.unlock();
 		}
 
-		if(wait_success == true)
+		if(wait_success)
 		{
 			mutex_.lock();
 			queue_.push(val);
@@ -82,7 +83,7 @@ class MessageQueue final : public embvm::VirtualMessageQueue<TType>
 			mutex_.unlock();
 		}
 
-		if(wait_success == true)
+		if(wait_success)
 		{
 			mutex_.lock();
 			val = queue_.front();
@@ -93,7 +94,7 @@ class MessageQueue final : public embvm::VirtualMessageQueue<TType>
 		return val;
 	}
 
-	size_t size() const noexcept final
+	[[nodiscard]] auto size() const noexcept -> size_t final
 	{
 		return queue_.size();
 	}
@@ -106,17 +107,17 @@ class MessageQueue final : public embvm::VirtualMessageQueue<TType>
 		}
 	}
 
-	bool empty() const noexcept final
+	[[nodiscard]] auto empty() const noexcept -> bool final
 	{
 		return queue_.empty();
 	}
 
-	bool full() const noexcept final
+	[[nodiscard]] auto full() const noexcept -> bool final
 	{
 		return (queue_.size() == queue_max_);
 	}
 
-	embvm::msgqueue::handle_t native_handle() const noexcept final
+	[[nodiscard]] auto native_handle() const noexcept -> embvm::msgqueue::handle_t final
 	{
 		return reinterpret_cast<embvm::msgqueue::handle_t>(&queue_);
 	}
@@ -126,7 +127,7 @@ class MessageQueue final : public embvm::VirtualMessageQueue<TType>
 	size_t queue_max_;
 
 	/// The storage for this message queue.
-	std::queue<TType> queue_;
+	std::queue<TType> queue_{};
 
 	/// The condition variable used to notify waiting threads.
 	posix::ConditionVariable cv_;

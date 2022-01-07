@@ -35,7 +35,7 @@ class Mutex final : public embvm::VirtualMutex
 		int r = pthread_mutexattr_init(&attributes);
 		assert(r == 0);
 
-		int pthread_type;
+		int pthread_type = 0;
 		switch(type)
 		{
 			case embvm::mutex::type::normal:
@@ -50,7 +50,7 @@ class Mutex final : public embvm::VirtualMutex
 		r = pthread_mutexattr_settype(&attributes, pthread_type);
 		assert(r == 0);
 
-		int protocol;
+		int protocol = 0;
 		switch(mode)
 		{
 			case embvm::mutex::mode::none:
@@ -77,7 +77,7 @@ class Mutex final : public embvm::VirtualMutex
 	}
 
 	/// Default destructor
-	~Mutex() noexcept;
+	~Mutex() noexcept override;
 
 	void lock() noexcept final
 	{
@@ -91,7 +91,7 @@ class Mutex final : public embvm::VirtualMutex
 		assert(r == 0);
 	}
 
-	bool trylock() noexcept final
+	auto trylock() noexcept -> bool final
 	{
 		int r = pthread_mutex_trylock(&handle_);
 		assert(r == 0 || r == EBUSY);
@@ -100,7 +100,7 @@ class Mutex final : public embvm::VirtualMutex
 		return (r == 0);
 	}
 
-	embvm::mutex::handle_t native_handle() const noexcept final
+	[[nodiscard]] auto native_handle() const noexcept -> embvm::mutex::handle_t final
 	{
 		return reinterpret_cast<embvm::mutex::handle_t>(&handle_);
 	}

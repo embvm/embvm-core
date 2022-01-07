@@ -25,40 +25,41 @@ namespace posix
 class posixOSFactory_impl
 {
   public:
-	static embvm::VirtualConditionVariable* createConditionVariable_impl() noexcept
+	static auto createConditionVariable_impl() noexcept -> embvm::VirtualConditionVariable*
 	{
 		return new posix::ConditionVariable();
 	}
 
-	static embvm::VirtualThread* createThread_impl(std::string_view name, embvm::thread::func_t f,
-												   embvm::thread::input_t input,
-												   embvm::thread::priority p, size_t stack_size,
-												   void* stack_ptr) noexcept
+	static auto createThread_impl(std::string_view name, embvm::thread::func_t f,
+								  embvm::thread::input_t input, embvm::thread::priority p,
+								  size_t stack_size, void* stack_ptr) noexcept
+		-> embvm::VirtualThread*
 	{
 		return new posix::Thread(name, f, input, p, stack_size, stack_ptr);
 	}
 
-	static embvm::VirtualMutex*
-		createMutex_impl(embvm::mutex::type type = embvm::mutex::type::defaultType,
-						 embvm::mutex::mode mode = embvm::mutex::mode::defaultMode) noexcept
+	static auto createMutex_impl(embvm::mutex::type type = embvm::mutex::type::defaultType,
+								 embvm::mutex::mode mode = embvm::mutex::mode::defaultMode) noexcept
+		-> embvm::VirtualMutex*
 	{
 		return new posix::Mutex(type, mode);
 	}
 
-	static embvm::VirtualSemaphore*
-		createSemaphore_impl(embvm::semaphore::mode mode, embvm::semaphore::count_t ceiling,
-							 embvm::semaphore::count_t initial_count) noexcept
+	static auto createSemaphore_impl(embvm::semaphore::mode mode, embvm::semaphore::count_t ceiling,
+									 embvm::semaphore::count_t initial_count) noexcept
+		-> embvm::VirtualSemaphore*
 	{
 		return new posix::Semaphore(mode, ceiling, initial_count);
 	}
 
 	template<typename TType>
-	static embvm::VirtualMessageQueue<TType>* createMessageQueue_impl(size_t queue_length) noexcept
+	static auto createMessageQueue_impl(size_t queue_length) noexcept
+		-> embvm::VirtualMessageQueue<TType>*
 	{
 		return new posix::MessageQueue<TType>(queue_length);
 	}
 
-	static embvm::VirtualEventFlag* createEventFlag_impl() noexcept
+	static auto createEventFlag_impl() noexcept -> embvm::VirtualEventFlag*
 	{
 		return new posix::EventFlag();
 	}
@@ -88,7 +89,6 @@ class posixOSFactory_impl
 		delete reinterpret_cast<ConditionVariable*>(item);
 	}
 
-  public:
 	posixOSFactory_impl() = default;
 	~posixOSFactory_impl() = default;
 };

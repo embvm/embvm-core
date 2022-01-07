@@ -66,7 +66,7 @@ class Semaphore final : public embvm::VirtualSemaphore
 	}
 
 	/// Default destructor, cleans up after semaphore on destruction.
-	~Semaphore() noexcept;
+	~Semaphore() noexcept override;
 
 	void give() noexcept final
 	{
@@ -87,9 +87,9 @@ class Semaphore final : public embvm::VirtualSemaphore
 		}
 	}
 
-	bool take(const embvm::os_timeout_t& timeout = embvm::OS_WAIT_FOREVER) noexcept final
+	auto take(const embvm::os_timeout_t& timeout = embvm::OS_WAIT_FOREVER) noexcept -> bool final
 	{
-		dispatch_time_t t_converted;
+		dispatch_time_t t_converted = 0;
 
 		if(timeout == embvm::OS_WAIT_FOREVER)
 		{
@@ -112,12 +112,12 @@ class Semaphore final : public embvm::VirtualSemaphore
 		return r == 0;
 	}
 
-	embvm::semaphore::count_t count() const noexcept final
+	[[nodiscard]] auto count() const noexcept -> embvm::semaphore::count_t final
 	{
 		return count_;
 	}
 
-	embvm::semaphore::handle_t native_handle() const noexcept final
+	[[nodiscard]] auto native_handle() const noexcept -> embvm::semaphore::handle_t final
 	{
 		return reinterpret_cast<embvm::semaphore::handle_t>(&handle_);
 	}
@@ -127,7 +127,7 @@ class Semaphore final : public embvm::VirtualSemaphore
 	dispatch_semaphore_t handle_;
 
 	/// Current semaphore count
-	std::atomic<embvm::semaphore::count_t> count_;
+	std::atomic<embvm::semaphore::count_t> count_{};
 
 	/// The semaphore ceiling
 	embvm::semaphore::count_t ceiling_;
