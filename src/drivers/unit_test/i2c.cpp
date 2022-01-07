@@ -70,6 +70,7 @@ embvm::i2c::status i2cTestDriver::transfer_(const embvm::i2c::op_t& op,
 	}
 
 	// callback(op, embvm::i2c::status::ok, cb);
+	(void)cb; // TODO: currently called in comm_bus class..
 
 	return embvm::i2c::status::ok;
 }
