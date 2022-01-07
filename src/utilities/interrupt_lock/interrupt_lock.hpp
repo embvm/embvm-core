@@ -37,7 +37,7 @@ struct InterruptLockPolicyExample
 	}
 
 	/// Disable interrupts and return the current setting
-	static TReturn disable_interrupts() noexcept
+	static auto disable_interrupts() noexcept -> TReturn
 	{
 		return false;
 	}
@@ -68,13 +68,13 @@ class InterruptLock
 	InterruptLock(const InterruptLock&) = delete;
 
 	/// Deleted copy assignment operator
-	const InterruptLock& operator=(const InterruptLock&) = delete;
+	auto operator=(const InterruptLock&) -> const InterruptLock& = delete;
 
 	/// Deleted move constructor
-	InterruptLock(InterruptLock&&) = default;
+	InterruptLock(InterruptLock&&) noexcept = default;
 
 	/// Deleted move assignment operator
-	InterruptLock& operator=(InterruptLock&&) = default;
+	auto operator=(InterruptLock&&) noexcept -> InterruptLock& = default;
 
 	/* Disable interrupts to enter critical section
 	 *

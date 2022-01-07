@@ -33,7 +33,7 @@
  * @param align The target alignment.
  * @returns true if the number matches the target alignment, false otherwise.
  */
-#define IS_ALIGNED(val, align) ((val & (align - 1)) == 0)
+#define IS_ALIGNED(val, align) (((val) & ((align)-1)) == 0)
 
 /// @}
 
@@ -45,7 +45,7 @@
  * @param x The bit position to set.
  * @returns A number with bit x set.
  */
-#define SET_BIT(x) (1 << x)
+#define SET_BIT(x) (1 << (x))
 
 /** Extract a field of bits from a value.
  *

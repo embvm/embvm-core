@@ -37,7 +37,7 @@ namespace embutil
  * @param[in] ts Timespec value, which can be relative or absolute.
  * @returns the equivalent std::chrono::duration value in nanoseconds.
  */
-constexpr std::chrono::nanoseconds timespecToDuration(const timespec ts) noexcept
+constexpr auto timespecToDuration(const timespec ts) noexcept -> std::chrono::nanoseconds
 {
 	auto duration = std::chrono::seconds{ts.tv_sec} + std::chrono::nanoseconds{ts.tv_nsec};
 
@@ -49,8 +49,8 @@ constexpr std::chrono::nanoseconds timespecToDuration(const timespec ts) noexcep
  * @param[in] ts Timespec value, which can be relative or absolute.
  * @returns the equivalent std::chrono::time_point value using the system_clock.
  */
-constexpr std::chrono::time_point<std::chrono::system_clock, std::chrono::nanoseconds>
-	timespecToTimePoint(const timespec ts) noexcept
+constexpr auto timespecToTimePoint(const timespec ts) noexcept
+	-> std::chrono::time_point<std::chrono::system_clock, std::chrono::nanoseconds>
 {
 	return std::chrono::time_point<std::chrono::system_clock, std::chrono::nanoseconds>{
 		std::chrono::duration_cast<std::chrono::system_clock::duration>(timespecToDuration(ts))};
@@ -61,7 +61,7 @@ constexpr std::chrono::time_point<std::chrono::system_clock, std::chrono::nanose
  * @param[in] dur std::chrono::duration value, which can be relative or absolute.
  * @returns the equivalent struct timespec value.
  */
-constexpr timespec durationToTimespec(std::chrono::nanoseconds dur) noexcept
+constexpr auto durationToTimespec(std::chrono::nanoseconds dur) noexcept -> timespec
 {
 	auto secs = std::chrono::duration_cast<std::chrono::seconds>(dur);
 	dur -= secs;
@@ -74,8 +74,9 @@ constexpr timespec durationToTimespec(std::chrono::nanoseconds dur) noexcept
  * @param[in] tp std::chrono::time_point value using the system_clock.
  * @returns the equivalent struct timespec value.
  */
-constexpr timespec timepointToTimespec(
+constexpr auto timepointToTimespec(
 	std::chrono::time_point<std::chrono::system_clock, std::chrono::nanoseconds> tp) noexcept
+	-> timespec
 {
 	auto secs = std::chrono::time_point_cast<std::chrono::seconds>(tp);
 	auto ns = std::chrono::time_point_cast<std::chrono::nanoseconds>(tp) -

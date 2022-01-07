@@ -198,13 +198,13 @@ class StaticFunctionQueue
 	StaticFunctionQueue(const StaticFunctionQueue&) = delete;
 
 	/// Deleted copy assignment operator
-	const StaticFunctionQueue& operator=(const StaticFunctionQueue&) = delete;
+	auto operator=(const StaticFunctionQueue&) -> const StaticFunctionQueue& = delete;
 
 	/// Deleted move constructor
 	StaticFunctionQueue(StaticFunctionQueue&&) = delete;
 
 	/// Deleted move assignment operator
-	StaticFunctionQueue& operator=(StaticFunctionQueue&&) = delete;
+	auto operator=(StaticFunctionQueue&&) -> StaticFunctionQueue& = delete;
 
 	/** Add a function to the queue.
 	 *
@@ -291,7 +291,7 @@ class StaticFunctionQueue
 	 *
 	 * @returns true if the queue is empty, false otherwise.
 	 */
-	[[nodiscard]] bool empty() const noexcept
+	[[nodiscard]] auto empty() const noexcept -> bool
 	{
 		return size() == 0;
 	}
@@ -300,7 +300,7 @@ class StaticFunctionQueue
 	 *
 	 * @returns the number of elements currently stored in the queue.
 	 */
-	[[nodiscard]] size_t size() const noexcept
+	[[nodiscard]] auto size() const noexcept -> size_t
 	{
 		return queue_.size();
 	}
@@ -309,7 +309,7 @@ class StaticFunctionQueue
 	 *
 	 * @returns the number of elements that the queue can support.
 	 */
-	constexpr size_t capacity() const noexcept
+	[[nodiscard]] constexpr auto capacity() const noexcept -> size_t
 	{
 		return queue_.capacity();
 	}
@@ -318,7 +318,7 @@ class StaticFunctionQueue
 	 *
 	 * @returns the size of this function queue in bytes.
 	 */
-	constexpr size_t capacity_bytes() const noexcept
+	[[nodiscard]] constexpr auto capacity_bytes() const noexcept -> size_t
 	{
 		return TQueueElements * TLargestSize;
 	}

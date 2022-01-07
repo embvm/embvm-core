@@ -28,7 +28,7 @@ namespace embutil
  * @returns true if the number is a power of 2, false otherwise.
  */
 template<typename TIntegralType>
-constexpr bool is_power_2(TIntegralType val) noexcept
+constexpr auto is_power_2(TIntegralType val) noexcept -> bool
 {
 	static_assert(std::is_integral<TIntegralType>::value,
 				  "This function can only be called on integral types");
@@ -52,7 +52,7 @@ constexpr bool is_power_2(TIntegralType val) noexcept
  * @returns true if the value has the target alignment, false otherwise.
  */
 template<typename TType>
-inline constexpr bool is_aligned(const TType val, const size_t align) noexcept
+inline constexpr auto is_aligned(const TType val, const size_t align) noexcept -> bool
 {
 	bool r = false;
 
@@ -92,7 +92,7 @@ inline constexpr bool is_aligned(const TType val, const size_t align) noexcept
  * @returns A number of type TIntegralType with the bits in the input list set.
  */
 template<typename TIntegralType, typename... Args>
-constexpr TIntegralType bitmask(Args&&... args) noexcept
+constexpr auto bitmask(Args&&... args) noexcept -> TIntegralType
 {
 	static_assert(std::is_integral<TIntegralType>::value,
 				  "This function can only be called on integral types");
