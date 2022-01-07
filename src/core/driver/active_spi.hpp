@@ -24,7 +24,7 @@ class activeMaster final
 	// TODO: This class should unregister the managed class from the driver registry
 	// During construction, and re-add it in destruction
 	explicit activeMaster(embvm::spi::master& m) noexcept : m_(m) {}
-	~activeMaster() = default;
+	~activeMaster() {}
 
 	void process_(ao_storage pair) noexcept
 	{
