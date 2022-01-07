@@ -54,7 +54,7 @@ constexpr auto is_power_2(TIntegralType val) noexcept -> bool
 template<typename TType>
 inline constexpr auto is_aligned(const TType val, const size_t align) noexcept -> bool
 {
-	bool r = false;
+	bool r;
 
 	if constexpr(std::is_integral<TType>::value)
 	{
