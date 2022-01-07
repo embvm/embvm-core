@@ -109,14 +109,17 @@ class base : public embvm::DriverBase
 	 *
 	 * Initializes the driver base with the proper typeid.
 	 */
-	base() noexcept : embvm::DriverBase(embvm::DriverType::GPIO) {}
+	base() noexcept : embvm::DriverBase(embvm::DriverType::GPIO)
+	{
+		// empty constructor
+	}
 
   public:
 	/** GPIO Driver Type ID
 	 *
 	 * @returns GPIO type ID.
 	 */
-	static constexpr embvm::DriverType type() noexcept
+	static constexpr auto type() noexcept -> embvm::DriverType
 	{
 		return embvm::DriverType::GPIO;
 	}
@@ -140,7 +143,7 @@ class base : public embvm::DriverBase
 	 *
 	 * @returns true if the GPIO is set (logic 1), false otherwise (logic 0).
 	 */
-	virtual bool get() noexcept = 0;
+	virtual auto get() noexcept -> bool = 0;
 
 	/** Toggle the pin state.
 	 *
@@ -157,7 +160,7 @@ class base : public embvm::DriverBase
 	 *
 	 * @returns the currently configured GPIO mode
 	 */
-	virtual embvm::gpio::mode mode() = 0;
+	virtual auto mode() -> embvm::gpio::mode = 0;
 
   protected:
 	/// Default destructor.

@@ -48,7 +48,10 @@ class SystemClock : public embvm::DriverBase
 	 *
 	 * Initializes the base class with the proper typeid.
 	 */
-	SystemClock() noexcept : embvm::DriverBase(embvm::DriverType::SYSTEM_CLOCK) {}
+	SystemClock() noexcept : embvm::DriverBase(embvm::DriverType::SYSTEM_CLOCK)
+	{
+		// empty constructor
+	}
 
 	/// Default destructor
 	~SystemClock() noexcept;
@@ -58,7 +61,7 @@ class SystemClock : public embvm::DriverBase
 	 *
 	 * @returns SystemClock type ID.
 	 */
-	static constexpr embvm::DriverType type() noexcept
+	static constexpr auto type() noexcept -> embvm::DriverType
 	{
 		return embvm::DriverType::SYSTEM_CLOCK;
 	}
@@ -67,7 +70,7 @@ class SystemClock : public embvm::DriverBase
 	 *
 	 * @returns the frequency of the system clock, in Hz.
 	 */
-	virtual freq_hz_t::rep frequency() const noexcept = 0;
+	[[nodiscard]] virtual freq_hz_t::rep frequency() const noexcept = 0;
 
 	/** Check the ticks elapsed since boot.
 	 *
@@ -75,7 +78,7 @@ class SystemClock : public embvm::DriverBase
 	 *
 	 * @returns ticks elapsed since boot.
 	 */
-	virtual tick_duration_t::rep ticks() const noexcept = 0;
+	[[nodiscard]] virtual tick_duration_t::rep ticks() const noexcept = 0;
 
 	/** Spin the processor for the specified number of ticks.
 	 *

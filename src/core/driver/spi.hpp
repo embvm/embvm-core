@@ -197,7 +197,7 @@ class master : public embvm::DriverBase, public spi::commBus
 	}
 
 	/// Default destructor.
-	~master() noexcept;
+	~master() noexcept = default;
 
   public:
 	/** Configure the SPI bus.
@@ -220,7 +220,7 @@ class master : public embvm::DriverBase, public spi::commBus
 	 *
 	 * @returns The currently configured mode.
 	 */
-	spi::mode mode() const noexcept
+	[[nodiscard]] auto mode() const noexcept -> spi::mode
 	{
 		return mode_;
 	}
@@ -233,7 +233,7 @@ class master : public embvm::DriverBase, public spi::commBus
 	 * @param mode The desired SPI bus mode.
 	 * @returns The new SPI bus mode.
 	 */
-	spi::mode mode(spi::mode mode) noexcept
+	auto mode(spi::mode mode) noexcept -> spi::mode
 	{
 		setMode_(mode);
 		mode_ = mode;
@@ -245,7 +245,7 @@ class master : public embvm::DriverBase, public spi::commBus
 	 *
 	 * @returns The currently configured byte order.
 	 */
-	spi::order order() const noexcept
+	[[nodiscard]] auto order() const noexcept -> spi::order
 	{
 		return order_;
 	}
@@ -258,7 +258,7 @@ class master : public embvm::DriverBase, public spi::commBus
 	 * @param order The desired byte ordering.
 	 * @returns The new byte ordering.
 	 */
-	spi::order order(spi::order order) noexcept
+	auto order(spi::order order) noexcept -> spi::order
 	{
 		setOrder_(order);
 		order_ = order;
@@ -270,7 +270,7 @@ class master : public embvm::DriverBase, public spi::commBus
 	 *
 	 * @returns SPI type ID.
 	 */
-	static constexpr embvm::DriverType type() noexcept
+	static constexpr auto type() noexcept -> embvm::DriverType
 	{
 		return embvm::DriverType::SPI;
 	}
@@ -311,9 +311,9 @@ class master : public embvm::DriverBase, public spi::commBus
 	spi::baud_t baudrate_(spi::baud_t baud) noexcept override = 0;
 
 	// commBus function for derived class to implement.
-	embvm::comm::status transfer_(const spi::op_t& op, const cb_t& cb) noexcept override = 0;
+	auto transfer_(const spi::op_t& op, const cb_t& cb) noexcept
+		-> embvm::comm::status override = 0;
 
-  protected:
 	/// Stores the active SPI mode configuration.
 	spi::mode mode_ = spi::mode::mode0;
 

@@ -122,7 +122,10 @@ class sensor : public embvm::DriverBase
 	 *
 	 * Initializes the base class with the appropriate typeid
 	 */
-	sensor() noexcept : embvm::DriverBase(embvm::DriverType::TIME_OF_FLIGHT) {}
+	sensor() noexcept : embvm::DriverBase(embvm::DriverType::TIME_OF_FLIGHT)
+	{
+		// empty constructor
+	}
 
 	/// Default destructor.
 	~sensor() noexcept;
@@ -132,7 +135,7 @@ class sensor : public embvm::DriverBase
 	 *
 	 * @returns ToF type ID.
 	 */
-	static constexpr embvm::DriverType type() noexcept
+	static constexpr auto type() noexcept -> embvm::DriverType
 	{
 		return embvm::DriverType::TIME_OF_FLIGHT;
 	}
@@ -141,19 +144,20 @@ class sensor : public embvm::DriverBase
 	 *
 	 * @returns the sensor's maximum distance capability (in mm) in the dark.
 	 */
-	virtual tof::distance_t getMaxRangeForModeDark(tof::mode m) const noexcept = 0;
+	[[nodiscard]] virtual tof::distance_t getMaxRangeForModeDark(tof::mode m) const noexcept = 0;
 
 	/** Check the maximum range in strong light conditions.
 	 *
 	 * @returns the sensor's maximum distance capability (in mm) in strong light.
 	 */
-	virtual tof::distance_t getMaxRangeForModeStrongLight(tof::mode m) const noexcept = 0;
+	[[nodiscard]] virtual tof::distance_t
+		getMaxRangeForModeStrongLight(tof::mode m) const noexcept = 0;
 
 	/** Get the ToF ranging mode.
 	 *
 	 * @returns the currently configured ToF ranging mode.
 	 */
-	tof::mode mode() const noexcept
+	[[nodiscard]] auto mode() const noexcept -> tof::mode
 	{
 		return mode_;
 	}
@@ -163,7 +167,7 @@ class sensor : public embvm::DriverBase
 	 * @param m The desired ToF ranging mode.
 	 * @returns the active ToF mode.
 	 */
-	virtual tof::mode mode(tof::mode m) noexcept = 0;
+	virtual auto mode(tof::mode m) noexcept -> tof::mode = 0;
 
 	/** Register a callback for the read() function.
 	 *

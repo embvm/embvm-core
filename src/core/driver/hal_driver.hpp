@@ -1,8 +1,8 @@
 // Copyright 2020 Embedded Artistry LLC
 // SPDX-License-Identifier: GPL-3.0-only OR Embedded Virtual Machine Commercial License
 
-#ifndef HAL_DRIVER_H__
-#define HAL_DRIVER_H__
+#ifndef HAL_DRIVER_H_
+#define HAL_DRIVER_H_
 
 #include <dispatch/interrupt_queue.hpp>
 
@@ -58,8 +58,7 @@ class HALDriverBase
 	HALDriverBase() = default;
 	virtual ~HALDriverBase() = default;
 
-  protected:
-	embutil::IRQDispatcherFunc_t dispatcher_; // TODO: can we make this a reference somehow?
+	embutil::IRQDispatcherFunc_t dispatcher_{}; // TODO: can we make this a reference somehow?
 };
 
 } // namespace embvm
@@ -67,4 +66,4 @@ class HALDriverBase
 /// @}
 // End Group
 
-#endif // HAL_DRIVER_H__
+#endif // HAL_DRIVER_H_

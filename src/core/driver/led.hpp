@@ -54,14 +54,17 @@ class base : public embvm::DriverBase
 	 *
 	 * Initializes the driver base with the proper typeid
 	 */
-	base() noexcept : embvm::DriverBase(embvm::DriverType::LED) {}
+	base() noexcept : embvm::DriverBase(embvm::DriverType::LED)
+	{
+		// empty constructor
+	}
 
   public:
 	/** LED Driver Type ID
 	 *
 	 * @returns LED type ID.
 	 */
-	static constexpr embvm::DriverType type() noexcept
+	static constexpr auto type() noexcept -> embvm::DriverType
 	{
 		return embvm::DriverType::LED;
 	}

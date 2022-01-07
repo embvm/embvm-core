@@ -116,14 +116,17 @@ class basicDisplay : public embvm::DriverBase
 	 *
 	 * Initializes the DriverBase class with a BASIC_DISPLAY type ID
 	 */
-	basicDisplay() noexcept : embvm::DriverBase(embvm::DriverType::BASIC_DISPLAY) {}
+	basicDisplay() noexcept : embvm::DriverBase(embvm::DriverType::BASIC_DISPLAY)
+	{
+		// empty constructor
+	}
 
   public:
 	/** Basic Display Driver Type ID
 	 *
 	 * @returns Basic Display type ID.
 	 */
-	static constexpr embvm::DriverType type() noexcept
+	static constexpr auto type() noexcept -> embvm::DriverType
 	{
 		return embvm::DriverType::BASIC_DISPLAY;
 	}
@@ -472,7 +475,7 @@ class basicDisplay : public embvm::DriverBase
 	 *
 	 * @returns The width of the screen in pixels.
 	 */
-	virtual uint8_t screenWidth() const noexcept = 0;
+	[[nodiscard]] virtual uint8_t screenWidth() const noexcept = 0;
 
 	/** Check the screen height.
 	 *
@@ -480,7 +483,7 @@ class basicDisplay : public embvm::DriverBase
 	 *
 	 * @returns The height of the screen in pixels.
 	 */
-	virtual uint8_t screenHeight() const noexcept = 0;
+	[[nodiscard]] virtual uint8_t screenHeight() const noexcept = 0;
 
 	/** Set color.
 	 *
@@ -563,11 +566,9 @@ class basicDisplay : public embvm::DriverBase
 	// embvm::DriverBase function that derived classes must implement.
 	void stop_() noexcept override = 0;
 
-  protected:
 	/// Default destructor.
 	~basicDisplay() noexcept;
 
-  protected:
 	/// The current display mode setting.
 	mode mode_ = mode::normal;
 

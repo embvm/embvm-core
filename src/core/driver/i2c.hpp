@@ -303,7 +303,7 @@ class master : public embvm::DriverBase, public i2c::commBus
 	}
 
 	/// Default destructor
-	~master() noexcept;
+	~master() noexcept = default;
 
   public:
 	// TODO: refactor this call - it doesn't make sense...
@@ -332,7 +332,7 @@ class master : public embvm::DriverBase, public i2c::commBus
 	 *
 	 * @returns I2C type ID.
 	 */
-	static constexpr embvm::DriverType type() noexcept
+	static constexpr auto type() noexcept -> embvm::DriverType
 	{
 		return embvm::DriverType::I2C;
 	}
@@ -341,7 +341,7 @@ class master : public embvm::DriverBase, public i2c::commBus
 	 *
 	 * @returns the status of the I2C bus as an i2c::state enumeration.
 	 */
-	i2c::state state() const noexcept
+	[[nodiscard]] auto state() const noexcept -> i2c::state
 	{
 		return state_;
 	}
@@ -351,7 +351,7 @@ class master : public embvm::DriverBase, public i2c::commBus
 	 * @param pullups The target pull-up setting.
 	 * @returns The configured pull-up setting.
 	 */
-	i2c::pullups pullups(i2c::pullups pullups) noexcept
+	auto pullups(i2c::pullups pullups) noexcept -> i2c::pullups
 	{
 		pullups_ = setPullups_(pullups);
 
@@ -362,7 +362,7 @@ class master : public embvm::DriverBase, public i2c::commBus
 	 *
 	 * @returns The configured pull-up setting.
 	 */
-	i2c::pullups pullups() const noexcept
+	[[nodiscard]] auto pullups() const noexcept -> i2c::pullups
 	{
 		return pullups_;
 	}
@@ -398,10 +398,10 @@ class master : public embvm::DriverBase, public i2c::commBus
 	virtual void configure_(i2c::pullups pullups) noexcept = 0;
 
 	// commBus function for derived class to implement.
-	i2c::baud baudrate_(i2c::baud baud) noexcept override = 0;
+	auto baudrate_(i2c::baud baud) noexcept -> i2c::baud override = 0;
 
 	// commBus function for derived class to implement.
-	i2c::status transfer_(const i2c::op_t& op, const cb_t& cb) noexcept override = 0;
+	auto transfer_(const i2c::op_t& op, const cb_t& cb) noexcept -> i2c::status override = 0;
 
 	/** Configure pull-ups.
 	 *
@@ -411,9 +411,8 @@ class master : public embvm::DriverBase, public i2c::commBus
 	 * @param pullups The target pull-up setting.
 	 * @returns The configured pull-up setting.
 	 */
-	virtual i2c::pullups setPullups_(i2c::pullups pullups) noexcept = 0;
+	virtual auto setPullups_(i2c::pullups pullups) noexcept -> i2c::pullups = 0;
 
-  protected:
 	/// Tracks the active pull-up configuration.
 	i2c::pullups pullups_ = i2c::pullups::external;
 	/// Tracks the status of the I2C bus.

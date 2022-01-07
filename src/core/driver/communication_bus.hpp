@@ -139,7 +139,6 @@ class commBus
 	/// Alias for the dispatcher function's storage type.
 	using DispatcherFunc = stdext::inplace_function<void(TDispatchFunctor&&)>;
 
-  public:
 	/** Default constructor.
 	 *
 	 * Initializes the comm bus status.
@@ -184,13 +183,13 @@ class commBus
 	commBus(const commBus&) = delete;
 
 	/// Deleted copy assignment operator
-	const commBus& operator=(const commBus&) = delete;
+	auto operator=(const commBus&) -> const commBus& = delete;
 
 	/// Deleted move constructor
 	commBus(commBus&&) = delete;
 
 	/// Deleted move assignment operator
-	commBus& operator=(commBus&&) = delete;
+	auto operator=(commBus&&) -> commBus& = delete;
 
 	/** Initiate a bus transfer.
 	 *
@@ -214,7 +213,7 @@ class commBus
 	 *	of the transfer.
 	 * @returns The status of the bus transfer.
 	 */
-	virtual TStatus transfer(TOperation& op, const cb_t& cb = nullptr) noexcept
+	virtual auto transfer(TOperation& op, const cb_t& cb = nullptr) noexcept -> TStatus
 	{
 		auto status = transfer_(op, cb);
 
@@ -231,7 +230,7 @@ class commBus
 	 *
 	 * @returns The current bus status.
 	 */
-	TStatus busStatus() const noexcept
+	auto busStatus() const noexcept -> TStatus
 	{
 		return bus_status_;
 	}
@@ -240,7 +239,7 @@ class commBus
 	 *
 	 * @returns The currently configured baudrate.
 	 */
-	TBaudrate baudrate() const noexcept
+	auto baudrate() const noexcept -> TBaudrate
 	{
 		return baud_;
 	}
@@ -258,7 +257,7 @@ class commBus
 	 *	- Input baudrate was invalid (no update)
 	 *	- Input baudrate was rounded by the bus driver
 	 */
-	TBaudrate baudrate(TBaudrate baud) noexcept
+	auto baudrate(TBaudrate baud) noexcept -> TBaudrate
 	{
 		baud_ = baudrate_(baud);
 
@@ -307,7 +306,7 @@ class commBus
 	 * To indicate that a transfer has been enqueued for later processing, return
 	 * `TStatus::enqueued`
 	 */
-	virtual TStatus transfer_(const TOperation& op, const cb_t& callback) noexcept = 0;
+	virtual auto transfer_(const TOperation& op, const cb_t& callback) noexcept -> TStatus = 0;
 
 	/** The derived comm class's baudrate update implementation.
 	 *
@@ -319,7 +318,7 @@ class commBus
 	 *	- Input baudrate was invalid (no update)
 	 *	- Input baudrate was rounded by the bus driver
 	 */
-	virtual TBaudrate baudrate_(TBaudrate baud) noexcept = 0;
+	virtual auto baudrate_(TBaudrate baud) noexcept -> TBaudrate = 0;
 
 	constexpr void set_status_ok_() noexcept
 	{
@@ -333,7 +332,6 @@ class commBus
 		}
 	}
 
-  protected:
 	/// Stores the current bus status.
 	// TODO: make atomic?
 	TStatus bus_status_;
@@ -349,7 +347,7 @@ class commBus
 	 * If no dispatcher is configured by the user, the callback will be executed in
 	 * the same thread of control.
 	 */
-	const DispatcherFunc dispatcher_;
+	const DispatcherFunc dispatcher_{};
 };
 
 /// @}

@@ -5,8 +5,6 @@
 
 constexpr uint8_t I2C_ADDR_MAX = 127;
 
-embvm::i2c::master::~master() noexcept = default;
-
 void embvm::i2c::master::sweep(sweep_list_t& found_list, const sweep_cb_t& cb) noexcept
 {
 	i2c::op_t xact;
