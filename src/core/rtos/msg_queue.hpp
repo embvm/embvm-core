@@ -31,13 +31,13 @@ class VirtualMessageQueue
 	VirtualMessageQueue(const VirtualMessageQueue&) = delete;
 
 	/// Deleted copy assignment operator
-	const VirtualMessageQueue& operator=(const VirtualMessageQueue&) = delete;
+	auto operator=(const VirtualMessageQueue&) -> const VirtualMessageQueue& = delete;
 
 	/// Default move constructor
 	VirtualMessageQueue(VirtualMessageQueue&&) noexcept = default;
 
 	/// Default move assignment operator
-	VirtualMessageQueue& operator=(VirtualMessageQueue&&) noexcept = default;
+	auto operator=(VirtualMessageQueue&&) noexcept -> VirtualMessageQueue& = default;
 
 	/** Post a message to the queue.
 	 *
@@ -51,7 +51,8 @@ class VirtualMessageQueue
 	 * 	indicates that the thread should block until a new message is posted.
 	 * @returns true if the message was successfully posted, false otherwise.
 	 */
-	virtual bool push(TType val, embvm::os_timeout_t timeout = embvm::OS_WAIT_FOREVER) noexcept = 0;
+	virtual auto push(TType val, embvm::os_timeout_t timeout = embvm::OS_WAIT_FOREVER) noexcept
+		-> bool = 0;
 
 	/** Retrieve a message from the queue.
 	 *
@@ -63,8 +64,8 @@ class VirtualMessageQueue
 	 * @returns an optional value. Use `has_value()` member function to determine if the value is
 	 * 	valid. A valid value is only returned on success.
 	 */
-	virtual std::optional<TType>
-		pop(embvm::os_timeout_t timeout = embvm::OS_WAIT_FOREVER) noexcept = 0;
+	virtual auto pop(embvm::os_timeout_t timeout = embvm::OS_WAIT_FOREVER) noexcept
+		-> std::optional<TType> = 0;
 
 	/** Get the current size of the message queue.
 	 *
@@ -72,7 +73,7 @@ class VirtualMessageQueue
 	 *
 	 * @returns the current number of elements stored in the message queue.
 	 */
-	virtual size_t size() const noexcept = 0;
+	[[nodiscard]] virtual auto size() const noexcept -> size_t = 0;
 
 	/** Reset the message queue to an empty state.
 	 *
@@ -84,18 +85,18 @@ class VirtualMessageQueue
 	 *
 	 * @returns true if the queue is empty, false otherwise.
 	 */
-	virtual bool empty() const noexcept = 0;
+	[[nodiscard]] virtual auto empty() const noexcept -> bool = 0;
 
 	/** Check if the message queue is full.
 	 *
 	 * @returns true if the queue is full, false otherwise.
 	 */
-	virtual bool full() const noexcept = 0;
+	[[nodiscard]] virtual auto full() const noexcept -> bool = 0;
 
 	/// Get the native handle for the message queue object
 	/// @returns the native handle for this message queue object. The handle will
 	/// 	always return the handle_t and it must be cast to the native handle type by the user.
-	[[nodiscard]] virtual embvm::msgqueue::handle_t native_handle() const noexcept = 0;
+	[[nodiscard]] virtual auto native_handle() const noexcept -> embvm::msgqueue::handle_t = 0;
 
   protected:
 	VirtualMessageQueue() = default;

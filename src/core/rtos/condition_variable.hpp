@@ -38,24 +38,26 @@ class VirtualConditionVariable
 	VirtualConditionVariable(const VirtualConditionVariable&) = delete;
 
 	/// Delete the copy assignment operator
-	const VirtualConditionVariable& operator=(const VirtualConditionVariable&) = delete;
+	auto operator=(const VirtualConditionVariable&) -> const VirtualConditionVariable& = delete;
 
 	/// Default move constructor
 	VirtualConditionVariable(VirtualConditionVariable&&) = default;
 
 	/// Default move operator
-	VirtualConditionVariable& operator=(VirtualConditionVariable&&) = default;
+	auto operator=(VirtualConditionVariable&&) -> VirtualConditionVariable& = default;
 
 	/// Blocks the current thread until the condition variable is woken up or after the specified
 	/// timeout duration
 	// Precondition: mutex is locked
-	virtual bool wait(embvm::VirtualMutex* mutex) noexcept = 0;
+	virtual auto wait(embvm::VirtualMutex* mutex) noexcept -> bool = 0;
 	// Precondition: mutex is locked
-	virtual bool wait(embvm::VirtualMutex* mutex, const embvm::os_timeout_t& timeout) noexcept = 0;
+	virtual auto wait(embvm::VirtualMutex* mutex, const embvm::os_timeout_t& timeout) noexcept
+		-> bool = 0;
 
 	// TODO: template these like in the STL
 	// Precondition: mutex is locked
-	bool wait(embvm::VirtualMutex* mutex, const embvm::cv::func_t& predicate) noexcept
+	auto wait(embvm::VirtualMutex* mutex, const embvm::cv::func_t& predicate) noexcept
+		-> bool
 	{
 		while(!predicate())
 		{
@@ -67,8 +69,8 @@ class VirtualConditionVariable
 
 	// TODO: template these for predicate like in the STL?
 	// Precondition: mutex is locked
-	bool wait(embvm::VirtualMutex* mutex, const embvm::cv::func_t& predicate,
-			  const embvm::os_timeout_t& timeout = embvm::OS_WAIT_FOREVER) noexcept
+	auto wait(embvm::VirtualMutex* mutex, const embvm::cv::func_t& predicate,
+					 const embvm::os_timeout_t& timeout = embvm::OS_WAIT_FOREVER) noexcept -> bool
 	{
 		bool success = true;
 
@@ -99,7 +101,7 @@ class VirtualConditionVariable
 		broadcast();
 	}
 
-	[[nodiscard]] virtual embvm::cv::handle_t native_handle() const noexcept = 0;
+	[[nodiscard]] virtual auto native_handle() const noexcept -> embvm::cv::handle_t = 0;
 
   protected:
 	VirtualConditionVariable() = default;
