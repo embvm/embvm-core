@@ -104,6 +104,10 @@ scan-build: $(CONFIGURED_BUILD_DEP)
 tidy: $(CONFIGURED_BUILD_DEP)
 	$(Q) ninja -C $(BUILDRESULTS) clang-tidy
 
+.PHONY: tidy-fix
+tidy-fix: $(CONFIGURED_BUILD_DEP)
+	$(Q) ninja -C $(BUILDRESULTS) clang-tidy-fix
+
 .PHONY: sloccount
 sloccount: $(CONFIGURED_BUILD_DEP)
 	$(Q) ninja -C $(BUILDRESULTS) sloccount
@@ -197,5 +201,6 @@ help :
 	@echo "        Save output to a file for Jenkins"
 	@echo "    coverage: runs code coverage analysis and generates an HTML & XML reports"
 	@echo "    tidy: runs clang-tidy linter"
+	@echo "    tidy: runs clang-tidy linter and applies fixes"
 	@echo "    vale: lints project documentation against configured style guide"
 
