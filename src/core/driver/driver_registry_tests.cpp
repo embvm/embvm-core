@@ -112,8 +112,8 @@ TEST_CASE("Find driver from registry by name", "[core/driver_registry]")
 	driver_registry.add("Test base2", &d2);
 
 	CHECK(2 == driver_registry.count());
-	CHECK(d == driver_registry.find("Test base"));
-	CHECK(d2 == driver_registry.find("Test base2"));
+	CHECK(&d == driver_registry.find("Test base").value());
+	CHECK(&d2 == driver_registry.find("Test base2").value());
 
 	driver_registry.remove(&d);
 	driver_registry.remove(&d2);
@@ -131,7 +131,7 @@ TEST_CASE("Find one driver from registry by type", "[core/driver_registry]")
 	auto d_found = driver_registry.find(DriverType::SPI);
 
 	CHECK(d_found);
-	CHECK(d == d_found);
+	CHECK(&d == *d_found);
 }
 
 TEST_CASE("Find one driver from registry by template method", "[core/driver_registry]")
@@ -144,8 +144,9 @@ TEST_CASE("Find one driver from registry by template method", "[core/driver_regi
 	auto d_found = driver_registry.find<embvm::i2c::master>();
 	auto d2_found = driver_registry.find(DriverType::I2C);
 
-	CHECK(&d_found.value() == &d2_found.value());
 	CHECK(d_found);
+	CHECK(d2_found);
+	CHECK(*d_found == *d2_found);
 }
 
 TEST_CASE("Find one driver from registry by template method via name", "[core/driver_registry]")
@@ -157,8 +158,8 @@ TEST_CASE("Find one driver from registry by template method via name", "[core/dr
 
 	auto d_found = driver_registry.find<embvm::i2c::master>("i2c0");
 
-	CHECK(&d_found.value() == &d);
 	CHECK(d_found);
+	CHECK(*d_found == &d);
 }
 
 TEST_CASE("Find all drivers from registry by given type", "[core/driver_registry]")
@@ -177,7 +178,8 @@ TEST_CASE("Find all drivers from registry by given type", "[core/driver_registry
 	for(const auto& t : found_list)
 	{
 		CHECK(t->DriverType() == DriverType::SPI);
-		CHECK(((t == &d) || (t == &d2)));
+		CHECK(((t == reinterpret_cast<embvm::DriverBase*>(&d)) ||
+			   (t == reinterpret_cast<embvm::DriverBase*>(&d2))));
 	}
 }
 
@@ -197,7 +199,8 @@ TEST_CASE("Find all drivers from registry by template method", "[core/driver_reg
 	for(const auto& t : found_list)
 	{
 		CHECK(t->DriverType() == DriverType::I2C);
-		CHECK(((t == &d) || (t == &d2)));
+		CHECK(((t == reinterpret_cast<embvm::DriverBase*>(&d)) ||
+			   (t == reinterpret_cast<embvm::DriverBase*>(&d2))));
 	}
 }
 

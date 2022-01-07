@@ -24,7 +24,7 @@ TEST_CASE("Add/remove single without key to dynamic instance list", "[utility/in
 	for(auto& t : l.rawStorage())
 	{
 		CHECK(t.value == &x);
-		CHECK(*t.value == x);
+		CHECK(*(t.value) == x);
 	}
 
 	CHECK(1 == l.size());
@@ -51,7 +51,7 @@ TEST_CASE("Add multiple, remove single without key from dynamic instance list",
 	for(auto& t : l.rawStorage())
 	{
 		CHECK(t.value != &x);
-		CHECK(*t.value != x);
+		CHECK(*(t.value) != x);
 	}
 
 	CHECK(2 == l.size());
@@ -67,14 +67,14 @@ TEST_CASE("Add multiple by name, remove single by ptr from dynamic instance list
 	l.add("y", &x);
 	l.add("z", &z);
 
-	CHECK(x == l["y"]);
-	CHECK(z == l.find("z"));
+	CHECK(x == *l["y"].value());
+	CHECK(z == *l.find("z").value());
 	CHECK(3 == l.size());
 
 	l.remove("y", &x);
 
 	CHECK(2 == l.size());
-	CHECK(x == l["x"]);
+	CHECK(x == *l["x"].value());
 }
 
 TEST_CASE("Create static instance list", "[utility/instance_list]")
@@ -95,7 +95,7 @@ TEST_CASE("Add/remove single without key to static instance list", "[utility/ins
 	for(auto& t : l.rawStorage())
 	{
 		CHECK(t.value == &x);
-		CHECK(*t.value == x);
+		CHECK(*(t.value) == x);
 	}
 
 	CHECK(1 == l.size());
@@ -122,7 +122,7 @@ TEST_CASE("Add multiple, remove single without key from static instance list",
 	for(auto& t : l.rawStorage())
 	{
 		CHECK(t.value != &x);
-		CHECK(*t.value != x);
+		CHECK(*(t.value) != x);
 	}
 
 	CHECK(2 == l.size());
@@ -138,12 +138,12 @@ TEST_CASE("Add multiple by name, remove single by ptr from static instance list"
 	l.add("y", &x);
 	l.add("z", &z);
 
-	CHECK(x == l["y"]);
-	CHECK(z == l.find("z"));
+	CHECK(x == *l["y"].value());
+	CHECK(z == *l.find("z").value());
 	CHECK(3 == l.size());
 
 	l.remove("y", &x);
 
 	CHECK(2 == l.size());
-	CHECK(x == l["x"]);
+	CHECK(x == *l["x"].value());
 }

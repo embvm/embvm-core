@@ -170,8 +170,8 @@ class DriverRegistry
 	 * be returned.
 	 *
 	 * @param name The name of the driver instance to search for.
-	 * @returns an type_safe::optional_ref to the embvm::DriverBase object. If the driver
-	 *	was not found, the optional_ref will be empty. The caller must cast to the appropriate type.
+	 * @returns a std::optional pointer to the embvm::DriverBase object. If the driver
+	 *	was not found, the optoinal will be empty. The caller must cast to the appropriate type.
 	 */
 	auto find(const TKey name) noexcept
 	{
@@ -187,12 +187,12 @@ class DriverRegistry
 	 * be returned.
 	 *
 	 * @param dtype The type of the driver instance to search for.
-	 * @returns an type_safe::optional_ref to the embvm::DriverBase object. If the driver
-	 *	was not found, the optional_ref will be empty.
+	 * @returns a std::optional pointer to the embvm::DriverBase object. If the driver
+	 *	was not found, the optional will be empty.
 	 */
 	auto find(const DriverType_t dtype) noexcept
 	{
-		embvm::DriverBase* ptr = nullptr;
+		std::optional<embvm::DriverBase*> ptr = std::nullopt;
 
 		// This breaks encapsulation for IteratorList - but is simplest for now
 		auto list = list_.rawStorage();
@@ -206,7 +206,7 @@ class DriverRegistry
 			ptr = val->value;
 		}
 
-		return type_safe::opt_ref(ptr);
+		return ptr;
 	}
 
 	/** Find a driver by type and return casted interface pointer.
@@ -222,15 +222,21 @@ class DriverRegistry
 	 * be returned.
 	 *
 	 * @tparam TDriverClass The class of driver being requested (embvm::i2c::master, SystemClock).
-	 * @returns an type_safe::optional_ref to the embvm::DriverBase object. If the driver
-	 *	was not found, the optional_ref will be empty.
+	 * @returns a std::optional pointer to the embvm::DriverBase object. If the driver
+	 *	was not found, the optional will be empty.
 	 */
 	template<class TDriverClass>
 	auto find() noexcept
 	{
+		std::optional<TDriverClass*> value = std::nullopt;
 		auto ptr = find(TDriverClass::type());
 
-		return type_safe::opt_ref(static_cast<TDriverClass*>(ptr ? &ptr.value() : nullptr));
+		if(ptr)
+		{
+			value = static_cast<TDriverClass*>(*ptr);
+		}
+
+		return value;
 	}
 
 	/** Find a driver by name and return casted interface pointer.
@@ -244,15 +250,21 @@ class DriverRegistry
 	 *
 	 * @tparam TDriverClass The class of driver being requested (embvm::i2c::master, SystemClock).
 	 * @param name The name of the driver instance to search for.
-	 * @returns an type_safe::optional_ref to the embvm::DriverBase object. If the driver
-	 *	was not found, the optional_ref will be empty.
+	 * @returns a std::optional pointer to the embvm::DriverBase object. If the driver
+	 *	was not found, the optional will be empty.
 	 */
 	template<class TDriverClass>
 	auto find(const TKey name) noexcept
 	{
+		std::optional<TDriverClass*> value = std::nullopt;
 		auto ptr = find(name);
 
-		return type_safe::opt_ref(static_cast<TDriverClass*>(ptr ? &ptr.value() : nullptr));
+		if(ptr)
+		{
+			value = static_cast<TDriverClass*>(*ptr);
+		}
+
+		return value;
 	}
 
 	/** Find all drivers with a given type (dynamic memory).
