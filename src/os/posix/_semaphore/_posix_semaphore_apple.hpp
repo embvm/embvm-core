@@ -4,10 +4,10 @@
 #ifndef PTHREAD_SEMAPHORE_APPLE__HPP_
 #define PTHREAD_SEMAPHORE_APPLE__HPP_
 
-#include <rtos/semaphore.hpp>
 #include <atomic>
-#include <dispatch/dispatch.h>
 #include <cassert>
+#include <dispatch/dispatch.h>
+#include <rtos/semaphore.hpp>
 
 namespace os::posix
 {
