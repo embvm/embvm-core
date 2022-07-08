@@ -30,7 +30,7 @@ pipeline
 				sh 'make distclean'
 				echo 'Updating subprojects'
 				sh 'meson subprojects download'
-				sh 'meson subprojects update'
+				sh 'meson subprojects update --reset'
 			}
 		}
 		stage('Build for Clang')

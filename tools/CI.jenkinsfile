@@ -31,7 +31,7 @@ pipeline
 			steps {
 				echo('Updating subprojects')
 				sh 'meson subprojects download'
-				sh 'meson subprojects update'
+				sh 'meson subprojects update --reset'
 			}
 		}
 		stage('Format')
