@@ -4,9 +4,9 @@
 #ifndef PTHREAD_SEMAPHORE_HPP_
 #define PTHREAD_SEMAPHORE_HPP_
 
+#include <cassert>
 #include <rtos/semaphore.hpp>
 #include <semaphore.h>
-#include <cassert>
 
 namespace os::posix
 {
