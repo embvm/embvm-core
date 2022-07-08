@@ -105,7 +105,7 @@ class CircularLogBufferLogger final : public LoggerBase<TLock>
 	{
 		for(const auto& t : log_buffer_)
 		{
-			_putchar(t);
+			putchar_(t);
 		}
 	}
 
