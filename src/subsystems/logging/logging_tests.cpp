@@ -8,6 +8,18 @@
 
 using namespace embvm;
 
+/*
+ * Workaround: putchar_ is not being picked up from
+ * libc in the catch2 builds, so we need to define a suitable
+ * implementation
+ */
+extern "C" long write(int, const char*, unsigned long);
+
+extern "C" void putchar_(char ch)
+{
+	write(1, &ch, 1);
+}
+
 TEST_CASE("Create a logger", "[subsystem/logging]")
 {
 	CircularLogBufferLogger<1024> l;
