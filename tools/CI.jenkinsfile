@@ -62,13 +62,13 @@ pipeline
 						],
 						qualityGates: [
 							// 3 new issue: unstable
-							[threshold: 3, type: 'DELTA', unstable: true],
+							[threshold: 100, type: 'DELTA', unstable: true],
 							// 5 new issues: failed build
-							[threshold: 5, type: 'DELTA', unstable: false],
+							[threshold: 100, type: 'DELTA', unstable: false],
 							// 10 total issues: unstable
-							[threshold: 10, type: 'TOTAL', unstable: true],
+							[threshold: 100, type: 'TOTAL', unstable: true],
 							// 20 total issues: fail
-							[threshold: 20, type: 'TOTAL', unstable: false]
+							[threshold: 100, type: 'TOTAL', unstable: false]
 						],
 						tools: [
 							clang(),
@@ -98,13 +98,13 @@ pipeline
 						],
 						qualityGates: [
 							// 3 new issue: unstable
-							[threshold: 3, type: 'DELTA', unstable: true],
+							[threshold: 100, type: 'DELTA', unstable: true],
 							// 5 new issues: failed build
-							[threshold: 5, type: 'DELTA', unstable: false],
+							[threshold: 100, type: 'DELTA', unstable: false],
 							// 10 total issues: unstable
-							[threshold: 10, type: 'TOTAL', unstable: true],
+							[threshold: 100, type: 'TOTAL', unstable: true],
 							// 20 total issues: fail
-							[threshold: 20, type: 'TOTAL', unstable: false]
+							[threshold: 100, type: 'TOTAL', unstable: false]
 						],
 						tools: [
 							gcc(id:'gcc-11', name: 'gcc-11'),
@@ -134,13 +134,13 @@ pipeline
 						],
 						qualityGates: [
 							// 3 new issue: unstable
-							[threshold: 3, type: 'DELTA', unstable: true],
+							[threshold: 100, type: 'DELTA', unstable: true],
 							// 5 new issues: failed build
-							[threshold: 5, type: 'DELTA', unstable: false],
+							[threshold: 100, type: 'DELTA', unstable: false],
 							// 10 total issues: unstable
-							[threshold: 10, type: 'TOTAL', unstable: true],
+							[threshold: 100, type: 'TOTAL', unstable: true],
 							// 20 total issues: fail
-							[threshold: 20, type: 'TOTAL', unstable: false]
+							[threshold: 100, type: 'TOTAL', unstable: false]
 						],
 						tools: [
 							gcc(id: 'gcc-arm', name: 'gcc-arm'),
@@ -190,13 +190,13 @@ pipeline
 						],
 						qualityGates: [
 							// 3 new issue: unstable
-							[threshold: 3, type: 'DELTA', unstable: true],
+							[threshold: 100, type: 'DELTA', unstable: true],
 							// 5 new issues: failed build
-							[threshold: 5, type: 'DELTA', unstable: false],
+							[threshold: 100, type: 'DELTA', unstable: false],
 							// 10 total issues: unstable
-							[threshold: 10, type: 'TOTAL', unstable: true],
+							[threshold: 100, type: 'TOTAL', unstable: true],
 							// 20 total issues: fail
-							[threshold: 20, type: 'TOTAL', unstable: false]
+							[threshold: 100, type: 'TOTAL', unstable: false]
 						],
 						tools: [
 							cppCheck(
@@ -228,13 +228,13 @@ pipeline
 						],
 						qualityGates: [
 							// 3 new issue: unstable
-							[threshold: 3, type: 'DELTA', unstable: true],
+							[threshold: 100, type: 'DELTA', unstable: true],
 							// 5 new issues: failed build
-							[threshold: 5, type: 'DELTA', unstable: false],
+							[threshold: 100, type: 'DELTA', unstable: false],
 							// 10 total issues: unstable
-							[threshold: 10, type: 'TOTAL', unstable: true],
+							[threshold: 100, type: 'TOTAL', unstable: true],
 							// 20 total issues: fail
-							[threshold: 20, type: 'TOTAL', unstable: false]
+							[threshold: 100, type: 'TOTAL', unstable: false]
 						],
 						tools: [
 							clang(id: 'scan-build', name: 'scan-build'),
