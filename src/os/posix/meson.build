@@ -10,18 +10,14 @@ posix_test_files = files(
 )
 
 posix_dep = dependency('threads')
-posix_os_link_args = []
-
-if (build_machine.system() == 'linux')
-	posix_os_link_args += ['-lrt', '-lpthread']
-endif
 
 posix_os_dep = declare_dependency(
 	include_directories: include_directories('.'),
 	sources: posix_os_files,
-	link_args: posix_os_link_args,
+	compile_args: '-pthread',
+	link_args: '-pthread',
 	dependencies:[
-		posix_dep,
+		#posix_dep,
 		framework_include_dep
 	]
 )
