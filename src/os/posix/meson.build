@@ -31,5 +31,6 @@ posix_os_dep = declare_dependency(
 ######################
 
 catch2_tests_dep += declare_dependency(
-	sources: posix_test_files
+	sources: posix_test_files,
+	dependencies: posix_os_dep
 )
