@@ -8,6 +8,9 @@
 #include <cassert>
 #include <cstring>
 
+// In this case, names like "x" and "y" are acceptable.
+// NOLINTBEGIN(readability-identifier-length)
+
 namespace embvm
 {
 /** This class provides an interface for a basic 2-color display device.
@@ -475,7 +478,7 @@ class basicDisplay : public embvm::DriverBase
 	 *
 	 * @returns The width of the screen in pixels.
 	 */
-	[[nodiscard]] virtual uint8_t screenWidth() const noexcept = 0;
+	[[nodiscard]] virtual auto screenWidth() const noexcept -> uint8_t = 0;
 
 	/** Check the screen height.
 	 *
@@ -483,7 +486,7 @@ class basicDisplay : public embvm::DriverBase
 	 *
 	 * @returns The height of the screen in pixels.
 	 */
-	[[nodiscard]] virtual uint8_t screenHeight() const noexcept = 0;
+	[[nodiscard]] virtual auto screenHeight() const noexcept -> uint8_t = 0;
 
 	/** Set color.
 	 *
@@ -577,5 +580,7 @@ class basicDisplay : public embvm::DriverBase
 };
 
 } // namespace embvm
+
+// NOLINTEND(readability-identifier-length)
 
 #endif // BASIC_DISPLAY_HPP_
