@@ -50,14 +50,12 @@ using IRQDispatcherFunc_t = stdext::inplace_function<void(const IRQBottomHalfOp_
 template<typename TLockType, const size_t TSize = 32>
 class InterruptQueue
 {
-	static constexpr uint32_t WORK_READY_FLAG = (1 << 0);
-	static constexpr uint32_t QUIT_FLAG = (1 << 1);
+	static constexpr uint32_t WORK_READY_FLAG = (1U << 0U);
+	static constexpr uint32_t QUIT_FLAG = (1U << 1U);
 
   public:
-	explicit InterruptQueue() noexcept
+	explicit InterruptQueue() noexcept : flags_(os::Factory::createEventFlag())
 	{
-		flags_ = os::Factory::createEventFlag();
-
 		// Initialize thread inside of the constructor body to prevent race conditions
 		// With irq_lock_ not being properly initialized
 		thread_ = std::thread(&InterruptQueue::dispatch_thread_handler, this);
@@ -101,13 +99,13 @@ class InterruptQueue
 	 * results from this call. It's possible that pushing to the queue would trigger
 	 * an exception depending on the underlying type, for example.
 	 */
-	void dispatch(const IRQBottomHalfOp_t& op) noexcept
+	void dispatch(const IRQBottomHalfOp_t& input_op) noexcept
 	{
 		irq_lock_.lock();
 
 		if(q_.size() < q_.capacity())
 		{
-			q_.push(op);
+			q_.push(input_op);
 
 			irq_lock_.unlock();
 
@@ -128,13 +126,13 @@ class InterruptQueue
 	 * results from this call. It's possible that pushing to the queue would trigger
 	 * an exception depending on the underlying type, for example.
 	 */
-	void dispatch(IRQBottomHalfOp_t&& op) noexcept
+	void dispatch(IRQBottomHalfOp_t&& input_op) noexcept
 	{
 		irq_lock_.lock();
 
 		if(q_.size() < q_.capacity())
 		{
-			q_.push(std::move(op));
+			q_.push(std::move(input_op));
 
 			irq_lock_.unlock();
 
@@ -196,12 +194,12 @@ class InterruptQueue
 	 *
 	 * @returns false if the thread should exit, true otherwise
 	 */
-	auto wait_and_pop(IRQBottomHalfOp_t& op) noexcept -> bool
+	auto wait_and_pop(IRQBottomHalfOp_t& input_op) noexcept -> bool
 	{
 		while(q_.empty())
 		{
 			auto flags = flags_->get(WORK_READY_FLAG | QUIT_FLAG);
-			bool quit = flags & QUIT_FLAG;
+			bool quit = (flags & QUIT_FLAG) != 0U;
 
 			if(quit)
 			{
@@ -209,8 +207,8 @@ class InterruptQueue
 			}
 		}
 
-		std::lock_guard<TLockType> l(irq_lock_);
-		op = std::move(q_.front());
+		std::lock_guard<TLockType> lock(irq_lock_);
+		input_op = std::move(q_.front());
 		q_.pop();
 
 		return true;
@@ -225,13 +223,13 @@ class InterruptQueue
 	 */
 	void dispatch_thread_handler() noexcept
 	{
-		IRQBottomHalfOp_t op{};
+		IRQBottomHalfOp_t current_op{};
 
-		while(wait_and_pop(op))
+		while(wait_and_pop(current_op))
 		{
-			if(op)
+			if(current_op)
 			{
-				op();
+				current_op();
 			}
 		};
 	}
