@@ -12,6 +12,10 @@
 /// @name Alignment Macros
 /// @{
 
+// We turn off this clang-tidy check because we want the macros for
+// C programs
+// NOLINTBEGIN(cppcoreguidelines-macro-usage)
+
 /** Increase a number to the next aligned value
  *
  * @param num The number to start with.
@@ -76,6 +80,8 @@
  * @returns the number of set bits.
  */
 #define N_SET_BITS(n_ones) ((1 << (n_ones)) - 1)
+
+// NOLINTEND(cppcoreguidelines-macro-usage)
 
 ///@}
 
