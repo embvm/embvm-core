@@ -55,9 +55,15 @@ class sfr;
  */
 template<typename TPerm, typename T, uintptr_t TAddr>
 class sfr<TPerm, T, TAddr, typename std::enable_if<TAddr == 0>::type>
-	: public std::iterator<std::forward_iterator_tag, T>
 {
   public:
+	// Iterator Expectations
+	using iterator_category = std::forward_iterator_tag;
+	using value_type = T; // crap
+	using difference_type = void;
+	using pointer = void;
+	using reference = void;
+
 	// Helper types for various return value options
 	using ptr_t = volatile T*;
 	using const_ptr_t = volatile const T*;
@@ -193,9 +199,15 @@ class sfr<TPerm, T, TAddr, typename std::enable_if<TAddr == 0>::type>
 /// This variant of the SFR class is used when the address is known at compile-time
 template<typename TPerm, typename T, uintptr_t TAddr>
 class sfr<TPerm, T, TAddr, typename std::enable_if_t<TAddr != 0, void>>
-	: public std::iterator<std::forward_iterator_tag, T>
 {
   public:
+	// Iterator Expectations
+	using iterator_category = std::forward_iterator_tag;
+	using value_type = T; // crap
+	using difference_type = void;
+	using pointer = void;
+	using reference = void;
+
 	// Helper types for various return value options
 	using ptr_t = volatile T*;
 	using const_ptr_t = volatile const T*;
