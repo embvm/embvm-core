@@ -155,6 +155,11 @@ class LoggerBase
 
 	/** Add data to the log buffer
 	 *
+	 * @note Implementor's note: We would convert this to a variadic template funciton, but we can't
+	 *   take advantage ofprintf format string checks and get extra warnings.
+	 *   See commit 65991eddd9e2ba4a9cd9276d86a0ba24d7bf59aa for the details, and reversion in the
+	 *   future in case this limitation is addressed.
+	 *
 	 * @param[in] l The log level associated with this statement.
 	 * @param[in] fmt The log format string.
 	 * @param[in] args The variadic arguments that are associated with the format string.
