@@ -155,17 +155,17 @@ class LoggerBase
 
 	/** Add data to the log buffer
 	 *
-	 * @tparam Args Variadic template args. Will be deduced by the compiler. Enables support for
-	 *	a variadic function template.
-	 * @param l The log level associated with this statement.
-	 * @param fmt The log format string.
-	 * @param args The variadic arguments that are associated with the format string.
+	 * @param[in] l The log level associated with this statement.
+	 * @param[in] fmt The log format string.
+	 * @param[in] args The variadic arguments that are associated with the format string.
 	 */
-	template<typename... Args>
-	void log(logger::level l, const char* fmt, const Args&... args) noexcept
+	void log(logger::level l, const char* fmt, ...) noexcept __attribute__((format(printf, 3, 4)))
 	{
 		if(enabled_ && l <= level_)
 		{
+			va_list argptr;
+			va_start(argptr, fmt);
+
 			mutex_.lock();
 			if(system_clock_)
 			{
@@ -176,7 +176,7 @@ class LoggerBase
 			fctprintf(&LoggerBase::log_putc_bounce, this, "<%s> ", logger::to_short_c_str(l));
 
 			// Send the primary log statement
-			fctprintf(&LoggerBase::log_putc_bounce, this, fmt, args...);
+			vfctprintf(&LoggerBase::log_putc_bounce, this, fmt, argptr);
 			mutex_.unlock();
 
 			if(echo_)
@@ -188,9 +188,10 @@ class LoggerBase
 
 				printf("<%s> ", logger::to_short_c_str(l));
 
-				// cppcheck-suppress wrongPrintfScanfArgNum
-				printf("%s", fmt, args...);
+				vprintf(fmt, argptr);
 			}
+
+			va_end(argptr);
 		}
 	}
 
