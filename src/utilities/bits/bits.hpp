@@ -56,23 +56,23 @@ inline constexpr auto is_aligned(const TType val, const size_t align) noexcept -
 {
 	// This assignment is NOT redundant in a constexpr context, and will break GCC
 	// cppcheck-suppress redundantAssignment
-	bool r = false;
+	bool am_i_aligned = false;
 
 	if constexpr(std::is_integral<TType>::value)
 	{
 		// cppcheck-suppress redundantAssignment
-		r = static_cast<bool>(IS_ALIGNED(val, align));
+		am_i_aligned = static_cast<bool>(IS_ALIGNED(val, align));
 	}
 	else if constexpr(std::is_pointer<TType>::value)
 	{
-		r = IS_ALIGNED(reinterpret_cast<uintptr_t>(val), align);
+		am_i_aligned = IS_ALIGNED(reinterpret_cast<uintptr_t>(val), align);
 	}
 	else
 	{
-		r = IS_ALIGNED(reinterpret_cast<uintptr_t>(&val), align);
+		am_i_aligned = IS_ALIGNED(reinterpret_cast<uintptr_t>(&val), align);
 	}
 
-	return r;
+	return am_i_aligned;
 }
 
 /// @}
@@ -100,7 +100,7 @@ constexpr auto bitmask(Args&&... args) noexcept -> TIntegralType
 	static_assert(std::is_integral<TIntegralType>::value,
 				  "This function can only be called on integral types");
 
-	return static_cast<TIntegralType>(((1 << args) | ...));
+	return static_cast<TIntegralType>(((1U << args) | ...));
 }
 
 /// @}
@@ -125,7 +125,8 @@ struct countbits
 	using t_ = countbits<tval / 2>;
 
 	/// Shows how many bits in the value are set
-	static constexpr unsigned set = ((tval & 1) != 0) ? (t_::set + 1) : ((tval == 0) ? 0 : t_::set);
+	static constexpr unsigned set =
+		((tval & 1U) != 0) ? (t_::set + 1) : ((tval == 0) ? 0 : t_::set);
 
 	/// shows how many bits in the value matter
 	static constexpr unsigned significant_bits = (tval != 0) ? t_::significant_bits + 1 : 0;
