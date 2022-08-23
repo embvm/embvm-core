@@ -34,26 +34,29 @@ namespace embutil
 
 /** Convert from struct timespec to std::chrono::duration
  *
- * @param[in] ts Timespec value, which can be relative or absolute.
+ * @param[in] input_timespec Timespec value, which can be relative or absolute.
  * @returns the equivalent std::chrono::duration value in nanoseconds.
  */
-constexpr auto timespecToDuration(const timespec ts) noexcept -> std::chrono::nanoseconds
+constexpr auto timespecToDuration(const timespec input_timespec) noexcept
+	-> std::chrono::nanoseconds
 {
-	auto duration = std::chrono::seconds{ts.tv_sec} + std::chrono::nanoseconds{ts.tv_nsec};
+	auto duration = std::chrono::seconds{input_timespec.tv_sec} +
+					std::chrono::nanoseconds{input_timespec.tv_nsec};
 
 	return std::chrono::duration_cast<std::chrono::nanoseconds>(duration);
 }
 
 /** Convert from struct timespec to std::chrono::time_point
  *
- * @param[in] ts Timespec value, which can be relative or absolute.
+ * @param[in] input_timespec Timespec value, which can be relative or absolute.
  * @returns the equivalent std::chrono::time_point value using the system_clock.
  */
-constexpr auto timespecToTimePoint(const timespec ts) noexcept
+constexpr auto timespecToTimePoint(const timespec input_timespec) noexcept
 	-> std::chrono::time_point<std::chrono::system_clock, std::chrono::nanoseconds>
 {
 	return std::chrono::time_point<std::chrono::system_clock, std::chrono::nanoseconds>{
-		std::chrono::duration_cast<std::chrono::system_clock::duration>(timespecToDuration(ts))};
+		std::chrono::duration_cast<std::chrono::system_clock::duration>(
+			timespecToDuration(input_timespec))};
 }
 
 /** Convert from std::chrono::duration to struct timespec
@@ -71,19 +74,19 @@ constexpr auto durationToTimespec(std::chrono::nanoseconds dur) noexcept -> time
 
 /** Convert from std::chrono::time_point to struct timespec
  *
- * @param[in] tp std::chrono::time_point value using the system_clock.
+ * @param[in] input_timepoint std::chrono::time_point value using the system_clock.
  * @returns the equivalent struct timespec value.
  */
-constexpr auto timepointToTimespec(
-	std::chrono::time_point<std::chrono::system_clock, std::chrono::nanoseconds> tp) noexcept
-	-> timespec
+constexpr auto
+	timepointToTimespec(std::chrono::time_point<std::chrono::system_clock, std::chrono::nanoseconds>
+							input_timepoint) noexcept -> timespec
 {
-	auto secs = std::chrono::time_point_cast<std::chrono::seconds>(tp);
-	auto ns = std::chrono::time_point_cast<std::chrono::nanoseconds>(tp) -
-			  std::chrono::time_point_cast<std::chrono::nanoseconds>(secs);
+	auto secs_part = std::chrono::time_point_cast<std::chrono::seconds>(input_timepoint);
+	auto ns_part = std::chrono::time_point_cast<std::chrono::nanoseconds>(input_timepoint) -
+				   std::chrono::time_point_cast<std::chrono::nanoseconds>(secs_part);
 
-	return timespec{static_cast<time_t>(secs.time_since_epoch().count()),
-					static_cast<long>(ns.count())};
+	return timespec{static_cast<time_t>(secs_part.time_since_epoch().count()),
+					static_cast<long>(ns_part.count())};
 }
 
 #ifdef UTIL_TIME_INCLUDE_TIMEVAL
