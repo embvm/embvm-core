@@ -45,6 +45,13 @@ class FuncOp
 	/// Default destructor
 	virtual ~FuncOp();
 
+	// Default the rest
+	FuncOp() = default;
+	FuncOp(const FuncOp&) = default;
+	FuncOp(FuncOp&&) = default;
+	auto operator=(const FuncOp&) -> FuncOp& = default;
+	auto operator=(FuncOp&&) -> FuncOp& = default;
+
 	/** Invoke the function.
 	 *
 	 * Base class invocation does nothing. Derived FuncOpBound classes overload this
@@ -74,18 +81,24 @@ class FuncOpBound final : public FuncOp
   public:
 	/** Construct the FuncOpBound object with an operation.
 	 *
-	 * @param op The operation to bind. Can be any functor.
+	 * @param input_op The operation to bind. Can be any functor.
 	 */
-	explicit FuncOpBound(const TFuncOp& op) : op_(op) {}
+	explicit FuncOpBound(const TFuncOp& input_op) : op_(input_op) {}
 
 	/** Construct the FuncOpBound object with an operation.
 	 *
-	 * @param op The operation to bind. Can be any functor.
+	 * @param input_op The operation to bind. Can be any functor.
 	 */
-	explicit FuncOpBound(TFuncOp&& op) : op_(std::move(op)) {}
+	explicit FuncOpBound(TFuncOp&& input_op) : op_(std::move(input_op)) {}
 
 	/// Default destructor
 	~FuncOpBound() final = default;
+
+	// Default the rest
+	FuncOpBound(const FuncOpBound&) = default;
+	FuncOpBound(FuncOpBound&&) = default;
+	auto operator=(const FuncOpBound&) noexcept -> FuncOpBound& = default;
+	auto operator=(FuncOpBound&&) noexcept -> FuncOpBound& = default;
 
 	/// Invoke the bound operation.
 	void exec() final
@@ -213,10 +226,10 @@ class StaticFunctionQueue
 	 *
 	 * @tparam TFuncOp The type of the functor to add to the queue. This template parameter is
 	 * 	automatically deduced by the compiler.
-	 * @param op The functor object to add to the queue.
+	 * @param input_op The functor object to add to the queue.
 	 */
 	template<typename TFuncOp>
-	void push(const TFuncOp& op) noexcept
+	void push(const TFuncOp& input_op) noexcept
 	{
 		using FuncBoundType = FuncOpBound<typename std::decay<TFuncOp>::type>;
 
@@ -227,12 +240,12 @@ class StaticFunctionQueue
 		assert((queue_.size() < queue_.capacity()) &&
 			   "Could not allocate space for function object");
 
-		queue_.emplace(mem_pool_.template create<FuncBoundType>(op));
+		queue_.emplace(mem_pool_.template create<FuncBoundType>(input_op));
 	}
 
 	/// @overload void push(const TFuncOp& op)
 	template<typename TFuncOp>
-	void push(TFuncOp&& op) noexcept
+	void push(TFuncOp&& input_op) noexcept
 	{
 		using FuncBoundType = FuncOpBound<typename std::decay<TFuncOp>::type>;
 
@@ -242,7 +255,7 @@ class StaticFunctionQueue
 
 		assert((queue_.size() < queue_.capacity()) &&
 			   "Could not allocate space for function in circular buffer");
-		queue_.emplace(mem_pool_.template create<FuncBoundType>(std::forward<TFuncOp>(op)));
+		queue_.emplace(mem_pool_.template create<FuncBoundType>(std::forward<TFuncOp>(input_op)));
 	}
 
 	/// Remove the next functor from the front of the queue and execute it.
