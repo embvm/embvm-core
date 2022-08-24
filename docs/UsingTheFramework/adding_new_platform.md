@@ -24,17 +24,17 @@
 
 
 
-    // If a _putchar() function is defined, this will dump the contents of the buffer to the
+    // If a putchar_() function is defined, this will dump the contents of the buffer to the
     // associated communication channel.
     // Note that this is a platform API, not a standard logging API.
     platform.echoLogBufferToConsole();
 
-We also need a _putchar reference. Let's add that to the platform:
+We also need a putchar_ reference. Let's add that to the platform:
 
 ```
-#include <printf.h> // for _putchar definition
+#include <printf.h> // for putchar_ definition
 
-void _putchar(char c)
+void putchar_(char c)
 {
     // TODO:
 }
@@ -116,13 +116,13 @@ Need a template options file
 
 ## putchar implementation
 
-You'll need to supply an implementation for `_putchar` if you're using `printf`. We recommend doing this in platform.cpp, or another platform-specific file.
+You'll need to supply an implementation for `putchar_` if you're using `printf`. We recommend doing this in platform.cpp, or another platform-specific file.
 
 If you don't need to use this functionality, but your build requires it, you can define an empty implementation:
 
 ```
 // We don't print anything, so supply an empty definition
-extern "C" void _putchar(char c)
+extern "C" void putchar_(char c)
 {
     (void)c;
 }
