@@ -4,7 +4,7 @@
 #include "dispatch.hpp"
 #include "interrupt_queue.hpp"
 #include <atomic>
-#include <catch2/catch.hpp>
+#include <catch2/catch_test_macros.hpp>
 #include <chrono>
 #include <cstdint>
 #include <interrupt_lock/interrupt_lock.hpp>

@@ -1,5 +1,5 @@
 #include "your_driver.hpp"
-#include <catch2/catch.hpp>
+#include <catch2/catch_test_macros.hpp>
 
 #pragma mark - Helper Functions -
 

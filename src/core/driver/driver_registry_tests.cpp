@@ -3,7 +3,7 @@
 
 #include "driver_registry.hpp"
 #include <atomic>
-#include <catch2/catch.hpp>
+#include <catch2/catch_test_macros.hpp>
 #include <cstring>
 #include <unit_test/driver.hpp> // Unit test driver for abstract class
 #include <unit_test/i2c.hpp>

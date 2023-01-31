@@ -3,7 +3,7 @@
 
 #include "../../hw_platforms/unit_test/unittest_hw_platform.hpp"
 #include "virtual_hw_platform.hpp"
-#include <catch2/catch.hpp>
+#include <catch2/catch_test_macros.hpp>
 
 using namespace test;
 

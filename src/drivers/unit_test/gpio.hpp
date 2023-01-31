@@ -4,7 +4,7 @@
 #ifndef UNIT_TEST_GPIO_HPP_
 #define UNIT_TEST_GPIO_HPP_
 
-#include <catch2/catch.hpp>
+#include <catch2/catch_test_macros.hpp>
 #include <driver/gpio.hpp>
 
 namespace test

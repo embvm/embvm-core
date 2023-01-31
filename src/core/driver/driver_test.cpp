@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: GPL-3.0-only OR Embedded Virtual Machine Commercial License
 
 #include <atomic>
-#include <catch2/catch.hpp>
+#include <catch2/catch_test_macros.hpp>
 #include <cstring>
 #include <driver/active_i2c.hpp>
 #include <driver/active_spi.hpp>
