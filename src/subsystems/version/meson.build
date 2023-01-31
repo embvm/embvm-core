@@ -2,7 +2,7 @@
 
 version_source = custom_target('gen-version',
 	output: 'version.c',
-	command: [meson.source_root() + '/build/scripts/make_version.sh', '@OUTPUT@'],
+	command: [meson.source_root() + '/meson/scripts/make_version.sh', '@OUTPUT@'],
 	build_always_stale: true
 )
 

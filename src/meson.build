@@ -1,5 +1,10 @@
 # src/ Meson Build File
 
+clangformat_excludes += [
+	meson.source_root() / 'src/utilities/type_safe',
+	meson.source_root() / 'src/utilities/debug_assert',
+]
+
 ###############################
 # Internal Include Dependency #
 ###############################
@@ -68,3 +73,64 @@ subdir('hw_platforms')
 
 # Pick up platform definitions
 subdir('platforms')
+
+############################
+# Embedded VM Dependencies #
+############################
+
+# TODO: need a unified framework include dependency! that lives here!
+
+framework_dep = declare_dependency(
+	link_with: [libutil],
+	dependencies: [
+		framework_host_include_dep,
+		libcore_dep,
+		stdlib_host_dep
+	],
+)
+
+framework_threadless_dep = declare_dependency(
+	link_with: [libutil],
+	dependencies: [
+		framework_host_include_dep,
+		libcore_threadless_dep,
+		stdlib_host_dep
+	],
+)
+
+# This dependency leaves out the boot files, allowing you to sllowly migrate
+# from a vendor SDK to the framework
+# TODO: is this config still valid?
+framework_migratory_dep = declare_dependency(
+	link_with: [
+		libutil,
+		libcore
+	],
+	dependencies: [
+		framework_include_dep,
+		framework_host_include_dep,
+		stdlib_host_dep
+	]
+)
+
+framework_native_dep = declare_dependency(
+	link_with: [
+		libutil_native
+	],
+	dependencies: [
+		framework_native_include_dep,
+		libcore_native_dep,
+		stdlib_native_dep
+	],
+)
+
+framework_threadless_native_dep = declare_dependency(
+	link_with: [
+		libutil_native
+	],
+	dependencies: [
+		framework_native_include_dep,
+		libcore_threadless_native_dep,
+		stdlib_native_dep
+	],
+)
