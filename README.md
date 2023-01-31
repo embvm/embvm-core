@@ -204,9 +204,9 @@ And build all targets by running
 ninja -C buildresults
 ```
 
-Cross-compilation is handled using `meson` cross files. Example files are included in the [`build/cross`](build/cross/) folder. You can write your own cross files for your specific processor by defining the toolchain, compilation flags, and linker flags. These settings will be used to compile the project.
+Cross-compilation is handled using `meson` cross files. Example files are included in the [`meson/cross`](meson/cross/) folder. You can write your own cross files for your specific processor by defining the toolchain, compilation flags, and linker flags. These settings will be used to compile the project.
 
-Cross-compilation must be configured using the meson command when creating the build output folder. For files stored within `build/cross`, we provide a Makefile `CROSS` to simplify the process. This variable will automatically supply the proper Meson argument, `build/cross/` prefix, and `.txt` filename extension.
+Cross-compilation must be configured using the meson command when creating the build output folder. For files stored within `meson/cross`, we provide a Makefile `CROSS` to simplify the process. This variable will automatically supply the proper Meson argument, `meson/cross/` prefix, and `.txt` filename extension.
 
 You can use a single file, or you can layer multiple files by separating the names with a colon.
 
@@ -214,10 +214,10 @@ You can use a single file, or you can layer multiple files by separating the nam
 make CROSS=arm:cortex-m4_hardfloat
 ```
 
-You can also do this manually with the Meson interface. Note, however, that you will need to include a special `--cross-file=build/cross/embvm.txt` cross file to ensure that the required Embedded VM settings are applied.
+You can also do this manually with the Meson interface. Note, however, that you will need to include a special `--cross-file=meson/cross/embvm.txt` cross file to ensure that the required Embedded VM settings are applied.
 
 ```
-meson buildresults --cross-file build/cross/arm.txt --cross-file build/cross/cortex-m4_hardfloat.txt --cross-file=build/cross/embvm.txt
+meson buildresults --cross-file meson/cross/arm.txt --cross-file meson/cross/cortex-m4_hardfloat.txt --cross-file=meson/cross/embvm.txt
 ```
 
 Following that, you can run `make` (at the project root) or `ninja -C buildresults` to build the project.

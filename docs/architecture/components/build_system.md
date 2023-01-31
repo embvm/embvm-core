@@ -40,7 +40,7 @@ The build system must be flexible and straightforward to use/configure.
 The build system exists throughout the project:
 
 * The root [meson.build](../../../meson.build) file is master build system file and invokes subdirectory build files
-* The [build/](../../../build/) folder is a collaborating set of files used by the build, including cross-compilation support and toolchain settings
+* The [meson/](../../../meson/) folder is a collaborating set of files used by the build, including cross-compilation support and toolchain settings
 * [Jenkinsfile](../../../tools/Jenkinsfile) and [CI.jenkinsfile](../../../tools/CI.jenkinsfile) contain the build rules for the Jenkins build server
 
 ## Related Documents

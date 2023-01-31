@@ -891,7 +891,7 @@ EXCLUDE_SYMLINKS       = NO
 # Note that the wildcards are matched against the file with absolute path, so to
 # exclude all test directories for example use the pattern */test/*
 
-EXCLUDE_PATTERNS       = catch.hpp */src/test/* *test.cpp *tests.cpp */build/* */buildresults/* \
+EXCLUDE_PATTERNS       = catch.hpp */src/test/* *test.cpp *tests.cpp */meson/* */buildresults/* \
                          */tools/* */type_safe/* */debug_assert/* */libcpp/* */SaferCPlusPlus/* \
                          */etl/* */libmemory/dependencies/* */docs/project-history/* */docs/ \
                          architecture/decisions/* */docs/templates/* */GSL/* */CMSIS_5/* */mdk/* \

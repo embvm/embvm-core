@@ -52,7 +52,7 @@ The output from the failed tests:
 1/1 embvm-core_catch2_test FAIL           0.60s (exit status 1)
 
 --- command ---
-21:28:25 /Users/phillip/src/ea/framework/embvm-core/buildresults/build/test/catch2/embvm-core_catch2_test -s -r junit -o /Users/phillip/src/ea/framework/embvm-core/buildresults/test/embvm-core_catch2_test.xml
+21:28:25 /Users/phillip/src/ea/framework/embvm-core/buildresults/meson/test/catch2/embvm-core_catch2_test -s -r junit -o /Users/phillip/src/ea/framework/embvm-core/buildresults/test/embvm-core_catch2_test.xml
 -------
 
 
@@ -80,7 +80,7 @@ make: *** [test] Error 1
 The information provided above isn't very helpful, however. You will want to manually invoke the tests. If you're using the built-in module, you can find the path to the test program in the error output. But generally the test program will be found in:
 
 ```
-BUILDRESULTS/build/test/catch2/PROJECT_NAME_catch2_test
+BUILDRESULTS/meson/test/catch2/PROJECT_NAME_catch2_test
 ```
 
 > `BUILDRESUTLS` is your configured build output folder (defaults to `buildresults` if you're using the Makefile shim), and `PROJECT_NAME` is the name specified in your `project()` command invocation.
@@ -88,7 +88,7 @@ BUILDRESULTS/build/test/catch2/PROJECT_NAME_catch2_test
 Running the program manually will give you detailed test failure output:
 
 ```
-$ ./buildresults/build/test/catch2/embvm-core_catch2_test
+$ ./buildresults/meson/test/catch2/embvm-core_catch2_test
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 embvm-core_catch2_test is a Catch v2.11.3 host application.
@@ -121,5 +121,5 @@ You are not required to use the Catch2 unit testing module. You can write your o
 To disable the built-in module, comment out this line in the top-level `meson.build` file:
 
 ```
-subdir('build/test/catch2')
+subdir('meson/test/catch2')
 ```

@@ -664,7 +664,7 @@ This gets our program compiling once more. But our tests are still failing! That
 Now we're back to passing tests for the platform files:
 
 ```
-$ /Users/phillip/src/ea/framework/embvm-core/buildresults/build/test/catch2/embvm-core_catch2_test
+$ /Users/phillip/src/ea/framework/embvm-core/buildresults/meson/test/catch2/embvm-core_catch2_test
 ===============================================================================
 All tests passed (482 assertions in 126 test cases)
 ```

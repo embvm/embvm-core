@@ -44,7 +44,7 @@ The framework represents a reusable software design for embedded systems applica
 
 Implementing a potentially reusable module requires a little extra effort, but that effort is worthwhile if the module is reused.
 
-If management of build/packaging/distribution/installation/configuration/deployment/maintenance issues are not addressed or considred, the design will not be reused in practice.
+If management of meson/packaging/distribution/installation/configuration/deployment/maintenance issues are not addressed or considred, the design will not be reused in practice.
 
 ## Related Qualities
 

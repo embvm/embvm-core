@@ -244,7 +244,7 @@ pipeline
 			{
 				success
 				{
-					sloccountPublish encoding: '', ignoreBuildFailure: true, pattern: 'buildresults/build/analysis/sloccount/sloccount_detailed.sc'
+					sloccountPublish encoding: '', ignoreBuildFailure: true, pattern: 'buildresults/meson/analysis/sloccount/sloccount_detailed.sc'
 				}
 			}
 		}
@@ -291,7 +291,7 @@ pipeline
 				],
 				tools: [
 					taskScanner(
-						excludePattern: 'buildresults/**, subprojects/**, build/**',
+						excludePattern: 'buildresults/**, subprojects/**, meson/**',
 						includePattern: '**/*.c, **/*.cpp, **/*.h, **/*.hpp, **/*.sh, **/*.build',
 						normalTags: 'TODO, to do, WIP',
 						highTags: 'FIXME, FIX',

@@ -71,7 +71,7 @@ The following tasks (and more) were completed in preparation for the initial pub
 - [x] Remove these lines from emvbm project shims:
     ```
     # Use Embedded Artistry libc/libcpp by default for cross-compilation
-    INTERNAL_OPTIONS += --cross-file=build/cross/libc.txt --cross-file=build/cross/libcpp.txt
+    INTERNAL_OPTIONS += --cross-file=meson/cross/libc.txt --cross-file=meson/cross/libcpp.txt
     ```
     - Since the framework is always using libc and libcpp internally (for now)
     - Remove the libc.wrap and libcpp.wrap files too.
@@ -97,7 +97,7 @@ The following tasks (and more) were completed in preparation for the initial pub
     - gsl-lite
     - ETL
 - [x] Document how to manually run the test target (is there a make shim command?)
-    - Actual path: buildresults/build/test/catch2/embvm-core_catch2_test
+    - Actual path: buildresults/meson/test/catch2/embvm-core_catch2_test
 - [x] Documentation note Platform = hw platform + memory allocation scheme + OS + framework core + framework subsystems
 - [x] Create framework conventions document, and document these conventions (and any others that come to mind). Audit hte framework core to make sure we're following these guidelines. Also, add any notes about general style, formatting rules, naming conventions, namespacing, file organization, to this document.
     - [x] You can make it a convention in your code base that pointers represent non-owning `nullable` references. For instances, if `deathstar` was a global value, we might say:

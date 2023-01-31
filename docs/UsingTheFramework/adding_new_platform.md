@@ -243,4 +243,4 @@ talk about how to add them via meson cross files as well
 
 https://embeddedartistry.com/blog/2020/04/27/how-to-incorporate-linker-scripts-in-meson-cross-compilation-files/
 
-If you're using the embvm skeleton, this will already be handled by one of our modules: `build/linker/linker-script-as-property`
+If you're using the embvm skeleton, this will already be handled by one of our modules: `meson/linker/linker-script-as-property`
