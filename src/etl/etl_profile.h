@@ -13,8 +13,7 @@
 #define ETL_CPP17_SUPPORTED 1
 #define ETL_CPP20_SUPPORTED 0 // TODO: change this once C++20 integration happens
 #define ETL_NO_NULLPTR_SUPPORT 0
-#define ETL_NO_LARGE_CHAR_SUPPORT 0
-#define ETL_NO_SMALL_CHAR_SUPPORT 0
+#define ETL_NO_SMALL_CHAR_SUPPORT 1 // TODO: change once C++20 integration happens
 #define ETL_CPP11_TYPE_TRAITS_IS_TRIVIAL_SUPPORTED 1
 
 #ifndef ENABLE_ETL_UNIT_TESTS
