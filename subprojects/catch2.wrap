@@ -1,10 +1,4 @@
-[wrap-file]
-directory = Catch2-3.2.0
-source_url = https://github.com/catchorg/Catch2/archive/v3.2.0.tar.gz
-source_filename = Catch2-3.2.0.tar.gz
-source_hash = feee04647e28ac3cbeff46cb42abc8ee2d8d5f646d36e3fb3ba274b8c69a58ea
-wrapdb_version = 3.2.0-1
-
-[provide]
-catch2 = catch2_dep
-catch2-with-main = catch2_with_main_dep
+[wrap-git]
+url = https://github.com/embeddedartistry/Catch2
+revision = devel
+depth = 1
