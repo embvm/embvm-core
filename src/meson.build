@@ -1,8 +1,8 @@
 # src/ Meson Build File
 
 clangformat_excludes += [
-	meson.source_root() / 'src/utilities/type_safe',
-	meson.source_root() / 'src/utilities/debug_assert',
+	meson.project_source_root() / 'src/utilities/type_safe',
+	meson.project_source_root() / 'src/utilities/debug_assert',
 ]
 
 ###############################

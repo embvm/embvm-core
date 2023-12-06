@@ -62,7 +62,7 @@ For more information on the [Meson](https://mesonbuild.com) build system, see th
 
 ### Anti-Patterns to Avoid
 
-* Do not embed full file paths in the tree. Relative paths work fine, meson will take care of it. You can also use Meson functions like `meson.source_root()` and `meson.build_root.`
+* Do not embed full file paths in the tree. Relative paths work fine, meson will take care of it. You can also use Meson functions like `meson.project_source_root()` and `meson.project_build_root.`
 * Do not use `target_machine` when cross-compiling. You should pretty much always use `host_machine`:
 	* `build_machine` is the desktop or laptop computer you are using for your development
 	* `host_machine` is the low powered IoT device, ARM board or equivalent that will run your program
